@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'home.dart';
+import 'package:ipsupport_cm/screens/signin_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -16,9 +16,7 @@ class MainApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Home(),
-      debugShowCheckedModeBanner: false,
-        
-    );
+      home: const SingInScreen()
+      );
   }
 }
