@@ -30,14 +30,15 @@ class _HomeState extends State<Home> {
         child: Icon(Icons.assistant_navigation),
         onPressed: () {},
       ),
+      
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
         notchMargin: 10,
         child: Container(
           height: 60,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget> [
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
