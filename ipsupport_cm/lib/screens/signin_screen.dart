@@ -10,6 +10,6 @@ class SingInScreen extends StatefulWidget {
 class _SingInScreenState extends State<SingInScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold()
+    return Scaffold();
   }
 }
