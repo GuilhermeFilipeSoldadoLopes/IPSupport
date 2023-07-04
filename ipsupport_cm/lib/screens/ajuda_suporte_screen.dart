@@ -42,35 +42,42 @@ class _AjudaESuportePageState extends State<AjudaESuportePage> {
               children: [
                 Center(
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Radio(
-                        value: 'Suporte',
-                        groupValue: selectedOption,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedOption = value.toString();
-                          });
-                        },
+                      Padding(
+                        padding: EdgeInsets.only(left: 20.0),
+                        child: Radio(
+                          value: 'Suporte',
+                          groupValue: selectedOption,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedOption = value.toString();
+                            });
+                          },
+                        ),
                       ),
                       Text('Suporte'),
                     ],
                   ),
                 ),
+
                 Center(
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Radio(
-                        value: 'Reporte bugs',
-                        groupValue: selectedOption,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedOption = value.toString();
-                          });
-                        },
+                      Padding(
+                        padding: EdgeInsets.only(left: 20.0),
+                        child: Radio(
+                          value: 'Reporte um bug',
+                          groupValue: selectedOption,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedOption = value.toString();
+                            });
+                          },
+                        ),
                       ),
-                      Text('Reporte bugs'),
+                      Text('Reporte de bugs e erros'),
                     ],
                   ),
                 ),
@@ -93,14 +100,21 @@ class _AjudaESuportePageState extends State<AjudaESuportePage> {
               ),
             ),
             SizedBox(height: 16),
+            
+
             Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  // Lógica para enviar os dados
-                },
-                child: Text('Enviar'),
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 50.0), 
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Lógica para enviar os dados
+                  },
+                  child: Text('Enviar'),
+                ),
               ),
             ),
+
+
           ],
         ),
       ),
