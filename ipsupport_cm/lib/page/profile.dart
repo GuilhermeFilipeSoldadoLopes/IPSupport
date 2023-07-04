@@ -1,18 +1,116 @@
 import 'package:flutter/material.dart';
 
-class Profile extends StatefulWidget {
-  @override
-  _Profile createState() => _Profile();
-}
+class Profile extends StatelessWidget {
+  const Profile({Key? key}) : super(key: key);
 
-class _Profile extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Profile')),
-      body: Center(
-        child: Text('Profile Screen', style: TextStyle(fontSize: 40)),
+      appBar: AppBar(
+        title: Text('Perfil'),
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            SizedBox(height: 40),
+            Stack(
+              alignment: Alignment.centerRight,
+              children: [
+                CircleAvatar(
+                  radius: 70,
+                  backgroundImage: AssetImage("../assets/images/WRU_Logo_Fundo_.png"),
+                ),
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: GestureDetector(
+                    onTap: () {
+                      // Acrescentar código para clicar no botão
+                      
+                    },
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          
+                          width: 4,
+                          color: Colors.white,
+                        ),
+                        color: Color.fromARGB(255, 255, 255, 255),
+                      ),
+                      child: Icon(
+                        Icons.edit,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+            ProfileItem(
+              title: 'Name',
+              subtitle: 'João Guilherme',
+              iconData: Icons.person,
+            ),
+            SizedBox(height: 20),
+            ProfileItem(
+              title: 'Email',
+              subtitle: '202000813@estudantes.ips.pt',
+              iconData: Icons.email,
+            ),
+            SizedBox(height: 20),
+            Text(
+              'Reportes realizados: 15',
+                style:  TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+            ),
+            
+          ],
         ),
+      ),
     );
   }
 }
+
+class ProfileItem extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final IconData iconData;
+
+  const ProfileItem({
+    required this.title,
+    required this.subtitle,
+    required this.iconData,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            offset: Offset(0, 5),
+            color: Color.fromARGB(255, 70, 181, 255).withOpacity(.2),
+            spreadRadius: 2,
+            blurRadius: 10,
+          ),
+        ],
+      ),
+      child: ListTile(
+        title: Text(title),
+        subtitle: Text(subtitle),
+        leading: Icon(iconData),
+      ),
+    );
+  }
+}
+
