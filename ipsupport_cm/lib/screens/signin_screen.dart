@@ -61,7 +61,7 @@ class _SingInScreenState extends State<SingInScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text("Don't have account?",
-            style: TextStyle(color: Colors.white70)),
+            style: TextStyle(color: Color.fromARGB(255, 81, 81, 81))),
         GestureDetector(
           onTap: () {
             Navigator.push(context,
@@ -69,7 +69,7 @@ class _SingInScreenState extends State<SingInScreen> {
           },
           child: const Text(
             " Sign Up",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
           ),
         )
       ],
@@ -84,7 +84,7 @@ class _SingInScreenState extends State<SingInScreen> {
       child: TextButton(
         child: const Text(
           "Forgot Password?",
-          style: TextStyle(color: Colors.white70),
+          style: TextStyle(color: Color.fromARGB(255, 81, 81, 81)),
           textAlign: TextAlign.right,
         ),
         onPressed: () => Navigator.push(
