@@ -7,8 +7,24 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Perfil'),
         centerTitle: true,
+        flexibleSpace: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            IconButton(
+              icon: Icon(Icons.arrow_back),
+              color: Colors.white,
+              onPressed: () {
+                // Código para voltar
+              },
+            ),
+            Expanded(
+              child: Center(
+                child: Text('Perfil', style: TextStyle(fontSize: 20)),
+              ),
+            ),
+          ],
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -28,7 +44,6 @@ class Profile extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () {
                       // Acrescentar código para clicar no botão
-                      
                     },
                     child: Container(
                       height: 40,
@@ -36,7 +51,6 @@ class Profile extends StatelessWidget {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
-                          
                           width: 4,
                           color: Colors.white,
                         ),
@@ -66,12 +80,11 @@ class Profile extends StatelessWidget {
             SizedBox(height: 20),
             Text(
               'Reportes realizados: 15',
-                style:  TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            
           ],
         ),
       ),
@@ -113,4 +126,3 @@ class ProfileItem extends StatelessWidget {
     );
   }
 }
-
