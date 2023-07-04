@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'firebase_options.dart';
 import 'package:ipsupport_cm/screens/signin_screen.dart';
 //import 'page/profile.dart';
+//import 'screens/ajuda_suporte_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
