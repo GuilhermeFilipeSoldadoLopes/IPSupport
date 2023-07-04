@@ -29,6 +29,13 @@
             {
               "client_id": "238573894807-fiopd0np4p1ho25kgrvm3feb6i7em5ls.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "238573894807-lam93sseudgc0idnef87n7jlbu7lluji.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ipsupportCm"
+              }
             }
           ]
         }
