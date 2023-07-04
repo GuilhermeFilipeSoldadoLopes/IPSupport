@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "238573894807",
+    "project_id": "ipsupport-28bbe",
+    "storage_bucket": "ipsupport-28bbe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:238573894807:android:4450245f67a7848cf5bdd2",
+        "android_client_info": {
+          "package_name": "com.example.ipsupport_cm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "238573894807-fiopd0np4p1ho25kgrvm3feb6i7em5ls.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsbuAQTXfaLBJTcUDbtMEOoIc5QZFt6sM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "238573894807-fiopd0np4p1ho25kgrvm3feb6i7em5ls.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
