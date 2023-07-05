@@ -22,47 +22,66 @@ class _EquipamentoDanificadoPageState extends State<EquipamentoDanificadoPage> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 5),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Row(
                 children: [
-                  ListTile(
-                    title: const Text('Partido'),
-                    leading: Radio(
-                      value: 'partido',
-                      groupValue: selectedOption,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedOption = value as String?;
-                        });
-                      },
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        
+                        ListTile(
+                          title: const Text('Partido'),
+                          leading: Radio(
+                            value: 'partido',
+                            groupValue: selectedOption,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedOption = value as String?;
+                              });
+                            },
+                          ),
+                        ),
+                        ListTile(
+                          title: const Text('Problemas Técnicos'),
+                          leading: Radio(
+                            value: 'problemas_tecnicos',
+                            groupValue: selectedOption,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedOption = value as String?;
+                              });
+                            },
+                          ),
+                        ),
+                        ListTile(
+                          title: const Text('Não Funcional'),
+                          leading: Radio(
+                            value: 'nao_funcional',
+                            groupValue: selectedOption,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedOption = value as String?;
+                              });
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  ListTile(
-                    title: const Text('Problemas Técnicos'),
-                    leading: Radio(
-                      value: 'problemas_tecnicos',
-                      groupValue: selectedOption,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedOption = value as String?;
-                        });
-                      },
-                    ),
-                  ),
-                  ListTile(
-                    title: const Text('Não Funcional'),
-                    leading: Radio(
-                      value: 'nao_funcional',
-                      groupValue: selectedOption,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedOption = value as String?;
-                        });
-                      },
+                  const SizedBox(width: 16),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 25.0),
+                    child: Container(
+                      width: 150,
+                      height: 150,
+                      child: Image.network(
+                        '../assets/images/equipamento_danificado.png',
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ],
@@ -81,58 +100,20 @@ class _EquipamentoDanificadoPageState extends State<EquipamentoDanificadoPage> {
               const SizedBox(height: 16),
               Align(
                 alignment: Alignment.center,
-                child: InkWell(
-                  onTap: () {
-
-                    // Lógica para lidar com o toque no container
-                  },
-                  child: Container(
-                    width: 200,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 214, 242, 255),
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: Colors.black,
-                        width: 0.5,
-                      ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Checkbox(
+                      value: isUrgent,
+                      onChanged: (value) {
+                        setState(() {
+                          isUrgent = value ?? false;
+                        });
+                      },
                     ),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-
-                              // Lógica para adicionar foto
-                            },
-                            icon: const Icon(Icons.camera_alt),
-                          ),
-                          const Text('Inserir fotografia'),
-                        ],
-                      ),
-                    ),
-                  ),
+                    const Text('Problema Urgente'),
+                  ],
                 ),
-              ),
-
-
-
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Checkbox(
-                    value: isUrgent,
-                    onChanged: (value) {
-                      setState(() {
-                        isUrgent = value ?? false;
-                      });
-                    },
-                  ),
-                  const Text('Problema Urgente'),
-                ],
               ),
               const SizedBox(height: 16),
               Align(
@@ -142,7 +123,7 @@ class _EquipamentoDanificadoPageState extends State<EquipamentoDanificadoPage> {
                     // Lógica para reportar
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
+                    backgroundColor:Colors.red,
                   ),
                   child: const Text('Reportar'),
                 ),
