@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ipsupport_cm/home.dart';
 import 'package:ipsupport_cm/screens/reset_password.dart';
+import 'package:ipsupport_cm/screens/settings_screen.dart';
 import 'package:ipsupport_cm/screens/signup_screen.dart';
 import '../reusable_widgets/reusable_widgets.dart';
 import 'package:ipsupport_cm/screens/sobre_screen.dart';
@@ -54,7 +55,7 @@ class _SingInScreenState extends State<SingInScreen> {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>  const Home()));
+                              builder: (context) =>  SettingsScreen()));
                     }).onError((error, stackTrace) {
                       print("Error ${error.toString()}");
                     });
