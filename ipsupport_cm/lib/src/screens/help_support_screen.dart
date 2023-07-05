@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class AjudaESuporte extends StatefulWidget {
-  const AjudaESuporte({super.key});
+class HelpAndSupport extends StatefulWidget {
+  const HelpAndSupport({super.key});
 
   @override
-  _AjudaESuporteState createState() => _AjudaESuporteState();
+  _HelpAndSupportState createState() => _HelpAndSupportState();
 }
 
-class _AjudaESuporteState extends State<AjudaESuporte> {
+class _HelpAndSupportState extends State<HelpAndSupport> {
   String selectedOption = '';
 
   @override

@@ -10,7 +10,7 @@ class Profile extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         title: const Text(
-          "Profile",
+          "Perfil",
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         actions: [
@@ -39,7 +39,7 @@ class Profile extends StatelessWidget {
                 const CircleAvatar(
                   radius: 70,
                   backgroundImage:
-                      AssetImage("../assets/images/WRU_Logo_Fundo_.png"),
+                      AssetImage('assets/images/WRU_Logo_Fundo_.png'),
                 ),
                 Positioned(
                   top: 0,
@@ -70,7 +70,7 @@ class Profile extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             const ProfileItem(
-              title: 'Name',
+              title: 'Nome',
               subtitle: 'João Guilherme',
               iconData: Icons.person,
             ),

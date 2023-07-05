@@ -65,7 +65,7 @@ class _HomeState extends State<Home> {
                             color: currentTab == 0 ? Colors.blue : Colors.grey,
                           ),
                           Text(
-                            'Report',
+                            'Reporte',
                             style: TextStyle(
                                 color: currentTab == 0
                                     ? Colors.blue
@@ -95,7 +95,7 @@ class _HomeState extends State<Home> {
                             color: currentTab == 2 ? Colors.blue : Colors.grey,
                           ),
                           Text(
-                            'Profile',
+                            'Perfil',
                             style: TextStyle(
                                 color: currentTab == 2
                                     ? Colors.blue

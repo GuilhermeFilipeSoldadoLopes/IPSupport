@@ -22,7 +22,7 @@ class _SingInScreenState extends State<SingInScreen> {
         appBar: AppBar(
           elevation: 0,
           title: const Text(
-            "Sign Up",
+            "Registar",
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
         ),
@@ -37,14 +37,14 @@ class _SingInScreenState extends State<SingInScreen> {
                 children: <Widget>[
                   logoWidget("assets/app/Icon_IPSupport_android.png"),
                   const SizedBox(height: 35),
-                  reusableTextField("Enter username", Icons.person_outline,
-                      false, _emailTextController),
+                  reusableTextField("Insira email", Icons.person_outline, false,
+                      _emailTextController),
                   const SizedBox(height: 20),
-                  reusableTextField("Enter password", Icons.lock_outline, true,
+                  reusableTextField("Insira password", Icons.lock_outline, true,
                       _passwordTextController),
                   const SizedBox(height: 5),
                   forgetPassword(context),
-                  firebaseUIButton(context, "Sign In", () {
+                  firebaseUIButton(context, "Entrar", () {
                     FirebaseAuth.instance
                         .signInWithEmailAndPassword(
                             email: _emailTextController.text,
@@ -70,7 +70,7 @@ class _SingInScreenState extends State<SingInScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text("Don't have account?",
+        const Text("Não tem conta?",
             style: TextStyle(color: Color.fromARGB(255, 81, 81, 81))),
         GestureDetector(
           onTap: () {
@@ -78,7 +78,7 @@ class _SingInScreenState extends State<SingInScreen> {
                 MaterialPageRoute(builder: (context) => const SignUpScreen()));
           },
           child: const Text(
-            " Sign Up",
+            " Registar",
             style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
           ),
         )
@@ -93,7 +93,7 @@ class _SingInScreenState extends State<SingInScreen> {
       alignment: Alignment.bottomRight,
       child: TextButton(
         child: const Text(
-          "Forgot Password?",
+          "Esqueceu-se da password?",
           style: TextStyle(color: Color.fromARGB(255, 81, 81, 81)),
           textAlign: TextAlign.right,
         ),
