@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ipsupport_cm/src/screens/home_map_screen.dart';
-import 'page/dashboard.dart';
+import 'package:ipsupport_cm/src/screens/report_screen.dart';
 import 'screens/profile_screen.dart';
 
 class Home extends StatefulWidget {
@@ -12,7 +12,11 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int currentTab = 1;
-  final List<Widget> screens = [Dashboard(), HomeMapScreen(), const Profile()];
+  final List<Widget> screens = [
+    const Report(),
+    HomeMapScreen(),
+    const Profile()
+  ];
 
   final PageStorageBucket bucket = PageStorageBucket();
   Widget currentScreen = HomeMapScreen();
@@ -49,7 +53,7 @@ class _HomeState extends State<Home> {
                       minWidth: 40,
                       onPressed: () {
                         setState(() {
-                          currentScreen = Dashboard();
+                          currentScreen = const Report();
                           currentTab = 0;
                         });
                       },
