@@ -18,7 +18,7 @@ class _ResetPasswordState extends State<ResetPassword> {
       appBar: AppBar(
         elevation: 0,
         title: const Text(
-          "Reset Password",
+          "Recuperar Password",
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),
@@ -33,12 +33,12 @@ class _ResetPasswordState extends State<ResetPassword> {
                 const SizedBox(
                   height: 20,
                 ),
-                reusableTextField("Enter email", Icons.person_outline, false,
+                reusableTextField("Insira email", Icons.person_outline, false,
                     _emailTextController),
                 const SizedBox(
                   height: 20,
                 ),
-                firebaseUIButton(context, "Reset Password", () {
+                firebaseUIButton(context, "Recuperar Password", () {
                   FirebaseAuth.instance
                       .sendPasswordResetEmail(email: _emailTextController.text)
                       .then((value) => Navigator.of(context).pop());

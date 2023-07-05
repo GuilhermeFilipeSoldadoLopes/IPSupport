@@ -77,7 +77,7 @@ class _EquipamentoDanificadoPageState extends State<EquipamentoDanificadoPage> {
                     child: Container(
                       width: 150,
                       height: 150,
-                      child: Image.network(
+                      child: Image.asset(
                         'assets/images/equipamento_danificado.png',
                         fit: BoxFit.cover,
                       ),
