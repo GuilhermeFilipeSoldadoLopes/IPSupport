@@ -4,6 +4,7 @@ import 'package:ipsupport_cm/home.dart';
 import 'package:ipsupport_cm/screens/reset_password.dart';
 import 'package:ipsupport_cm/screens/signup_screen.dart';
 import '../reusable_widgets/reusable_widgets.dart';
+import 'package:ipsupport_cm/screens/sobre_screen.dart';
 
 class SingInScreen extends StatefulWidget {
   const SingInScreen({Key? key}) : super(key: key);
@@ -53,7 +54,7 @@ class _SingInScreenState extends State<SingInScreen> {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Home()));
+                              builder: (context) => SobrePage()));
                     }).onError((error, stackTrace) {
                       print("Error ${error.toString()}");
                     });
