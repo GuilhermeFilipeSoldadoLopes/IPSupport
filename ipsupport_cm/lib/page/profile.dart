@@ -7,36 +7,24 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        flexibleSpace: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            IconButton(
-              icon: Icon(Icons.arrow_back),
-              color: Colors.white,
-              onPressed: () {
-                // Código para voltar
-              },
-            ),
-            Expanded(
-              child: Center(
-                child: Text('Perfil', style: TextStyle(fontSize: 20)),
-              ),
-            ),
-          ],
+        elevation: 0,
+        title: const Text(
+          "Profile",
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             Stack(
               alignment: Alignment.centerRight,
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                   radius: 70,
-                  backgroundImage: AssetImage("../assets/images/WRU_Logo_Fundo_.png"),
+                  backgroundImage:
+                      AssetImage("../assets/images/WRU_Logo_Fundo_.png"),
                 ),
                 Positioned(
                   top: 0,
@@ -54,9 +42,9 @@ class Profile extends StatelessWidget {
                           width: 4,
                           color: Colors.white,
                         ),
-                        color: Color.fromARGB(255, 255, 255, 255),
+                        color: const Color.fromARGB(255, 255, 255, 255),
                       ),
-                      child: Icon(
+                      child: const Icon(
                         Icons.edit,
                         color: Colors.black,
                       ),
@@ -65,20 +53,20 @@ class Profile extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 20),
-            ProfileItem(
+            const SizedBox(height: 20),
+            const ProfileItem(
               title: 'Name',
               subtitle: 'João Guilherme',
               iconData: Icons.person,
             ),
-            SizedBox(height: 20),
-            ProfileItem(
+            const SizedBox(height: 20),
+            const ProfileItem(
               title: 'Email',
               subtitle: '202000813@estudantes.ips.pt',
               iconData: Icons.email,
             ),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               'Reportes realizados: 15',
               style: TextStyle(
                 fontSize: 16,
@@ -111,8 +99,8 @@ class ProfileItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            offset: Offset(0, 5),
-            color: Color.fromARGB(255, 70, 181, 255).withOpacity(.2),
+            offset: const Offset(0, 5),
+            color: const Color.fromARGB(255, 70, 181, 255).withOpacity(.2),
             spreadRadius: 2,
             blurRadius: 10,
           ),

@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:ipsupport_cm/screens/home_map_screen.dart';
 import 'page/dashboard.dart';
 import 'page/profile.dart';
 
 class Home extends StatefulWidget {
+  const Home({super.key});
+
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  int currentTab = 0;
-  final List<Widget> screens = [Dashboard(), Profile()];
+  int currentTab = 1;
+  final List<Widget> screens = [
+    Dashboard(),
+    const HomeMapScreen(),
+    const Profile()
+  ];
 
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = Dashboard();
+  Widget currentScreen = const HomeMapScreen();
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +29,17 @@ class _HomeState extends State<Home> {
         bucket: bucket,
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.assistant_navigation),
-        onPressed: () {},
+        child: const Icon(Icons.assistant_navigation),
+        onPressed: () {
+          setState(() {
+            currentScreen = const HomeMapScreen();
+            currentTab = 1;
+          });
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
+        shape: const CircularNotchedRectangle(),
         notchMargin: 10,
         child: Container(
           height: 60,
@@ -71,8 +83,8 @@ class _HomeState extends State<Home> {
                       minWidth: 40,
                       onPressed: () {
                         setState(() {
-                          currentScreen = Profile();
-                          currentTab = 1;
+                          currentScreen = const Profile();
+                          currentTab = 2;
                         });
                       },
                       child: Column(
@@ -80,12 +92,12 @@ class _HomeState extends State<Home> {
                         children: [
                           Icon(
                             Icons.person,
-                            color: currentTab == 1 ? Colors.blue : Colors.grey,
+                            color: currentTab == 2 ? Colors.blue : Colors.grey,
                           ),
                           Text(
                             'Profile',
                             style: TextStyle(
-                                color: currentTab == 1
+                                color: currentTab == 2
                                     ? Colors.blue
                                     : Colors.grey),
                           )

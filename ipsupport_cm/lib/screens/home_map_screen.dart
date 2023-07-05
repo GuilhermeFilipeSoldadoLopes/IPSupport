@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ipsupport_cm/screens/signin_screen.dart';
 
@@ -13,10 +14,11 @@ class _HomeMapScreenState extends State<HomeMapScreen> {
   Widget build(BuildContext context) {
     return Center(
       child: ElevatedButton(
-          child: Text("Logout"),
+          child: const Text("Logout"),
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => SingInScreen()));
+            FirebaseAuth.instance.signOut();
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const SingInScreen()));
           }),
     );
   }

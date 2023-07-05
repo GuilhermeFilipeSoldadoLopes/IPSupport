@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 Image logoWidget(String imageName) {
-  return Image.asset(imageName, fit: BoxFit.fitWidth, width: 257, height: 120);
+  return Image.asset(imageName,
+      fit: BoxFit.fitWidth, width: 385.5, height: 180);
 }
 
 TextField reusableTextField(String text, IconData icon, bool isPasswordType,

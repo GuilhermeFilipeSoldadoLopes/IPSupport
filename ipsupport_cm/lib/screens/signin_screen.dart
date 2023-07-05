@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ipsupport_cm/home.dart';
 import 'package:ipsupport_cm/screens/reset_password.dart';
 import 'package:ipsupport_cm/screens/signup_screen.dart';
 import '../reusable_widgets/reusable_widgets.dart';
-import 'home_map_screen.dart';
 
 class SingInScreen extends StatefulWidget {
   const SingInScreen({Key? key}) : super(key: key);
@@ -18,42 +18,52 @@ class _SingInScreenState extends State<SingInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(
-              20, MediaQuery.of(context).size.height * 0.2, 20, 0),
-          child: Column(
-            children: <Widget>[
-              logoWidget("assets/app/Icon_IPSupport_android.png"),
-              const SizedBox(height: 30),
-              reusableTextField("Enter UserName", Icons.person_outline, false,
-                  _emailTextController),
-              const SizedBox(height: 20),
-              reusableTextField("Enter Password", Icons.lock_outline, true,
-                  _passwordTextController),
-              const SizedBox(height: 5),
-              forgetPassword(context),
-              firebaseUIButton(context, "Sign In", () {
-                FirebaseAuth.instance
-                    .signInWithEmailAndPassword(
-                        email: _emailTextController.text,
-                        password: _passwordTextController.text)
-                    .then((value) {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => HomeMapScreen()));
-                }).onError((error, stackTrace) {
-                  print("Error ${error.toString()}");
-                });
-              }),
-              signUpOption()
-            ],
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          elevation: 0,
+          title: const Text(
+            "Sign Up",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
         ),
-      ),
-    ));
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(
+                  20, MediaQuery.of(context).size.height * 0.13, 20, 0),
+              child: Column(
+                children: <Widget>[
+                  logoWidget("assets/app/Icon_IPSupport_android.png"),
+                  const SizedBox(height: 35),
+                  reusableTextField("Enter username", Icons.person_outline,
+                      false, _emailTextController),
+                  const SizedBox(height: 20),
+                  reusableTextField("Enter password", Icons.lock_outline, true,
+                      _passwordTextController),
+                  const SizedBox(height: 5),
+                  forgetPassword(context),
+                  firebaseUIButton(context, "Sign In", () {
+                    FirebaseAuth.instance
+                        .signInWithEmailAndPassword(
+                            email: _emailTextController.text,
+                            password: _passwordTextController.text)
+                        .then((value) {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Home()));
+                    }).onError((error, stackTrace) {
+                      print("Error ${error.toString()}");
+                    });
+                  }),
+                  signUpOption()
+                ],
+              ),
+            ),
+          ),
+        ));
   }
 
   Row signUpOption() {
@@ -65,7 +75,7 @@ class _SingInScreenState extends State<SingInScreen> {
         GestureDetector(
           onTap: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => SignUpScreen()));
+                MaterialPageRoute(builder: (context) => const SignUpScreen()));
           },
           child: const Text(
             " Sign Up",
@@ -87,8 +97,8 @@ class _SingInScreenState extends State<SingInScreen> {
           style: TextStyle(color: Color.fromARGB(255, 81, 81, 81)),
           textAlign: TextAlign.right,
         ),
-        onPressed: () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ResetPassword())),
+        onPressed: () => Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const ResetPassword())),
       ),
     );
   }

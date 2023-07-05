@@ -9,10 +9,16 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Report')),
+      appBar: AppBar(
+        elevation: 0,
+        title: const Text(
+          "Report",
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        ),
+      ),
       body: Center(
         child: Text('Report Screen', style: TextStyle(fontSize: 40)),
-        ),
+      ),
     );
   }
 }
