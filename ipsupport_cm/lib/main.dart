@@ -1,10 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:ipsupport_cm/src/home_nav_bar.dart';
+import 'package:ipsupport_cm/src/screens/signin_screen.dart';
 import 'firebase_options.dart';
-import 'package:ipsupport_cm/screens/signin_screen.dart';
-import 'home.dart';
-import 'package:ipsupport_cm/screens/feedback_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

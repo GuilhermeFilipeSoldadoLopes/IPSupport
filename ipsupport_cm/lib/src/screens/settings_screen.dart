@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:ipsupport_cm/screens/signin_screen.dart';
+import 'package:ipsupport_cm/src/home_nav_bar.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -99,7 +99,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onTap: () {
                 FirebaseAuth.instance.signOut();
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => const SingInScreen()));
+                    MaterialPageRoute(builder: (context) => const Home()));
               },
             ),
           ),

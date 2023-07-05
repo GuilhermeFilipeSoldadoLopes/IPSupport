@@ -1,10 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:ipsupport_cm/home.dart';
-import 'package:ipsupport_cm/screens/reset_password.dart';
-import 'package:ipsupport_cm/screens/signup_screen.dart';
-import '../reusable_widgets/reusable_widgets.dart';
-import 'package:ipsupport_cm/screens/sobre_screen.dart';
+import 'package:ipsupport_cm/src/screens/reset_password.dart';
+import 'package:ipsupport_cm/src/screens/signup_screen.dart';
+import '../home_nav_bar.dart';
+import '../utils/reusable_widgets/reusable_widgets.dart';
 
 class SingInScreen extends StatefulWidget {
   const SingInScreen({Key? key}) : super(key: key);
@@ -54,7 +53,7 @@ class _SingInScreenState extends State<SingInScreen> {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>  const Home()));
+                              builder: (context) => const Home()));
                     }).onError((error, stackTrace) {
                       print("Error ${error.toString()}");
                     });

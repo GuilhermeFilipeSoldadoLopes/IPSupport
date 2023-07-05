@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ipsupport_cm/screens/home_map_screen.dart';
+import 'package:ipsupport_cm/src/screens/home_map_screen.dart';
 import 'page/dashboard.dart';
-import 'page/profile.dart';
+import 'screens/profile_screen.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -12,14 +12,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int currentTab = 1;
-  final List<Widget> screens = [
-    Dashboard(),
-    const HomeMapScreen(),
-    const Profile()
-  ];
+  final List<Widget> screens = [Dashboard(), HomeMapScreen(), const Profile()];
 
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = const HomeMapScreen();
+  Widget currentScreen = HomeMapScreen();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +28,7 @@ class _HomeState extends State<Home> {
         child: const Icon(Icons.assistant_navigation),
         onPressed: () {
           setState(() {
-            currentScreen = const HomeMapScreen();
+            currentScreen = HomeMapScreen();
             currentTab = 1;
           });
         },
