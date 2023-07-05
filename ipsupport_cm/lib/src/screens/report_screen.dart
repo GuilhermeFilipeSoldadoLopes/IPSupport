@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ipsupport_cm/src/screens/equipamento_danificado.dart';
 import 'package:ipsupport_cm/src/screens/settings_screen.dart';
 
 class Report extends StatefulWidget {
@@ -139,7 +140,10 @@ class _ReportState extends State<Report> {
           Expanded(
             child: InkWell(
               onTap: () {
-                // página equipamento danificado
+                Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const EquipamentoDanificadoPage()));
               },
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
