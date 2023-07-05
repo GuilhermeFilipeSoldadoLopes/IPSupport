@@ -24,7 +24,8 @@ class _ReportState extends State<Report> {
                         MaterialPageRoute(
                             builder: (context) => const SettingsScreen()));
             },
-            icon: Icon(Icons.settings_outlined),
+            icon: Icon(Icons.settings_outlined,
+            size:30,),
           ),
         ],
       ),
@@ -33,7 +34,7 @@ class _ReportState extends State<Report> {
           Expanded(
             child: InkWell(
               onTap: () {
-                // Redirecionar para outra página
+                //  página multibanco
               },
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -47,7 +48,7 @@ class _ReportState extends State<Report> {
                       fit: BoxFit.contain,
                     ),
                   ),
-                  Expanded(
+                  const Expanded(
                     flex: 2,
                     child: Text(
                       'Multibanco',
@@ -68,7 +69,7 @@ class _ReportState extends State<Report> {
           Expanded(
             child: InkWell(
               onTap: () {
-                // Redirecionar para outra página
+                // página vending machines
               },
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -82,7 +83,7 @@ class _ReportState extends State<Report> {
                       fit: BoxFit.contain,
                     ),
                   ),
-                  Expanded(
+                  const Expanded(
                     flex: 2,
                     child: Text(
                       'Máquina de venda',
@@ -103,7 +104,7 @@ class _ReportState extends State<Report> {
           Expanded(
             child: InkWell(
               onTap: () {
-                // Redirecionar para outra página
+                // página limpeza
               },
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -117,7 +118,7 @@ class _ReportState extends State<Report> {
                       fit: BoxFit.contain,
                     ),
                   ),
-                  Expanded(
+                  const Expanded(
                     flex: 2,
                     child: Text(
                       'Limpeza',
@@ -138,7 +139,7 @@ class _ReportState extends State<Report> {
           Expanded(
             child: InkWell(
               onTap: () {
-                // Redirecionar para outra página
+                // página equipamento danificado
               },
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -152,7 +153,7 @@ class _ReportState extends State<Report> {
                       fit: BoxFit.contain,
                     ),
                   ),
-                  Expanded(
+                  const Expanded(
                     flex: 2,
                     child: Text(
                       'Equipamento danificado',
@@ -173,7 +174,7 @@ class _ReportState extends State<Report> {
           Expanded(
             child: InkWell(
               onTap: () {
-                // Redirecionar para outra página
+                // página internet problems
               },
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -187,7 +188,7 @@ class _ReportState extends State<Report> {
                       fit: BoxFit.contain,
                     ),
                   ),
-                  Expanded(
+                  const Expanded(
                     flex: 2,
                     child: Text(
                       'Problemas de internet',

@@ -21,7 +21,10 @@ class Profile extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (context) => const SettingsScreen()));
             },
-            icon: Icon(Icons.settings_outlined),
+            icon: Icon(Icons.settings_outlined,
+            size:30,
+            ),
+            
           ),
         ],
       ),
