@@ -86,6 +86,7 @@ class ProfileItem extends StatelessWidget {
   final IconData iconData;
 
   const ProfileItem({
+    super.key,
     required this.title,
     required this.subtitle,
     required this.iconData,

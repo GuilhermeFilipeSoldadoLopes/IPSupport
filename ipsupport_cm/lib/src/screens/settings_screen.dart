@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:ipsupport_cm/src/home_nav_bar.dart';
 
 class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({super.key});
+
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
 }
@@ -15,14 +17,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Definições'),
+        title: const Text('Definições'),
       ),
       body: ListView(
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
             child: ListTile(
-              title: Text('Notificações'),
+              title: const Text('Notificações'),
               trailing: Switch(
                 value: notificationsEnabled,
                 onChanged: (value) {
@@ -36,7 +38,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Padding(
             padding: const EdgeInsets.only(left: 16.0, right: 16.0),
             child: ListTile(
-              title: Text('Localização precisa'),
+              title: const Text('Localização precisa'),
               trailing: Switch(
                 value: preciseLocationEnabled,
                 onChanged: (value) {
@@ -47,9 +49,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
           ),
-          SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+          const SizedBox(height: 20),
+          const Padding(
+            padding: EdgeInsets.only(left: 16.0, right: 16.0),
             child: Text(
               'App',
               style: TextStyle(
@@ -61,7 +63,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Padding(
             padding: const EdgeInsets.only(left: 16.0, right: 16.0),
             child: ListTile(
-              title: Text(
+              title: const Text(
                 'Ajuda',
                 style: TextStyle(
                   fontSize: 16,
@@ -75,7 +77,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Padding(
             padding: const EdgeInsets.only(left: 16.0, right: 16.0),
             child: ListTile(
-              title: Text(
+              title: const Text(
                 'Sobre',
                 style: TextStyle(
                   fontSize: 16,
@@ -89,7 +91,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Padding(
             padding: const EdgeInsets.only(left: 16.0, right: 16.0),
             child: ListTile(
-              title: Text(
+              title: const Text(
                 'Sair da conta',
                 style: TextStyle(
                   color: Colors.red,
