@@ -17,14 +17,14 @@ class Profile extends StatelessWidget {
           IconButton(
             onPressed: () {
               Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SettingsScreen()));
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SettingsScreen()));
             },
-            icon: Icon(Icons.settings_outlined,
-            size:30,
+            icon: const Icon(
+              Icons.settings_outlined,
+              size: 30,
             ),
-            
           ),
         ],
       ),

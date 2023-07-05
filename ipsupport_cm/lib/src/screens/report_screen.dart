@@ -3,6 +3,8 @@ import 'package:ipsupport_cm/src/screens/equipamento_danificado.dart';
 import 'package:ipsupport_cm/src/screens/settings_screen.dart';
 
 class Report extends StatefulWidget {
+  const Report({super.key});
+
   @override
   _ReportState createState() => _ReportState();
 }
@@ -21,12 +23,14 @@ class _ReportState extends State<Report> {
           IconButton(
             onPressed: () {
               Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SettingsScreen()));
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SettingsScreen()));
             },
-            icon: Icon(Icons.settings_outlined,
-            size:30,),
+            icon: const Icon(
+              Icons.settings_outlined,
+              size: 30,
+            ),
           ),
         ],
       ),
@@ -43,8 +47,8 @@ class _ReportState extends State<Report> {
                   Expanded(
                     flex: 1,
                     child: Image.asset(
-                      '../assets/images/multibanco.png',
-                      height: 80, 
+                      'assets/images/multibanco.png',
+                      height: 80,
                       width: 80,
                       fit: BoxFit.contain,
                     ),
@@ -78,8 +82,8 @@ class _ReportState extends State<Report> {
                   Expanded(
                     flex: 1,
                     child: Image.asset(
-                      '../assets/images/vending_machine.png',
-                      height: 80, 
+                      'assets/images/vending_machine.png',
+                      height: 80,
                       width: 80,
                       fit: BoxFit.contain,
                     ),
@@ -113,7 +117,7 @@ class _ReportState extends State<Report> {
                   Expanded(
                     flex: 1,
                     child: Image.asset(
-                      '../assets/images/limpeza.png',
+                      'assets/images/limpeza.png',
                       height: 80,
                       width: 80,
                       fit: BoxFit.contain,
@@ -151,8 +155,8 @@ class _ReportState extends State<Report> {
                   Expanded(
                     flex: 1,
                     child: Image.asset(
-                      '../assets/images/equipamento_danificado.png',
-                      height: 100, 
+                      'assets/images/equipamento_danificado.png',
+                      height: 100,
                       width: 100,
                       fit: BoxFit.contain,
                     ),
@@ -186,7 +190,7 @@ class _ReportState extends State<Report> {
                   Expanded(
                     flex: 1,
                     child: Image.asset(
-                      '../assets/images/internet_problem.png',
+                      'assets/images/internet_problem.png',
                       height: 80,
                       width: 80,
                       fit: BoxFit.contain,

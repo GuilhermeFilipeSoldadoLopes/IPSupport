@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:ipsupport_cm/src/home_nav_bar.dart';
+import 'package:ipsupport_cm/main.dart';
+import 'package:ipsupport_cm/src/screens/sobre_screen.dart';
+import 'ajuda_suporte_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -70,6 +72,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
               onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AjudaESuporte()));
                 // Lógica para lidar com o clique em "Ajuda"
               },
             ),
@@ -85,6 +91,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               onTap: () {
                 // Lógica para lidar com o clique em "Sobre"
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const Sobre()));
               },
             ),
           ),
@@ -101,7 +109,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onTap: () {
                 FirebaseAuth.instance.signOut();
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => const Home()));
+                    MaterialPageRoute(builder: (context) => const MainApp()));
               },
             ),
           ),

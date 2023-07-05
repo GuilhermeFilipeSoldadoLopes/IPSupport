@@ -1,37 +1,21 @@
 import 'package:flutter/material.dart';
 
-class AjudaESuportePage extends StatefulWidget {
-  const AjudaESuportePage({super.key});
+class AjudaESuporte extends StatefulWidget {
+  const AjudaESuporte({super.key});
 
   @override
-  _AjudaESuportePageState createState() => _AjudaESuportePageState();
+  _AjudaESuporteState createState() => _AjudaESuporteState();
 }
 
-class _AjudaESuportePageState extends State<AjudaESuportePage> {
+class _AjudaESuporteState extends State<AjudaESuporte> {
   String selectedOption = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: const Text('Ajuda'),
         centerTitle: true,
-        flexibleSpace: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            IconButton(
-              icon: const Icon(Icons.arrow_back),
-              color: Colors.white,
-              onPressed: () {
-                // Código para voltar
-              },
-            ),
-            const Expanded(
-              child: Center(
-                child: Text('Ajuda', style: TextStyle(fontSize: 20)),
-              ),
-            ),
-          ],
-        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

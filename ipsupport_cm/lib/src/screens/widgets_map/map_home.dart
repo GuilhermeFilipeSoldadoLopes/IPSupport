@@ -1,8 +1,7 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-//import 'package:permission_handler/permission_handler.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class MapHome extends StatefulWidget {
   const MapHome({
@@ -18,8 +17,8 @@ class MapHome extends StatefulWidget {
 
 class _MapHomeState extends State<MapHome> {
   static const CameraPosition _ipsCameraPosition = CameraPosition(
-    target: LatLng(38.52225817080751, -8.838708916649127),
-    zoom: 16, //10
+    target: LatLng(38.521095, -8.838903),
+    zoom: 16.1, //10
   );
 
   final _markers = <Marker>{
@@ -91,23 +90,23 @@ class _MapHomeState extends State<MapHome> {
 
   @override
   void initState() {
-    //_requestPermission();
+    _requestPermission();
     _loadIpsLogoIcon();
 
     super.initState();
   }
 
-  /*Future<void> _requestPermission() async {
+  Future<void> _requestPermission() async {
     await Permission.location.request();
-  }*/
+  }
 
   void _loadIpsLogoIcon() async {
     _ipsMarkerIcon = await BitmapDescriptor.fromAssetImage(
-        const ImageConfiguration(), "assets/images/ips-logo.png");
+        const ImageConfiguration(), "assets/app/ips-logo.png");
   }
 
   void _onCameraMove(CameraPosition position) {
-    _lastMapPosition = position.target;
+    //_lastMapPosition = position.target;
   }
 
   void _changeMapType() {
@@ -135,8 +134,17 @@ class _MapHomeState extends State<MapHome> {
         GoogleMap(
           initialCameraPosition: _ipsCameraPosition,
           mapType: _mapType,
-          trafficEnabled: true,
+          trafficEnabled: false,
           myLocationEnabled: true,
+          compassEnabled: true,
+          minMaxZoomPreference: const MinMaxZoomPreference(16.1, 20),
+          layoutDirection: TextDirection.ltr,
+          indoorViewEnabled: false,
+          myLocationButtonEnabled: false,
+          zoomControlsEnabled: false,
+          zoomGesturesEnabled: true,
+          rotateGesturesEnabled: false,
+          scrollGesturesEnabled: false,
           markers: _markers,
           polygons: _polygons,
           onCameraMove: _onCameraMove,

@@ -12,11 +12,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int currentTab = 1;
-  final List<Widget> screens = [
-    Report(),
-    HomeMapScreen(),
-    const Profile()
-  ];
+  final List<Widget> screens = [Report(), HomeMapScreen(), const Profile()];
 
   final PageStorageBucket bucket = PageStorageBucket();
   Widget currentScreen = HomeMapScreen();
@@ -31,10 +27,14 @@ class _HomeState extends State<Home> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.assistant_navigation),
         onPressed: () {
-          setState(() {
+          if (currentTab == 1) {
             currentScreen = HomeMapScreen();
-            currentTab = 1;
-          });
+          } else {
+            setState(() {
+              currentScreen = HomeMapScreen();
+              currentTab = 1;
+            });
+          }
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

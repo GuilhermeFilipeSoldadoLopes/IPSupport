@@ -32,7 +32,6 @@ class _EquipamentoDanificadoPageState extends State<EquipamentoDanificadoPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        
                         ListTile(
                           title: const Text('Partido'),
                           leading: Radio(
@@ -79,7 +78,7 @@ class _EquipamentoDanificadoPageState extends State<EquipamentoDanificadoPage> {
                       width: 150,
                       height: 150,
                       child: Image.network(
-                        '../assets/images/equipamento_danificado.png',
+                        'assets/images/equipamento_danificado.png',
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -91,7 +90,7 @@ class _EquipamentoDanificadoPageState extends State<EquipamentoDanificadoPage> {
               const SizedBox(height: 8),
               TextFormField(
                 maxLines: 4,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   fillColor: Color.fromARGB(255, 214, 242, 255),
                   filled: true,
@@ -123,7 +122,7 @@ class _EquipamentoDanificadoPageState extends State<EquipamentoDanificadoPage> {
                     // Lógica para reportar
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor:Colors.red,
+                    backgroundColor: Colors.red,
                   ),
                   child: const Text('Reportar'),
                 ),

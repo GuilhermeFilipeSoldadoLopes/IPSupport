@@ -1,5 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ipsupport_cm">
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
    <application
         android:label="IPSupport"
         android:name="${applicationName}"
@@ -30,7 +32,6 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCDwee7GuKZVgTwak3YXzhBLsuxYemtkRc"/>
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCDwee7GuKZVgTwak3YXzhBLsuxYemtkRc"/>
     </application>
 </manifest>
