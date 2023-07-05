@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ipsupport_cm/src/screens/settings_screen.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
@@ -12,6 +13,17 @@ class Profile extends StatelessWidget {
           "Profile",
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SettingsScreen()));
+            },
+            icon: Icon(Icons.settings_outlined),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -86,11 +98,11 @@ class ProfileItem extends StatelessWidget {
   final IconData iconData;
 
   const ProfileItem({
-    super.key,
+    Key? key,
     required this.title,
     required this.subtitle,
     required this.iconData,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
