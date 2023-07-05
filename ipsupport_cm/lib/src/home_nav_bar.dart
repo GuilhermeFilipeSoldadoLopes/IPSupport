@@ -13,7 +13,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int currentTab = 1;
   final List<Widget> screens = [
-    const Report(),
+    Report(),
     HomeMapScreen(),
     const Profile()
   ];
@@ -53,7 +53,7 @@ class _HomeState extends State<Home> {
                       minWidth: 40,
                       onPressed: () {
                         setState(() {
-                          currentScreen = const Report();
+                          currentScreen = Report();
                           currentTab = 0;
                         });
                       },
