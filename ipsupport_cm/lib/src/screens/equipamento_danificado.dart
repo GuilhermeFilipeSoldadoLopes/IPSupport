@@ -75,8 +75,8 @@ class _EquipamentoDanificadoPageState extends State<EquipamentoDanificadoPage> {
                   Padding(
                     padding: const EdgeInsets.only(right: 25.0),
                     child: Container(
-                      width: 150,
-                      height: 150,
+                      width: 100,
+                      height: 100,
                       child: Image.network(
                         'assets/images/equipamento_danificado.png',
                         fit: BoxFit.cover,
