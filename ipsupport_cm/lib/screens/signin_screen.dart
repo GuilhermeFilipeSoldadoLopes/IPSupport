@@ -54,7 +54,7 @@ class _SingInScreenState extends State<SingInScreen> {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SobrePage()));
+                              builder: (context) =>  const Home()));
                     }).onError((error, stackTrace) {
                       print("Error ${error.toString()}");
                     });
