@@ -1,11 +1,16 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:ipsupport_cm/src/screens/settings_screen.dart';
+import 'package:ipsupport_cm/storage_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final Storage storage = Storage();
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -36,16 +41,38 @@ class Profile extends StatelessWidget {
             Stack(
               alignment: Alignment.centerRight,
               children: [
-                const CircleAvatar(
-                  radius: 70,
-                  backgroundImage:
-                      AssetImage('assets/images/WRU_Logo_Fundo_.png'),
-                ),
+                CircleAvatar(
+                    radius: 70,
+                    backgroundImage: NetworkImage(FirebaseAuth
+                            .instance.currentUser?.photoURL ??
+                        'https://firebasestorage.googleapis.com/v0/b/ipsupport-28bbe.appspot.com/o/default%2Fdefault_profile.jpg?alt=media&token=83373b6a-6399-4bd4-ac8c-d7f8c203f48a')),
                 Positioned(
                   top: 0,
                   right: 0,
                   child: GestureDetector(
-                    onTap: () {
+                    onTap: () async {
+                      final results = await FilePicker.platform.pickFiles(
+                        allowMultiple: false,
+                        type: FileType.custom,
+                        allowedExtensions: ['png', 'jpg'],
+                      );
+                      if (results == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content:
+                                    Text('Nenhum ficheiros selecionado.')));
+                      }
+                      final path = results?.files.single.path!;
+                      final fileName = results?.files.single.name;
+                      if (path != null || fileName != null) {
+                        storage
+                            .uploadFile(path!, fileName!)
+                            .then((value) => print('Uploaded'));
+                      }
+
+                      //print(path);
+                      //print(fileName);
+
                       // Acrescentar código para clicar no botão
                     },
                     child: Container(
@@ -69,20 +96,21 @@ class Profile extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20),
-            const ProfileItem(
+            ProfileItem(
               title: 'Nome',
-              subtitle: 'João Guilherme',
+              subtitle:
+                  FirebaseAuth.instance.currentUser?.displayName ?? "Error...",
               iconData: Icons.person,
             ),
             const SizedBox(height: 20),
-            const ProfileItem(
+            ProfileItem(
               title: 'Email',
-              subtitle: '202000813@estudantes.ips.pt',
+              subtitle: FirebaseAuth.instance.currentUser?.email ?? "Error...",
               iconData: Icons.email,
             ),
             const SizedBox(height: 20),
             const Text(
-              'Reportes realizados: 15',
+              'Reportes realizados: ' '15',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,

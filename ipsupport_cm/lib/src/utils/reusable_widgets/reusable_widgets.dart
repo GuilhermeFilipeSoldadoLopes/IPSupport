@@ -34,6 +34,52 @@ TextField reusableTextField(String text, IconData icon, bool isPasswordType,
   );
 }
 
+TextField reusableEmailTextField(String text, IconData icon,
+    bool isPasswordType, TextEditingController controller) {
+  bool isValid = false;
+  RegExp validator = RegExp(
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+  return TextField(
+    onChanged: (inputValue) {
+      if (inputValue.isEmpty || validator.hasMatch(inputValue)) {
+        isValid = true;
+      } else {
+        isValid = false;
+      }
+    },
+    controller: controller,
+    obscureText: isPasswordType,
+    enableSuggestions: !isPasswordType,
+    autocorrect: !isPasswordType,
+    cursorColor: Colors.black,
+    style: TextStyle(color: Colors.black.withOpacity(0.9)),
+    decoration: InputDecoration(
+      // ignore: dead_code
+      errorText: isValid ? null : "Email inválido",
+      errorStyle: const TextStyle(color: Color.fromARGB(255, 255, 100, 100)),
+      focusedErrorBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: Color.fromARGB(255, 255, 100, 100))),
+      errorBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: Color.fromARGB(255, 255, 100, 100))),
+      prefixIcon: Icon(
+        icon,
+        color: Colors.black,
+      ),
+      labelText: text,
+      labelStyle: TextStyle(color: Colors.grey.withOpacity(0.9)),
+      filled: true,
+      floatingLabelBehavior: FloatingLabelBehavior.never,
+      fillColor: Colors.grey.withOpacity(0.3),
+      border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30.0),
+          borderSide: const BorderSide(width: 0, style: BorderStyle.none)),
+    ),
+    keyboardType: isPasswordType
+        ? TextInputType.visiblePassword
+        : TextInputType.emailAddress,
+  );
+}
+
 Container firebaseUIButton(BuildContext context, String title, Function onTap) {
   return Container(
     width: MediaQuery.of(context).size.width,

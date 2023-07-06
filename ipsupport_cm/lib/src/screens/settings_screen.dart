@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ipsupport_cm/main.dart';
 import 'package:ipsupport_cm/src/screens/about_screen.dart';
+//import 'package:permission_handler/permission_handler.dart';
 import 'help_support_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -12,8 +13,8 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool notificationsEnabled = true;
-  bool preciseLocationEnabled = true;
+  bool notificationsEnabled = false;
+  bool preciseLocationEnabled = false;
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +92,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               onTap: () {
                 // Lógica para lidar com o clique em "Sobre"
-                Navigator.pushReplacement(context,
+                Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const About()));
               },
             ),

@@ -37,8 +37,8 @@ class _SingInScreenState extends State<SingInScreen> {
                 children: <Widget>[
                   logoWidget("assets/app/Icon_IPSupport_android.png"),
                   const SizedBox(height: 35),
-                  reusableTextField("Insira email", Icons.person_outline, false,
-                      _emailTextController),
+                  reusableEmailTextField("Insira email", Icons.person_outline,
+                      false, _emailTextController),
                   const SizedBox(height: 20),
                   reusableTextField("Insira password", Icons.lock_outline, true,
                       _passwordTextController),

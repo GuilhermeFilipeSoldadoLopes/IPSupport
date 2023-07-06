@@ -41,8 +41,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                reusableTextField("Enter email", Icons.person_outline, false,
-                    _emailTextController),
+                reusableEmailTextField("Enter email", Icons.person_outline,
+                    false, _emailTextController),
                 const SizedBox(
                   height: 20,
                 ),
@@ -51,13 +51,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                firebaseUIButton(context, "Sign Up", () {
+                firebaseUIButton(context, "Registar", () {
                   FirebaseAuth.instance
                       .createUserWithEmailAndPassword(
                           email: _emailTextController.text,
                           password: _passwordTextController.text)
                       .then((value) {
                     print("Created New Account");
+                    FirebaseAuth.instance.currentUser
+                        ?.updateDisplayName(_userNameTextController.text);
+                    FirebaseAuth.instance.currentUser?.updatePhotoURL(
+                        "https://firebasestorage.googleapis.com/v0/b/ipsupport-28bbe.appspot.com/o/default%2Fdefault_profile.jpg?alt=media&token=83373b6a-6399-4bd4-ac8c-d7f8c203f48a");
                     Navigator.push(
                         context,
                         MaterialPageRoute(

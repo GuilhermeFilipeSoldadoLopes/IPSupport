@@ -110,7 +110,8 @@ class _EquipamentoDanificadoPageState extends State<EquipamentoDanificadoPage> {
                         });
                       },
                     ),
-                    const Text('Problema Urgente',style: TextStyle(fontSize: 10)),
+                    const Text('Problema Urgente',
+                        style: TextStyle(fontSize: 10)),
                   ],
                 ),
               ),

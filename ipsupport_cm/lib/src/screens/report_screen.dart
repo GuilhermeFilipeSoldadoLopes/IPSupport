@@ -145,9 +145,10 @@ class _ReportState extends State<Report> {
             child: InkWell(
               onTap: () {
                 Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const EquipamentoDanificadoPage()));
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const EquipamentoDanificadoPage()));
               },
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
