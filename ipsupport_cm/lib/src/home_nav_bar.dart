@@ -64,19 +64,25 @@ class _HomeState extends State<Home> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
-                            Icons.report_problem_rounded,
-                            color: currentTab == 0 ? Colors.blue : Colors.grey,
+                          Padding(
+                            padding: EdgeInsets.only(right: 60.0), // Padding para o ícone
+                            child: Icon(
+                              Icons.report_problem_rounded,
+                              color: currentTab == 0 ? Colors.blue : Colors.grey,
+                            ),
                           ),
-                          Text(
-                            'Reporte',
-                            style: TextStyle(
-                                color: currentTab == 0
-                                    ? Colors.blue
-                                    : Colors.grey),
-                          )
+                          Padding(
+                            padding: EdgeInsets.only(right: 60.0), // Padding para o texto
+                            child: Text(
+                              'Reporte',
+                              style: TextStyle(
+                                color: currentTab == 0 ? Colors.blue : Colors.grey,
+                              ),
+                            ),
+                          ),
                         ],
-                      ))
+                      ),
+                      )
                 ],
               ),
               Row(
