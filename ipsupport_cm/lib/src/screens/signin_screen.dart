@@ -22,7 +22,7 @@ class _SingInScreenState extends State<SingInScreen> {
         appBar: AppBar(
           elevation: 0,
           title: const Text(
-            "Registar",
+            "Entrar",
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
         ),

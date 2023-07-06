@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ipsupport_cm/main.dart';
 import '../utils/reusable_widgets/reusable_widgets.dart';
-import 'home_map_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -21,7 +21,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       appBar: AppBar(
         elevation: 0,
         title: const Text(
-          "Sign Up",
+          "Registar",
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),
@@ -36,17 +36,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                reusableTextField("Enter username", Icons.person_outline, false,
-                    _userNameTextController),
+                reusableTextField("Insira username", Icons.person_outline,
+                    false, _userNameTextController),
                 const SizedBox(
                   height: 20,
                 ),
-                reusableEmailTextField("Enter email", Icons.person_outline,
+                reusableEmailTextField("Insira email", Icons.person_outline,
                     false, _emailTextController),
                 const SizedBox(
                   height: 20,
                 ),
-                reusableTextField("Enter password", Icons.lock_outlined, true,
+                reusableTextField("Insira password", Icons.lock_outlined, true,
                     _passwordTextController),
                 const SizedBox(
                   height: 20,
@@ -59,14 +59,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           password: _passwordTextController.text)
                       .then((value) {
                     print("Created New Account");
+                    print(FirebaseAuth.instance.currentUser?.displayName);
                     FirebaseAuth.instance.currentUser
                         ?.updateDisplayName(_userNameTextController.text);
                     FirebaseAuth.instance.currentUser?.updatePhotoURL(
                         "https://firebasestorage.googleapis.com/v0/b/ipsupport-28bbe.appspot.com/o/default%2Fdefault_profile.jpg?alt=media&token=83373b6a-6399-4bd4-ac8c-d7f8c203f48a");
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => HomeMapScreen()));
+                    FirebaseAuth.instance
+                        .signInWithEmailAndPassword(
+                            email: _emailTextController.text,
+                            password: _passwordTextController.text)
+                        .then((value) {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const MainApp()));
+                    }).onError((error, stackTrace) {
+                      print("Error ${error.toString()}");
+                    });
                   }).onError((error, stackTrace) {
                     print("Error ${error.toString()}");
                   });
