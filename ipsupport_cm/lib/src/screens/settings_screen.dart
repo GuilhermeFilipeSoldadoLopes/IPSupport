@@ -38,20 +38,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-            child: ListTile(
-              title: const Text('Localização precisa'),
-              trailing: Switch(
-                value: preciseLocationEnabled,
-                onChanged: (value) {
-                  setState(() {
-                    preciseLocationEnabled = value;
-                  });
-                },
-              ),
-            ),
-          ),
           const SizedBox(height: 20),
           const Padding(
             padding: EdgeInsets.only(left: 16.0, right: 16.0),

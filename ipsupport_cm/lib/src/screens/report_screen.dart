@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:ipsupport_cm/src/screens/cleaning_screen.dart';
 import 'package:ipsupport_cm/src/screens/equipamento_danificado.dart';
+import 'package:ipsupport_cm/src/screens/internet_issues_screen.dart';
+import 'package:ipsupport_cm/src/screens/multibanco.dart';
 import 'package:ipsupport_cm/src/screens/settings_screen.dart';
+import 'package:ipsupport_cm/src/screens/vending_machine_screen.dart';
 
 class Report extends StatefulWidget {
   const Report({super.key});
@@ -39,7 +43,11 @@ class _ReportState extends State<Report> {
           Expanded(
             child: InkWell(
               onTap: () {
-                //  página multibanco
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const Multibanco()));
               },
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -74,7 +82,11 @@ class _ReportState extends State<Report> {
           Expanded(
             child: InkWell(
               onTap: () {
-                // página vending machines
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const VendingMachine()));
               },
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -109,7 +121,11 @@ class _ReportState extends State<Report> {
           Expanded(
             child: InkWell(
               onTap: () {
-                // página limpeza
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const Cleaning()));
               },
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -148,7 +164,7 @@ class _ReportState extends State<Report> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            const EquipamentoDanificadoPage()));
+                            const DamagedEquipment()));
               },
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -183,7 +199,11 @@ class _ReportState extends State<Report> {
           Expanded(
             child: InkWell(
               onTap: () {
-                // página internet problems
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const InternetIssues()));
               },
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,

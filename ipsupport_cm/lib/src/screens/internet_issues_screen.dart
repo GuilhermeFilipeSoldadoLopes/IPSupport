@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 
-class DamagedEquipment extends StatefulWidget {
-  const DamagedEquipment({Key? key}) : super(key: key);
+class InternetIssues extends StatefulWidget {
+  const InternetIssues({Key? key}) : super(key: key);
 
   @override
-  _DamagedEquipment createState() =>
-      _DamagedEquipment();
+  _InternetIssues createState() =>
+      _InternetIssues();
 }
 
-class _DamagedEquipment extends State<DamagedEquipment> {
-  String? selectedOption = 'partido';
+class _InternetIssues extends State<InternetIssues> {
+  String? selectedOption = 'falhas';
   bool isUrgent = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Equipamento Danificado'),
+        title: const Text('Problemas de internet'),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -34,9 +34,9 @@ class _DamagedEquipment extends State<DamagedEquipment> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ListTile(
-                            title: const Text('Partido'),
+                            title: const Text('Falhas'),
                             leading: Radio(
-                              value: 'partido',
+                              value: 'falhas',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -46,9 +46,9 @@ class _DamagedEquipment extends State<DamagedEquipment> {
                             ),
                           ),
                           ListTile(
-                            title: const Text('Problemas Técnicos'),
+                            title: const Text('Baixa Velocidade'),
                             leading: Radio(
-                              value: 'problemas_tecnicos',
+                              value: 'baixa_velocidade',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -58,9 +58,9 @@ class _DamagedEquipment extends State<DamagedEquipment> {
                             ),
                           ),
                           ListTile(
-                            title: const Text('Não Funcional'),
+                            title: const Text('Sem ligação'),
                             leading: Radio(
-                              value: 'nao_funcional',
+                              value: 'sem_ligacao',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -79,7 +79,7 @@ class _DamagedEquipment extends State<DamagedEquipment> {
                         width: 80,
                         height: 80,
                         child: Image.asset(
-                          'assets/images/equipamento_danificado.png',
+                          'assets/images/internet_problem.png',
                           fit: BoxFit.cover,
                         ),
                       ),

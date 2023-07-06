@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 
-class DamagedEquipment extends StatefulWidget {
-  const DamagedEquipment({Key? key}) : super(key: key);
+class VendingMachine extends StatefulWidget {
+  const VendingMachine({Key? key}) : super(key: key);
 
   @override
-  _DamagedEquipment createState() =>
-      _DamagedEquipment();
+  _VendingMachine createState() =>
+      _VendingMachine();
 }
 
-class _DamagedEquipment extends State<DamagedEquipment> {
-  String? selectedOption = 'partido';
+class _VendingMachine extends State<VendingMachine> {
+  String? selectedOption = 'sem_cafe';
   bool isUrgent = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Equipamento Danificado'),
+        title: const Text('Máquina de venda'),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -34,9 +34,9 @@ class _DamagedEquipment extends State<DamagedEquipment> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ListTile(
-                            title: const Text('Partido'),
+                            title: const Text('Sem café'),
                             leading: Radio(
-                              value: 'partido',
+                              value: 'sem_cafe',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -46,9 +46,9 @@ class _DamagedEquipment extends State<DamagedEquipment> {
                             ),
                           ),
                           ListTile(
-                            title: const Text('Problemas Técnicos'),
+                            title: const Text('Sem produtos'),
                             leading: Radio(
-                              value: 'problemas_tecnicos',
+                              value: 'sem_produtos',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -58,9 +58,9 @@ class _DamagedEquipment extends State<DamagedEquipment> {
                             ),
                           ),
                           ListTile(
-                            title: const Text('Não Funcional'),
+                            title: const Text('Pagamento eletrónico indisponível'),
                             leading: Radio(
-                              value: 'nao_funcional',
+                              value: 'cartao_indisponivel',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -79,7 +79,7 @@ class _DamagedEquipment extends State<DamagedEquipment> {
                         width: 80,
                         height: 80,
                         child: Image.asset(
-                          'assets/images/equipamento_danificado.png',
+                          'assets/images/vending_machine.png',
                           fit: BoxFit.cover,
                         ),
                       ),

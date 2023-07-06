@@ -51,6 +51,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(
                   height: 20,
                 ),
+                //criar espaço vazio
                 firebaseUIButton(context, "Registar", () {
                   FirebaseAuth.instance
                       .createUserWithEmailAndPassword(

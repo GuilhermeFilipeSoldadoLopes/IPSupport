@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 
-class DamagedEquipment extends StatefulWidget {
-  const DamagedEquipment({Key? key}) : super(key: key);
+class Multibanco extends StatefulWidget {
+  const Multibanco({Key? key}) : super(key: key);
 
   @override
-  _DamagedEquipment createState() =>
-      _DamagedEquipment();
+  _Multibanco createState() =>
+      _Multibanco();
 }
 
-class _DamagedEquipment extends State<DamagedEquipment> {
-  String? selectedOption = 'partido';
+class _Multibanco extends State<Multibanco> {
+  String? selectedOption = 'sem_dinheiro';
   bool isUrgent = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Equipamento Danificado'),
+        title: const Text('Multibanco'),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -34,9 +34,9 @@ class _DamagedEquipment extends State<DamagedEquipment> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ListTile(
-                            title: const Text('Partido'),
+                            title: const Text('Sem dinheiro'),
                             leading: Radio(
-                              value: 'partido',
+                              value: 'sem_dinheiro',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -46,21 +46,9 @@ class _DamagedEquipment extends State<DamagedEquipment> {
                             ),
                           ),
                           ListTile(
-                            title: const Text('Problemas Técnicos'),
+                            title: const Text('Sem papel'),
                             leading: Radio(
-                              value: 'problemas_tecnicos',
-                              groupValue: selectedOption,
-                              onChanged: (value) {
-                                setState(() {
-                                  selectedOption = value as String?;
-                                });
-                              },
-                            ),
-                          ),
-                          ListTile(
-                            title: const Text('Não Funcional'),
-                            leading: Radio(
-                              value: 'nao_funcional',
+                              value: 'sem_papel',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -72,15 +60,14 @@ class _DamagedEquipment extends State<DamagedEquipment> {
                         ],
                       ),
                     ),
-                    const SizedBox(width: 16),
+                    const SizedBox(width: 25, height: 50,),
                     Padding(
                       padding: const EdgeInsets.only(right: 25.0),
                       child: Container(
                         width: 80,
                         height: 80,
                         child: Image.asset(
-                          'assets/images/equipamento_danificado.png',
-                          fit: BoxFit.cover,
+                          'assets/images/multibanco.png',
                         ),
                       ),
                     ),
