@@ -9,7 +9,7 @@ class EquipamentoDanificadoPage extends StatefulWidget {
 }
 
 class _EquipamentoDanificadoPageState extends State<EquipamentoDanificadoPage> {
-  String? selectedOption;
+  String? selectedOption = 'partido';
   bool isUrgent = false;
 
   @override
@@ -75,8 +75,8 @@ class _EquipamentoDanificadoPageState extends State<EquipamentoDanificadoPage> {
                   Padding(
                     padding: const EdgeInsets.only(right: 25.0),
                     child: Container(
-                      width: 100,
-                      height: 100,
+                      width: 80,
+                      height: 80,
                       child: Image.network(
                         'assets/images/equipamento_danificado.png',
                         fit: BoxFit.cover,
@@ -110,7 +110,7 @@ class _EquipamentoDanificadoPageState extends State<EquipamentoDanificadoPage> {
                         });
                       },
                     ),
-                    const Text('Problema Urgente'),
+                    const Text('Problema Urgente',style: TextStyle(fontSize: 10)),
                   ],
                 ),
               ),

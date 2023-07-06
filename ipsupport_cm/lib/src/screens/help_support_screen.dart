@@ -8,8 +8,7 @@ class HelpAndSupport extends StatefulWidget {
 }
 
 class _HelpAndSupportState extends State<HelpAndSupport> {
-  String selectedOption = '';
-
+  String selectedOption = 'Suporte';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
