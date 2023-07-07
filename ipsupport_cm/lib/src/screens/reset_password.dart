@@ -1,5 +1,9 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:ipsupport_cm/src/screens/feedback_page.dart';
 import '../utils/reusable_widgets/reusable_widgets.dart';
 
 class ResetPassword extends StatefulWidget {
@@ -11,6 +15,8 @@ class ResetPassword extends StatefulWidget {
 
 class _ResetPasswordState extends State<ResetPassword> {
   TextEditingController _emailTextController = TextEditingController();
+  String errorEmailMessage = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,13 +41,54 @@ class _ResetPasswordState extends State<ResetPassword> {
                 ),
                 reusableTextField("Insira email", Icons.person_outline, false,
                     _emailTextController),
+                Text(errorEmailMessage,
+                    style: const TextStyle(color: Colors.red)),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 firebaseUIButton(context, "Recuperar Password", () {
-                  FirebaseAuth.instance
-                      .sendPasswordResetEmail(email: _emailTextController.text)
-                      .then((value) => Navigator.of(context).pop());
+                  bool isValid = false;
+
+                  if (_emailTextController.text == null ||
+                      _emailTextController.text.isEmpty) {
+                    errorEmailMessage = 'Email necessário.';
+                    isValid = false;
+                  } else {
+                    errorEmailMessage = '';
+                    isValid = true;
+                  }
+
+                  String patternE = r'\w+@\w+\.\w+';
+                  RegExp regexE = RegExp(patternE);
+                  if (!regexE.hasMatch(_emailTextController.text)) {
+                    errorEmailMessage = 'Formato de Email inválido.';
+                    isValid = false;
+                  } else {
+                    errorEmailMessage = '';
+                    isValid = true;
+                  }
+
+                  if (isValid) {
+                    FirebaseAuth.instance
+                        .sendPasswordResetEmail(
+                            email: _emailTextController.text)
+                        .then((value) {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const FeedbackPage()));
+                    }).onError((error, stackTrace) {
+                      if (error.toString().contains('(auth/user-not-found)')) {
+                        errorEmailMessage =
+                            'Não existe conta com o Email inserido.';
+                      }
+                      print(error);
+                      print("Error ${error.toString()}");
+                      setState(() {});
+                    });
+                  } else {
+                    setState(() {});
+                  }
                 })
               ],
             ),

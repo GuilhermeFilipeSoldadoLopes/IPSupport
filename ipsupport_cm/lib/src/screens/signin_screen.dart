@@ -1,5 +1,8 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ipsupport_cm/src/screens/reset_password.dart';
 import 'package:ipsupport_cm/src/screens/signup_screen.dart';
 import '../home_nav_bar.dart';
@@ -15,6 +18,9 @@ class SingInScreen extends StatefulWidget {
 class _SingInScreenState extends State<SingInScreen> {
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _emailTextController = TextEditingController();
+  String errorEmailMessage = '';
+  String errorPasswordMessage = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +28,7 @@ class _SingInScreenState extends State<SingInScreen> {
         appBar: AppBar(
           elevation: 0,
           title: const Text(
-            "Entrar",
+            "Registar",
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
         ),
@@ -37,26 +43,89 @@ class _SingInScreenState extends State<SingInScreen> {
                 children: <Widget>[
                   logoWidget("assets/app/Icon_IPSupport_android.png"),
                   const SizedBox(height: 35),
-                  reusableEmailTextField("Insira email", Icons.person_outline,
-                      false, _emailTextController),
-                  const SizedBox(height: 20),
+                  reusableTextField("Insira email", Icons.person_outline, false,
+                      _emailTextController),
+                  Text(errorEmailMessage,
+                      style: const TextStyle(color: Colors.red)),
+                  const SizedBox(
+                    height: 8,
+                  ),
                   reusableTextField("Insira password", Icons.lock_outline, true,
                       _passwordTextController),
-                  const SizedBox(height: 5),
+                  Text(errorPasswordMessage,
+                      style: const TextStyle(color: Colors.red)),
+                  const SizedBox(
+                    height: 8,
+                  ),
                   forgetPassword(context),
                   firebaseUIButton(context, "Entrar", () {
-                    FirebaseAuth.instance
-                        .signInWithEmailAndPassword(
-                            email: _emailTextController.text,
-                            password: _passwordTextController.text)
-                        .then((value) {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Home()));
-                    }).onError((error, stackTrace) {
-                      print("Error ${error.toString()}");
-                    });
+                    bool isValid = false;
+
+                    if (_emailTextController.text == null ||
+                        _emailTextController.text.isEmpty) {
+                      errorEmailMessage = 'Email necessário.';
+                      isValid = false;
+                    } else {
+                      errorEmailMessage = '';
+                      isValid = true;
+                    }
+
+                    String patternE = r'\w+@\w+\.\w+';
+                    RegExp regexE = RegExp(patternE);
+                    if (!regexE.hasMatch(_emailTextController.text)) {
+                      errorEmailMessage = 'Formato de Email inválido.';
+                      isValid = false;
+                    } else {
+                      errorEmailMessage = '';
+                      isValid = true;
+                    }
+
+                    if (_passwordTextController.text == null ||
+                        _passwordTextController.text.isEmpty) {
+                      errorPasswordMessage = 'Password necessária.';
+                      isValid = false;
+                    } else {
+                      errorPasswordMessage = '';
+                      isValid = true;
+                    }
+
+                    String patternP =
+                        r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$';
+                    RegExp regexP = RegExp(patternP);
+                    if (!regexP.hasMatch(_passwordTextController.text)) {
+                      errorPasswordMessage =
+                          '''A Password deverá ter 8 caracteres, um número, uma letra maiúscula e uma minúscula.
+                          Não pode conter caracteres especiais''';
+                      isValid = false;
+                    } else {
+                      errorPasswordMessage = '';
+                      isValid = true;
+                    }
+
+                    if (isValid) {
+                      FirebaseAuth.instance
+                          .signInWithEmailAndPassword(
+                              email: _emailTextController.text,
+                              password: _passwordTextController.text)
+                          .then((value) {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Home()));
+                      }).onError((error, stackTrace) {
+                        if (error
+                            .toString()
+                            .contains('(auth/user-not-found)')) {
+                          errorEmailMessage =
+                              'Não existe conta com o Email inserido.';
+                        }
+                        print(error);
+                        print("Error ${error.toString()}");
+                        setState(() {});
+                      });
+                    } else {
+                      setState(() {});
+                    }
                   }),
                   signUpOption()
                 ],
