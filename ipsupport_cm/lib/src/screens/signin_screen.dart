@@ -20,6 +20,8 @@ class _SingInScreenState extends State<SingInScreen> {
   TextEditingController _emailTextController = TextEditingController();
   String errorEmailMessage = '';
   String errorPasswordMessage = '';
+  bool isLoading = true;
+  double progressBar = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -45,15 +47,21 @@ class _SingInScreenState extends State<SingInScreen> {
                   const SizedBox(height: 35),
                   reusableTextField("Insira email", Icons.person_outline, false,
                       _emailTextController),
-                  Text(errorEmailMessage,
-                      style: const TextStyle(color: Colors.red)),
+                  Text(
+                    errorEmailMessage,
+                    style: const TextStyle(color: Colors.red),
+                    textAlign: TextAlign.center,
+                  ),
                   const SizedBox(
                     height: 8,
                   ),
                   reusableTextField("Insira password", Icons.lock_outline, true,
                       _passwordTextController),
-                  Text(errorPasswordMessage,
-                      style: const TextStyle(color: Colors.red)),
+                  Text(
+                    errorPasswordMessage,
+                    style: const TextStyle(color: Colors.red),
+                    textAlign: TextAlign.center,
+                  ),
                   const SizedBox(
                     height: 8,
                   ),
@@ -94,8 +102,7 @@ class _SingInScreenState extends State<SingInScreen> {
                     RegExp regexP = RegExp(patternP);
                     if (!regexP.hasMatch(_passwordTextController.text)) {
                       errorPasswordMessage =
-                          '''A Password deverá ter 8 caracteres, um número, uma letra maiúscula e uma minúscula.
-                          Não pode conter caracteres especiais''';
+                          'A Password deverá ter no mínimo 8 caracteres, um número, uma letra maiúscula e uma minúscula. Não pode conter caracteres especiais';
                       isValid = false;
                     } else {
                       errorPasswordMessage = '';
@@ -103,6 +110,13 @@ class _SingInScreenState extends State<SingInScreen> {
                     }
 
                     if (isValid) {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          });
+
                       FirebaseAuth.instance
                           .signInWithEmailAndPassword(
                               email: _emailTextController.text,
@@ -121,6 +135,7 @@ class _SingInScreenState extends State<SingInScreen> {
                         }
                         print(error);
                         print("Error ${error.toString()}");
+                        Navigator.of(context).pop();
                         setState(() {});
                       });
                     } else {

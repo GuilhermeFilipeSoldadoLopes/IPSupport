@@ -2,7 +2,6 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:ipsupport_cm/src/screens/feedback_page.dart';
 import '../utils/reusable_widgets/reusable_widgets.dart';
 
@@ -41,8 +40,11 @@ class _ResetPasswordState extends State<ResetPassword> {
                 ),
                 reusableTextField("Insira email", Icons.person_outline, false,
                     _emailTextController),
-                Text(errorEmailMessage,
-                    style: const TextStyle(color: Colors.red)),
+                Text(
+                  errorEmailMessage,
+                  style: const TextStyle(color: Colors.red),
+                  textAlign: TextAlign.center,
+                ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -69,6 +71,13 @@ class _ResetPasswordState extends State<ResetPassword> {
                   }
 
                   if (isValid) {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        });
+
                     FirebaseAuth.instance
                         .sendPasswordResetEmail(
                             email: _emailTextController.text)
@@ -84,6 +93,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                       }
                       print(error);
                       print("Error ${error.toString()}");
+                      Navigator.of(context).pop();
                       setState(() {});
                     });
                   } else {

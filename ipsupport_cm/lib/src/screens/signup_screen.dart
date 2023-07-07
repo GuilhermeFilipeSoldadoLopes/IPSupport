@@ -49,15 +49,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 reusableTextField("Enter email", Icons.person_outline, false,
                     _emailTextController),
-                Text(errorEmailMessage,
-                    style: const TextStyle(color: Colors.red)),
+                Text(
+                  errorEmailMessage,
+                  style: const TextStyle(color: Colors.red),
+                  textAlign: TextAlign.center,
+                ),
                 const SizedBox(
                   height: 8,
                 ),
                 reusableTextField("Enter password", Icons.lock_outlined, true,
                     _passwordTextController),
-                Text(errorPasswordMessage,
-                    style: const TextStyle(color: Colors.red)),
+                Text(
+                  errorPasswordMessage,
+                  style: const TextStyle(color: Colors.red),
+                  textAlign: TextAlign.center,
+                ),
                 const SizedBox(
                   height: 8,
                 ),
@@ -97,8 +103,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   RegExp regexP = RegExp(patternP);
                   if (!regexP.hasMatch(_passwordTextController.text)) {
                     errorPasswordMessage =
-                        '''A Password deverá ter 8 caracteres, um número, uma letra maiúscula e uma minúscula.
-                          Não pode conter caracteres especiais''';
+                        'A Password deverá ter mínimo 8 caracteres, um número, uma letra maiúscula e uma minúscula. Não pode conter caracteres especiais';
                     isValid = false;
                   } else {
                     errorPasswordMessage = '';
@@ -106,6 +111,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   }
 
                   if (isValid) {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        });
+
                     FirebaseAuth.instance
                         .createUserWithEmailAndPassword(
                             email: _emailTextController.text,
@@ -116,7 +128,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ?.updateDisplayName(_userNameTextController.text);
                       FirebaseAuth.instance.currentUser?.updatePhotoURL(
                           "https://firebasestorage.googleapis.com/v0/b/ipsupport-28bbe.appspot.com/o/default%2Fdefault_profile.jpg?alt=media&token=83373b6a-6399-4bd4-ac8c-d7f8c203f48a");
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const Home()));
@@ -128,6 +140,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       }
                       print(error);
                       print("Error ${error.toString()}");
+                      Navigator.of(context).pop();
                       setState(() {});
                     });
                   } else {
