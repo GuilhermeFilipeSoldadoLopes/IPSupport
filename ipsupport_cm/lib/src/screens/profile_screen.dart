@@ -1,16 +1,45 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:ipsupport_cm/src/screens/settings_screen.dart';
-import 'package:ipsupport_cm/storage_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final Storage storage = Storage();
+  _ProfileState createState() => _ProfileState();
+}
 
+class _ProfileState extends State<Profile> {
+  /*Uint8List? _image;
+  File? _imageFile;
+  final imagePicker = ImagePicker();
+
+  void selectImage() async {
+    Uint8List img = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = img;
+    });
+  }
+
+  Future imagePickerMethod() async {
+    final pick = await imagePicker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pick != null) {
+        _imageFile = File(pick.path);
+      } else {
+        showSnackBar("No file selected", const Duration(milliseconds: 4000));
+      }
+    });
+  }
+
+  showSnackBar(String snackText, Duration d) {
+    final snackBar = SnackBar(content: Text(snackText), duration: d);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }*/
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -41,8 +70,15 @@ class Profile extends StatelessWidget {
             Stack(
               alignment: Alignment.centerRight,
               children: [
+                /*_imageFile != null
+                    ? CircleAvatar(
+                        radius: 65,
+                        backgroundImage:
+                            FileImage(_imageFile!), //MemoryImage(_image!),
+                      )
+                    : */
                 CircleAvatar(
-                    radius: 70,
+                    radius: 65,
                     backgroundImage: NetworkImage(FirebaseAuth
                             .instance.currentUser?.photoURL ??
                         'https://firebasestorage.googleapis.com/v0/b/ipsupport-28bbe.appspot.com/o/default%2Fdefault_profile.jpg?alt=media&token=83373b6a-6399-4bd4-ac8c-d7f8c203f48a')),
@@ -50,30 +86,9 @@ class Profile extends StatelessWidget {
                   top: 0,
                   right: 0,
                   child: GestureDetector(
-                    onTap: () async {
-                      final results = await FilePicker.platform.pickFiles(
-                        allowMultiple: false,
-                        type: FileType.custom,
-                        allowedExtensions: ['png', 'jpg'],
-                      );
-                      if (results == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content:
-                                    Text('Nenhum ficheiros selecionado.')));
-                      }
-                      final path = results?.files.single.path!;
-                      final fileName = results?.files.single.name;
-                      if (path != null || fileName != null) {
-                        storage
-                            .uploadFile(path!, fileName!)
-                            .then((value) => print('Uploaded'));
-                      }
-
-                      //print(path);
-                      //print(fileName);
-
-                      // Acrescentar código para clicar no botão
+                    onTap: () {
+                      //selectImage();
+                      //imagePickerMethod();
                     },
                     child: Container(
                       height: 40,
