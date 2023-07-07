@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ipsupport_cm/src/screens/home_map_screen.dart';
 import 'package:ipsupport_cm/src/screens/report_screen.dart';
 import 'screens/profile_screen.dart';
+import 'screens/edit_profile_screen.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -15,7 +16,7 @@ class _HomeState extends State<Home> {
   final List<Widget> screens = [
     const Report(),
     HomeMapScreen(),
-    const Profile()
+    const EditProfile()
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
@@ -93,7 +94,7 @@ class _HomeState extends State<Home> {
                       minWidth: 40,
                       onPressed: () {
                         setState(() {
-                          currentScreen = const Profile();
+                          currentScreen = const EditProfile();
                           currentTab = 2;
                         });
                       },
