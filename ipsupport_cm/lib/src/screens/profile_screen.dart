@@ -116,12 +116,14 @@ class _ProfileState extends State<Profile> {
               subtitle:
                   FirebaseAuth.instance.currentUser?.displayName ?? "Error...",
               iconData: Icons.person,
+              isEditable: true,
             ),
             const SizedBox(height: 20),
             ProfileItem(
               title: 'Email',
               subtitle: FirebaseAuth.instance.currentUser?.email ?? "Error...",
               iconData: Icons.email,
+              isEditable: false,
             ),
             const SizedBox(height: 20),
             const Text(
@@ -142,12 +144,14 @@ class ProfileItem extends StatelessWidget {
   final String title;
   final String subtitle;
   final IconData iconData;
+  final bool isEditable;
 
   const ProfileItem({
     Key? key,
     required this.title,
     required this.subtitle,
     required this.iconData,
+    this.isEditable = true,
   }) : super(key: key);
 
   @override
@@ -169,7 +173,47 @@ class ProfileItem extends StatelessWidget {
         title: Text(title),
         subtitle: Text(subtitle),
         leading: Icon(iconData),
+        trailing: isEditable
+            ? IconButton(
+                icon: Icon(Icons.edit),
+                onPressed: () {
+                  _editNameDialog(context);
+                },
+              )
+            : null,
       ),
     );
   }
+}
+
+void _editNameDialog(BuildContext context) {
+  String newName = "";
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Editar nome'),
+        content: TextField(
+          onChanged: (value) {
+            newName = value; // Atualiza a variável com o novo nome digitado
+          },
+        ),
+        actions: [
+          TextButton(
+            child: Text('Cancelar'),
+            onPressed: () {
+              Navigator.of(context).pop(); // Fecha o diálogo
+            },
+          ),
+          TextButton(
+            child: Text('Salvar'),
+            onPressed: () {
+              FirebaseAuth.instance.currentUser?.updateDisplayName(newName);
+              Navigator.of(context).pop(); // Fecha o diálogo
+            },
+          ),
+        ],
+      );
+    },
+  );
 }

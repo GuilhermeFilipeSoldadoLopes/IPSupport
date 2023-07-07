@@ -1,4 +1,3 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:ipsupport_cm/src/screens/settings_screen.dart';
 import 'package:ipsupport_cm/storage_service.dart';
@@ -43,33 +42,15 @@ class EditProfile extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 70,
-                  backgroundImage: NetworkImage(FirebaseAuth.instance.currentUser?.photoURL ??
+                  backgroundImage: NetworkImage(FirebaseAuth
+                          .instance.currentUser?.photoURL ??
                       'https://firebasestorage.googleapis.com/v0/b/ipsupport-28bbe.appspot.com/o/default%2Fdefault_profile.jpg?alt=media&token=83373b6a-6399-4bd4-ac8c-d7f8c203f48a'),
                 ),
                 Positioned(
                   top: 0,
                   right: 0,
                   child: GestureDetector(
-                    onTap: () async {
-                      final results = await FilePicker.platform.pickFiles(
-                        allowMultiple: false,
-                        type: FileType.custom,
-                        allowedExtensions: ['png', 'jpg'],
-                      );
-                      if (results == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content:
-                                    Text('Nenhum ficheiros selecionado.')));
-                      }
-                      final path = results?.files.single.path!;
-                      final fileName = results?.files.single.name;
-                      if (path != null || fileName != null) {
-                        storage
-                            .uploadFile(path!, fileName!)
-                            .then((value) => print('Uploaded'));
-                      }
-                    },
+                    onTap: () {},
                     child: Container(
                       height: 40,
                       width: 40,
@@ -93,16 +74,15 @@ class EditProfile extends StatelessWidget {
             const SizedBox(height: 20),
             ProfileItem(
               title: 'Nome',
-              subtitle: FirebaseAuth.instance.currentUser?.displayName ??
-                  "Error...",
+              subtitle:
+                  FirebaseAuth.instance.currentUser?.displayName ?? "Error...",
               iconData: Icons.person,
               isEditable: true,
             ),
             const SizedBox(height: 20),
             ProfileItem(
               title: 'Email',
-              subtitle:
-                  FirebaseAuth.instance.currentUser?.email ?? "Error...",
+              subtitle: FirebaseAuth.instance.currentUser?.email ?? "Error...",
               iconData: Icons.email,
               isEditable: false,
             ),
