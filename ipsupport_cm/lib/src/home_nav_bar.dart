@@ -94,7 +94,7 @@ class _HomeState extends State<Home> {
                       minWidth: 40,
                       onPressed: () {
                         setState(() {
-                          currentScreen = const EditProfile();
+                          currentScreen = const Profile();
                           currentTab = 2;
                         });
                       },
