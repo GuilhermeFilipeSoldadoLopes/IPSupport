@@ -34,7 +34,7 @@ TextField reusableTextField(String text, IconData icon, bool isPasswordType,
   );
 }
 
-TextField reusableEmailTextField(String text, IconData icon,
+/*TextField reusableEmailTextField(String text, IconData icon,
     bool isPasswordType, TextEditingController controller) {
   bool isValid = false;
   RegExp validator = RegExp(
@@ -78,7 +78,7 @@ TextField reusableEmailTextField(String text, IconData icon,
         ? TextInputType.visiblePassword
         : TextInputType.emailAddress,
   );
-}
+}*/
 
 Container firebaseUIButton(BuildContext context, String title, Function onTap) {
   return Container(
@@ -106,4 +106,26 @@ Container firebaseUIButton(BuildContext context, String title, Function onTap) {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)))),
     ),
   );
+}
+
+String? validateEmail(String? formEmail) {
+  if (formEmail == null || formEmail.isEmpty) return 'Email necessário.';
+
+  String pattern = r'\w+@\w+\.\w+';
+  RegExp regex = RegExp(pattern);
+  if (!regex.hasMatch(formEmail)) return 'Formato de Email inválido.';
+
+  return null;
+}
+
+String? validatePassword(String? formPassword) {
+  if (formPassword == null || formPassword.isEmpty)
+    return 'Password necessária.';
+
+  String pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$';
+  RegExp regex = RegExp(pattern);
+  if (!regex.hasMatch(formPassword))
+    return 'A Password deverá ter 8 caracteres, um número, uma letra maiúscula e uma minúscula.';
+
+  return null;
 }
