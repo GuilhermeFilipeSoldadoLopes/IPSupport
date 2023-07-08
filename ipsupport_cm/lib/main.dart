@@ -20,8 +20,6 @@ void main() async {
       ),
       home: const SingInScreen());
   runApp(const MainApp());
-
-  
 }
 
 class MainApp extends StatelessWidget {
@@ -34,14 +32,13 @@ class MainApp extends StatelessWidget {
     }
     /*
     ShakeDetector detector = ShakeDetector.autoStart(
-    onPhoneShake: () {
-       Navigator.push(
-                    context,
-                    MaterialPageRoute( builder: (context) => const Report()));
-    }
+      onPhoneShake: () {
+        Navigator.push(
+                      context,
+                      MaterialPageRoute( builder: (context) => const Report()));
+      }
     );
     */
     return const MaterialApp(home: Home());
   }
-  
 }
