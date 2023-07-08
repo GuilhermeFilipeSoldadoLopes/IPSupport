@@ -55,35 +55,38 @@ class _HomeState extends State<Home> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   MaterialButton(
-                      minWidth: 40,
-                      onPressed: () {
-                        setState(() {
-                          currentScreen = const Report();
-                          currentTab = 0;
-                        });
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(right: 60.0), // Padding para o ícone
-                            child: Icon(
-                              Icons.report_problem_rounded,
-                              color: currentTab == 0 ? Colors.blue : Colors.grey,
+                    minWidth: 40,
+                    onPressed: () {
+                      setState(() {
+                        currentScreen = const Report();
+                        currentTab = 0;
+                      });
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                              right: 60.0), // Padding para o ícone
+                          child: Icon(
+                            Icons.report_problem_rounded,
+                            color: currentTab == 0 ? Colors.blue : Colors.grey,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              right: 60.0), // Padding para o texto
+                          child: Text(
+                            'Reporte',
+                            style: TextStyle(
+                              color:
+                                  currentTab == 0 ? Colors.blue : Colors.grey,
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(right: 60.0), // Padding para o texto
-                            child: Text(
-                              'Reporte',
-                              style: TextStyle(
-                                color: currentTab == 0 ? Colors.blue : Colors.grey,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      )
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
               Row(
@@ -94,7 +97,7 @@ class _HomeState extends State<Home> {
                       minWidth: 40,
                       onPressed: () {
                         setState(() {
-                          currentScreen = const Profile();
+                          currentScreen = Profile();
                           currentTab = 2;
                         });
                       },
