@@ -27,7 +27,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       appBar: AppBar(
         elevation: 0,
         title: const Text(
-          "Sign Up",
+          "Registar",
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),

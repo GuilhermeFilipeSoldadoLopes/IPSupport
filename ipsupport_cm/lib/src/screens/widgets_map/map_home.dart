@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../home_nav_bar.dart';
+
 class MapHome extends StatefulWidget {
   const MapHome({
     required this.controllerCompleter,
@@ -115,15 +117,10 @@ class _MapHomeState extends State<MapHome> {
     });
   }
 
-  void _addMarker() {
-    if (_lastMapPosition == null) return;
-
+  void _zoom_out() {
     setState(() {
-      _markers.add(Marker(
-        markerId: MarkerId(_lastMapPosition.toString()),
-        position: _lastMapPosition!,
-        icon: _ipsMarkerIcon,
-      ));
+      Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const Home()));
     });
   }
 
@@ -158,7 +155,7 @@ class _MapHomeState extends State<MapHome> {
           child: Column(children: <Widget>[
             FloatingActionButton(
                 elevation: 5,
-                backgroundColor: Colors.teal[200],
+                backgroundColor: Colors.blue,
                 onPressed: () {
                   _changeMapType();
                 },
@@ -171,11 +168,11 @@ class _MapHomeState extends State<MapHome> {
           child: Column(children: <Widget>[
             FloatingActionButton(
                 elevation: 5,
-                backgroundColor: Colors.teal[200],
+                backgroundColor: Colors.blue,
                 onPressed: () {
-                  _addMarker();
+                  _zoom_out();
                 },
-                child: const Icon(Icons.add_location)),
+                child: const Icon(Icons.zoom_out)),
           ]),
         ),
       ],
