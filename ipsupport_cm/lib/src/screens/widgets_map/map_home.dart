@@ -177,20 +177,20 @@ class _MapHomeState extends State<MapHome> {
           ]),
         ),
         Container(
-          margin: const EdgeInsets.only(top: 680, right: 10),
-          alignment: Alignment.topRight,
+          margin: const EdgeInsets.only(bottom: 20, right: 10),
+          alignment: Alignment.bottomRight,
           child: SmoothCompass(
-          rotationSpeed: 200,
-          height: 300,
-          width: 300,
-          compassAsset: Image.asset(
-            "assets/images/compass.png",
-            height: 55,
-            width: 55,
+            rotationSpeed: 200,
+            height: 300,
+            width: 300,
+            compassAsset: Image.asset(
+              "assets/images/compass.png",
+              height: 55,
+              width: 55,
+            ),
           ),
-        )
         ),
-         
+
       ],
     );
   }
