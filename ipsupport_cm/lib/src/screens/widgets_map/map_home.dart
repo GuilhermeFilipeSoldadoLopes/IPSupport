@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:smooth_compass/utils/src/compass_ui.dart';
 
 import '../../home_nav_bar.dart';
 
@@ -175,6 +176,21 @@ class _MapHomeState extends State<MapHome> {
                 child: const Icon(Icons.zoom_out)),
           ]),
         ),
+        Container(
+          margin: const EdgeInsets.only(top: 680, right: 10),
+          alignment: Alignment.topRight,
+          child: SmoothCompass(
+          rotationSpeed: 200,
+          height: 300,
+          width: 300,
+          compassAsset: Image.asset(
+            "assets/images/compass.png",
+            height: 55,
+            width: 55,
+          ),
+        )
+        ),
+         
       ],
     );
   }
