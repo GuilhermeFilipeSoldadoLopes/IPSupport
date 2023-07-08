@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ipsupport_cm/src/screens/reset_password.dart';
 import 'package:ipsupport_cm/src/screens/signup_screen.dart';
+import '../../main.dart';
 import '../home_nav_bar.dart';
 import '../utils/reusable_widgets/reusable_widgets.dart';
 
@@ -126,6 +127,10 @@ class _SingInScreenState extends State<SingInScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const Home()));
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (BuildContext context) {
+                          return const MainApp();
+                        }));
                       }).onError((error, stackTrace) {
                         if (error
                             .toString()

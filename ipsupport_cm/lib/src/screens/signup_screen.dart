@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../main.dart';
 import '../home_nav_bar.dart';
 import '../utils/reusable_widgets/reusable_widgets.dart';
 
@@ -132,6 +133,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => const Home()));
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (BuildContext context) {
+                        return const MainApp();
+                      }));
                     }).onError((error, stackTrace) {
                       if (error
                           .toString()

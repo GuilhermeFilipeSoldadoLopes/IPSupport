@@ -97,6 +97,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 FirebaseAuth.instance.signOut();
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => const MainApp()));
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (BuildContext context) {
+                  return const MainApp();
+                }));
               },
             ),
           ),

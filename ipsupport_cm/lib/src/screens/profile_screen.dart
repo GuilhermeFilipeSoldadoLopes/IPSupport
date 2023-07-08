@@ -30,7 +30,6 @@ class _ProfileState extends State<Profile> {
     super.initState();
     fetchCurrentUser();
     imageUrl = '';
-    getImageUrl();
   }
 
   Future<void> fetchCurrentUser() async {
@@ -84,40 +83,29 @@ class _ProfileState extends State<Profile> {
   }
 
   void _editImageDialog(BuildContext context) async {
-    ImagePicker imagePicker = ImagePicker();
-    XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
-    print('${file?.path}');
+    var pickedImage = await ImagePicker().pickImage(
+        source: ImageSource.gallery, //pick from device gallery
+        maxWidth: 520,
+        maxHeight: 520, //specify size and quality
+        imageQuality: 80); //so image_picker will resize for you
 
-    //String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
+    //upload and get download url
+    Reference ref = FirebaseStorage.instance.ref().child(
+        FirebaseAuth.instance.currentUser?.email ??
+            "Error"); //generate a unique name
 
-    Reference referenceRoot = FirebaseStorage.instance.ref();
-    Reference referenceDirImage = referenceRoot.child('userImages');
+    await ref.putFile(File(pickedImage!.path)); //you need to add path here
+    imageUrl = await ref.getDownloadURL();
 
-    Reference referenceImageToUpload = referenceDirImage
-        .child(FirebaseAuth.instance.currentUser?.displayName ?? "Error");
-
-    try {
-      await referenceImageToUpload.putFile(File(file!.path));
-      imageUrl = await referenceImageToUpload.getDownloadURL();
-    } catch (e) {}
+    setState(() {
+      FirebaseAuth.instance.currentUser?.updatePhotoURL(imageUrl);
+    });
 
     if (imageUrl.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Descarregue a sua imagem de perfil")));
+          const SnackBar(content: Text("Altere a sua imagem de perfil")));
       return;
     }
-  }
-
-  Future<void> getImageUrl() async {
-    final ref = storage
-        .ref()
-        .child(FirebaseAuth.instance.currentUser?.displayName ?? "Error");
-
-    final url = await ref.getDownloadURL();
-    setState(() {
-      imageUrl = url;
-      FirebaseAuth.instance.currentUser?.updatePhotoURL(imageUrl);
-    });
   }
 
   @override
@@ -167,9 +155,8 @@ class _ProfileState extends State<Profile> {
                       _editImageDialog(context);
                       if (key.currentState!.validate()) {
                         Map<String, String> dataToSend = {
-                          'name':
-                              FirebaseAuth.instance.currentUser?.displayName ??
-                                  "Error",
+                          'name': FirebaseAuth.instance.currentUser?.email ??
+                              "Error",
                           'quatity': 1.toString(),
                           'image': imageUrl,
                         };
@@ -296,3 +283,40 @@ class ProfileItem extends StatelessWidget {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }*/
 
+
+/*void _editImageDialog(BuildContext context) async {
+    ImagePicker imagePicker = ImagePicker();
+    XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
+    print('${file?.path}');
+
+    //String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
+
+    Reference referenceRoot = FirebaseStorage.instance.ref();
+    Reference referenceDirImage = referenceRoot.child('userImages');
+
+    Reference referenceImageToUpload = referenceDirImage
+        .child(FirebaseAuth.instance.currentUser?.email ?? "Error");
+
+    try {
+      await referenceImageToUpload.putFile(File(file!.path));
+      imageUrl = await referenceImageToUpload.getDownloadURL();
+    } catch (e) {}
+
+    if (imageUrl.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Altere a sua imagem de perfil")));
+      return;
+    }
+  }
+
+  Future<void> getImageUrl() async {
+    final ref = storage
+        .ref()
+        .child(FirebaseAuth.instance.currentUser?.email ?? "Error");
+
+    final url = await ref.getDownloadURL();
+    setState(() {
+      imageUrl = url;
+      FirebaseAuth.instance.currentUser?.updatePhotoURL(imageUrl);
+    });
+  }*/

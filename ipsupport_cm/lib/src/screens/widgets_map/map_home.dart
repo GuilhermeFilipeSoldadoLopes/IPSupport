@@ -88,8 +88,6 @@ class _MapHomeState extends State<MapHome> {
   };
 
   MapType _mapType = MapType.hybrid;
-  LatLng? _lastMapPosition;
-  BitmapDescriptor _ipsMarkerIcon = BitmapDescriptor.defaultMarker;
 
   @override
   void initState() {
@@ -103,10 +101,7 @@ class _MapHomeState extends State<MapHome> {
     await Permission.location.request();
   }
 
-  void _loadIpsLogoIcon() async {
-    _ipsMarkerIcon = await BitmapDescriptor.fromAssetImage(
-        const ImageConfiguration(), "assets/app/ips-logo.png");
-  }
+  void _loadIpsLogoIcon() async {}
 
   void _onCameraMove(CameraPosition position) {
     //_lastMapPosition = position.target;
@@ -119,10 +114,16 @@ class _MapHomeState extends State<MapHome> {
   }
 
   void _zoom_out() {
-    setState(() {
-      Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const Home()));
-    });
+    if (_ipsCameraPosition !=
+        const CameraPosition(
+          target: LatLng(38.521095, -8.838903),
+          zoom: 16.1, //10
+        )) {
+      setState(() {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const Home()));
+      });
+    }
   }
 
   @override
@@ -190,7 +191,6 @@ class _MapHomeState extends State<MapHome> {
             ),
           ),
         ),
-
       ],
     );
   }
