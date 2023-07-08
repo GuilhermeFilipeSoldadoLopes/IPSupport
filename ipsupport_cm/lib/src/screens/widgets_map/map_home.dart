@@ -190,7 +190,6 @@ class _MapHomeState extends State<MapHome> {
             ),
           ),
         ),
-
       ],
     );
   }

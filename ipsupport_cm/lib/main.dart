@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ipsupport_cm/src/home_nav_bar.dart';
+import 'package:ipsupport_cm/src/screens/report_screen.dart';
 import 'package:ipsupport_cm/src/screens/signin_screen.dart';
+import 'package:shake/shake.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -18,6 +20,8 @@ void main() async {
       ),
       home: const SingInScreen());
   runApp(const MainApp());
+
+  
 }
 
 class MainApp extends StatelessWidget {
@@ -28,6 +32,16 @@ class MainApp extends StatelessWidget {
     if (FirebaseAuth.instance.currentUser == null) {
       return const MaterialApp(home: SingInScreen());
     }
+    /*
+    ShakeDetector detector = ShakeDetector.autoStart(
+    onPhoneShake: () {
+       Navigator.push(
+                    context,
+                    MaterialPageRoute( builder: (context) => const Report()));
+    }
+    );
+    */
     return const MaterialApp(home: Home());
   }
+  
 }
