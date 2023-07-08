@@ -124,7 +124,7 @@ class _ProfileState extends State<Profile> {
                         color: const Color.fromARGB(255, 255, 255, 255),
                       ),
                       child: const Icon(
-                        Icons.edit,
+                        Icons.camera_alt,
                         color: Colors.black,
                       ),
                     ),
