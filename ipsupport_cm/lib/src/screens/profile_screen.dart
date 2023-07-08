@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:ipsupport_cm/src/screens/settings_screen.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+  Profile({Key? key}) : super(key: key);
 
   @override
   _ProfileState createState() => _ProfileState();
@@ -11,11 +16,21 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   String displayName = '';
+  String imageUrl = '';
+
+  GlobalKey<FormState> key = GlobalKey();
+
+  final CollectionReference _reference =
+      FirebaseFirestore.instance.collection('imagesURL');
+
+  final storage = FirebaseStorage.instance;
 
   @override
   void initState() {
     super.initState();
     fetchCurrentUser();
+    imageUrl = '';
+    getImageUrl();
   }
 
   Future<void> fetchCurrentUser() async {
@@ -33,7 +48,7 @@ class _ProfileState extends State<Profile> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Editar nome'),
+          title: const Text('Editar nome'),
           content: TextField(
             onChanged: (value) {
               newName = value; // Atualiza a variável com o novo nome escrito
@@ -41,17 +56,19 @@ class _ProfileState extends State<Profile> {
           ),
           actions: [
             TextButton(
-              child: Text('Cancelar'),
+              child: const Text('Cancelar'),
               onPressed: () {
                 Navigator.of(context).pop(); // Fecha o diálogo
               },
             ),
             TextButton(
-              child: Text('Salvar'),
+              child: const Text('Salvar'),
               onPressed: () async {
-                await FirebaseAuth.instance.currentUser?.updateDisplayName(newName);
-                Navigator.of(context).pop(); 
-                _updateProfileName(newName); // Chama a função de callback para atualizar o nome na página
+                await FirebaseAuth.instance.currentUser
+                    ?.updateDisplayName(newName);
+                Navigator.of(context).pop();
+                _updateProfileName(
+                    newName); // Chama a função de callback para atualizar o nome na página
               },
             ),
           ],
@@ -63,6 +80,43 @@ class _ProfileState extends State<Profile> {
   void _updateProfileName(String newName) {
     setState(() {
       displayName = newName; // Atualiza o nome na página
+    });
+  }
+
+  void _editImageDialog(BuildContext context) async {
+    ImagePicker imagePicker = ImagePicker();
+    XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
+    print('${file?.path}');
+
+    //String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
+
+    Reference referenceRoot = FirebaseStorage.instance.ref();
+    Reference referenceDirImage = referenceRoot.child('userImages');
+
+    Reference referenceImageToUpload = referenceDirImage
+        .child(FirebaseAuth.instance.currentUser?.displayName ?? "Error");
+
+    try {
+      await referenceImageToUpload.putFile(File(file!.path));
+      imageUrl = await referenceImageToUpload.getDownloadURL();
+    } catch (e) {}
+
+    if (imageUrl.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Descarregue a sua imagem de perfil")));
+      return;
+    }
+  }
+
+  Future<void> getImageUrl() async {
+    final ref = storage
+        .ref()
+        .child(FirebaseAuth.instance.currentUser?.displayName ?? "Error");
+
+    final url = await ref.getDownloadURL();
+    setState(() {
+      imageUrl = url;
+      FirebaseAuth.instance.currentUser?.updatePhotoURL(imageUrl);
     });
   }
 
@@ -109,8 +163,19 @@ class _ProfileState extends State<Profile> {
                   top: 0,
                   right: 0,
                   child: GestureDetector(
-                    onTap: () {
+                    onTap: () async {
                       _editImageDialog(context);
+                      if (key.currentState!.validate()) {
+                        Map<String, String> dataToSend = {
+                          'name':
+                              FirebaseAuth.instance.currentUser?.displayName ??
+                                  "Error",
+                          'quatity': 1.toString(),
+                          'image': imageUrl,
+                        };
+
+                        _reference.add(dataToSend);
+                      }
                     },
                     child: Container(
                       height: 40,
@@ -153,11 +218,6 @@ class _ProfileState extends State<Profile> {
         ),
       ),
     );
-  }
-
-  void _editImageDialog(BuildContext context) {
-    // TODO: Implementar a lógica para editar a imagem de perfil
-    
   }
 }
 
@@ -206,7 +266,6 @@ class ProfileItem extends StatelessWidget {
     );
   }
 }
-
 
 //código do Lopes
 /*Uint8List? _image;

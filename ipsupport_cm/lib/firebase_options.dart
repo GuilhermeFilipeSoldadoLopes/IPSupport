@@ -49,6 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '238573894807',
     projectId: 'ipsupport-28bbe',
     authDomain: 'ipsupport-28bbe.firebaseapp.com',
+    databaseURL: 'https://ipsupport-28bbe-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'ipsupport-28bbe.appspot.com',
     measurementId: 'G-0VMZCM64G3',
   );
@@ -58,6 +59,7 @@ class DefaultFirebaseOptions {
     appId: '1:238573894807:android:4450245f67a7848cf5bdd2',
     messagingSenderId: '238573894807',
     projectId: 'ipsupport-28bbe',
+    databaseURL: 'https://ipsupport-28bbe-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'ipsupport-28bbe.appspot.com',
   );
 
@@ -66,6 +68,7 @@ class DefaultFirebaseOptions {
     appId: '1:238573894807:ios:8da51999bfdb1090f5bdd2',
     messagingSenderId: '238573894807',
     projectId: 'ipsupport-28bbe',
+    databaseURL: 'https://ipsupport-28bbe-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'ipsupport-28bbe.appspot.com',
     iosClientId: '238573894807-lam93sseudgc0idnef87n7jlbu7lluji.apps.googleusercontent.com',
     iosBundleId: 'com.example.ipsupportCm',
@@ -76,6 +79,7 @@ class DefaultFirebaseOptions {
     appId: '1:238573894807:ios:8da51999bfdb1090f5bdd2',
     messagingSenderId: '238573894807',
     projectId: 'ipsupport-28bbe',
+    databaseURL: 'https://ipsupport-28bbe-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'ipsupport-28bbe.appspot.com',
     iosClientId: '238573894807-lam93sseudgc0idnef87n7jlbu7lluji.apps.googleusercontent.com',
     iosBundleId: 'com.example.ipsupportCm',

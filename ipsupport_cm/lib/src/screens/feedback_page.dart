@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ipsupport_cm/src/screens/signin_screen.dart';
-import 'package:ipsupport_cm/src/screens/signup_screen.dart';
+
 class FeedbackPage extends StatelessWidget {
   const FeedbackPage({super.key});
 
@@ -29,22 +29,23 @@ class FeedbackPage extends StatelessWidget {
                 height: 200,
               ),
               const SizedBox(height: 16),
-                Align(
-                  alignment: Alignment.center,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const SingInScreen()));
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                    ),
-                    child: const Text('Voltar'),
+              Align(
+                alignment: Alignment.center,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SingInScreen()));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
                   ),
+                  child: const Text('Voltar'),
                 ),
+              ),
             ],
           ),
-          
         ),
       ),
     );
