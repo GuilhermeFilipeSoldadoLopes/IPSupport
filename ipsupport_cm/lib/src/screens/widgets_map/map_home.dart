@@ -114,16 +114,11 @@ class _MapHomeState extends State<MapHome> {
   }
 
   void _zoom_out() {
-    if (_ipsCameraPosition !=
-        const CameraPosition(
-          target: LatLng(38.521095, -8.838903),
-          zoom: 16.1, //10
-        )) {
-      setState(() {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const Home()));
-      });
-    }
+    //como verificar se o mapa tem zoom e/ou nao esta na posicao inicial
+    setState(() {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const Home()));
+    });
   }
 
   @override

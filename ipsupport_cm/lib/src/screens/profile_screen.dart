@@ -16,6 +16,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   String displayName = '';
   String imageUrl = '';
+  bool isImageNew = false;
 
   GlobalKey<FormState> key = GlobalKey();
 
@@ -23,8 +24,6 @@ class _ProfileState extends State<Profile> {
       FirebaseFirestore.instance.collection('imagesURL');
 
   final storage = FirebaseStorage.instance;
-
-  bool isImageNew = false;
 
   @override
   void initState() {

@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:ipsupport_cm/src/home_nav_bar.dart';
 
 class HelpAndSupport extends StatefulWidget {
   const HelpAndSupport({super.key});
@@ -111,10 +110,7 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
                           message: textController.text);
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           content: Text("Pedido de ajuda enviado.")));
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Home()));
+                      Navigator.of(context).pop();
                     }
                   },
                   child: const Text('Enviar'),
