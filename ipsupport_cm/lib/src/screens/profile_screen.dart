@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
@@ -24,6 +23,8 @@ class _ProfileState extends State<Profile> {
       FirebaseFirestore.instance.collection('imagesURL');
 
   final storage = FirebaseStorage.instance;
+
+  bool isImageNew = false;
 
   @override
   void initState() {
@@ -99,6 +100,7 @@ class _ProfileState extends State<Profile> {
 
     setState(() {
       FirebaseAuth.instance.currentUser?.updatePhotoURL(imageUrl);
+      isImageNew = true;
     });
 
     if (imageUrl.isEmpty) {
@@ -106,6 +108,10 @@ class _ProfileState extends State<Profile> {
           const SnackBar(content: Text("Altere a sua imagem de perfil")));
       return;
     }
+  }
+
+  void setFalse() {
+    isImageNew = false;
   }
 
   @override
@@ -140,13 +146,18 @@ class _ProfileState extends State<Profile> {
             Stack(
               alignment: Alignment.centerRight,
               children: [
-                CircleAvatar(
-                  radius: 65,
-                  backgroundImage: NetworkImage(
-                    FirebaseAuth.instance.currentUser?.photoURL ??
-                        'https://firebasestorage.googleapis.com/v0/b/ipsupport-28bbe.appspot.com/o/default%2Fdefault_profile.jpg?alt=media&token=83373b6a-6399-4bd4-ac8c-d7f8c203f48a',
-                  ),
-                ),
+                isImageNew
+                    ? CircleAvatar(
+                        radius: 65,
+                        backgroundImage: NetworkImage(imageUrl),
+                      )
+                    : CircleAvatar(
+                        radius: 65,
+                        backgroundImage: NetworkImage(
+                          FirebaseAuth.instance.currentUser?.photoURL ??
+                              'https://firebasestorage.googleapis.com/v0/b/ipsupport-28bbe.appspot.com/o/default%2Fdefault_profile.jpg?alt=media&token=83373b6a-6399-4bd4-ac8c-d7f8c203f48a',
+                        ),
+                      ),
                 Positioned(
                   top: 0,
                   right: 0,
@@ -253,70 +264,3 @@ class ProfileItem extends StatelessWidget {
     );
   }
 }
-
-//código do Lopes
-/*Uint8List? _image;
-  File? _imageFile;
-  final imagePicker = ImagePicker();
-
-  void selectImage() async {
-    Uint8List img = await pickImage(ImageSource.gallery);
-    setState(() {
-      _image = img;
-    });
-  }
-
-  Future imagePickerMethod() async {
-    final pick = await imagePicker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      if (pick != null) {
-        _imageFile = File(pick.path);
-      } else {
-        showSnackBar("No file selected", const Duration(milliseconds: 4000));
-      }
-    });
-  }
-
-  showSnackBar(String snackText, Duration d) {
-    final snackBar = SnackBar(content: Text(snackText), duration: d);
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }*/
-
-
-/*void _editImageDialog(BuildContext context) async {
-    ImagePicker imagePicker = ImagePicker();
-    XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
-    print('${file?.path}');
-
-    //String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
-
-    Reference referenceRoot = FirebaseStorage.instance.ref();
-    Reference referenceDirImage = referenceRoot.child('userImages');
-
-    Reference referenceImageToUpload = referenceDirImage
-        .child(FirebaseAuth.instance.currentUser?.email ?? "Error");
-
-    try {
-      await referenceImageToUpload.putFile(File(file!.path));
-      imageUrl = await referenceImageToUpload.getDownloadURL();
-    } catch (e) {}
-
-    if (imageUrl.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Altere a sua imagem de perfil")));
-      return;
-    }
-  }
-
-  Future<void> getImageUrl() async {
-    final ref = storage
-        .ref()
-        .child(FirebaseAuth.instance.currentUser?.email ?? "Error");
-
-    final url = await ref.getDownloadURL();
-    setState(() {
-      imageUrl = url;
-      FirebaseAuth.instance.currentUser?.updatePhotoURL(imageUrl);
-    });
-  }*/
