@@ -20,6 +20,7 @@ dependencies:
   shake: ^2.2.0
   smooth_compass: ^2.0.17
   cloud_firestore: ^4.8.2
+  http: ^1.1.0
 
 flutter_native_splash:
   color: "#FFFFFF"

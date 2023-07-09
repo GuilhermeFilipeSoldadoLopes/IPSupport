@@ -1,4 +1,8 @@
+import 'dart:convert';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class HelpAndSupport extends StatefulWidget {
   const HelpAndSupport({super.key});
@@ -8,7 +12,9 @@ class HelpAndSupport extends StatefulWidget {
 }
 
 class _HelpAndSupportState extends State<HelpAndSupport> {
+  TextEditingController textController = TextEditingController();
   String selectedOption = 'Suporte';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,6 +78,7 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
             const SizedBox(height: 8),
             Expanded(
               child: TextFormField(
+                controller: textController,
                 minLines: 8,
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
@@ -89,7 +96,19 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
                 padding: const EdgeInsets.only(bottom: 50.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    // Lógica para enviar os dados
+                    if (textController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text("Descrição é obrigatória.")));
+                    } else {
+                      sendEmail(
+                          name:
+                              FirebaseAuth.instance.currentUser?.displayName ??
+                                  "fail",
+                          email: FirebaseAuth.instance.currentUser?.email ??
+                              "fail",
+                          subject: selectedOption,
+                          message: textController.text);
+                    }
                   },
                   child: const Text('Enviar'),
                 ),
@@ -100,4 +119,35 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
       ),
     );
   }
+}
+
+Future sendEmail({
+  required String name,
+  required String email,
+  required String subject,
+  required String message,
+}) async {
+  const serviceId = 'service_k4cyk5w';
+  const templateId = 'template_8qepjed';
+  const userId = 'AAFjELN51A9ce9mwq';
+
+  final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
+  final response = await http.post(url,
+      headers: {
+        'origin': 'http://localhost',
+        'Content-Type': 'application/json'
+      },
+      body: jsonEncode({
+        'service_id': serviceId,
+        'template_id': templateId,
+        'user_id': userId,
+        'template_params': {
+          'user_name': name,
+          'user_email': email,
+          'user_subject': subject,
+          'user_message': message,
+        }
+      }));
+
+  print(response.body);
 }
