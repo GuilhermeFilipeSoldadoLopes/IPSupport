@@ -8,6 +8,8 @@ import 'package:ipsupport_cm/src/screens/signin_screen.dart';
 import 'package:shake/shake.dart';
 import 'firebase_options.dart';
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
