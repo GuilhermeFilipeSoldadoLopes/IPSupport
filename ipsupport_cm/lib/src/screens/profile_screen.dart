@@ -171,9 +171,9 @@ class _ProfileState extends State<Profile> {
                         shape: BoxShape.circle,
                         border: Border.all(
                           width: 4,
-                          color: Colors.white,
+                          color: Colors.blue,
                         ),
-                        color: const Color.fromARGB(255, 255, 255, 255),
+                        color: Color.fromARGB(255, 178, 229, 253),
                       ),
                       child: const Icon(
                         Icons.camera_alt,

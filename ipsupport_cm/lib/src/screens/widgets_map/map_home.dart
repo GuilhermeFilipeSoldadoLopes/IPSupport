@@ -186,8 +186,8 @@ class _MapHomeState extends State<MapHome> {
             width: 300,
             compassAsset: Image.asset(
               "assets/images/compass.png",
-              height: 55,
-              width: 55,
+              height: 70,
+              width: 70,
             ),
           ),
         ),

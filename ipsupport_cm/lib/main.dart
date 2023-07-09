@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:ipsupport_cm/api/firebase_api.dart';
 import 'package:ipsupport_cm/src/home_nav_bar.dart';
 import 'package:ipsupport_cm/src/screens/report_screen.dart';
 import 'package:ipsupport_cm/src/screens/signin_screen.dart';
@@ -9,9 +10,12 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await FirebaseApi().initNotifications();
+  
   MaterialApp(
       title: 'IPSupport',
       theme: ThemeData(
@@ -19,6 +23,7 @@ void main() async {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: const SingInScreen());
+      
   runApp(const MainApp());
 }
 
