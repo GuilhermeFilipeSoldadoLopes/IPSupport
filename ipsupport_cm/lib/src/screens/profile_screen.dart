@@ -84,7 +84,7 @@ class _ProfileState extends State<Profile> {
 
   void _editImageDialog(BuildContext context) async {
     var pickedImage = await ImagePicker().pickImage(
-        source: ImageSource.gallery, //pick from device gallery
+        source: ImageSource.camera, //pick from device gallery
         maxWidth: 520,
         maxHeight: 520, //specify size and quality
         imageQuality: 80); //so image_picker will resize for you
