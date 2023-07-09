@@ -10,12 +10,12 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await FirebaseApi().initNotifications();
-  
+
   MaterialApp(
       title: 'IPSupport',
       theme: ThemeData(
@@ -23,7 +23,7 @@ void main() async {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: const SingInScreen());
-      
+
   runApp(const MainApp());
 }
 
