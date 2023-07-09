@@ -170,10 +170,10 @@ class _ProfileState extends State<Profile> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
-                          width: 4,
-                          color: Colors.blue,
+                          width: 1,
+                          color: const Color.fromARGB(255, 0, 0, 0),
                         ),
-                        color: Color.fromARGB(255, 178, 229, 253),
+                        color: Color.fromARGB(255, 199, 236, 253),
                       ),
                       child: const Icon(
                         Icons.camera_alt,
