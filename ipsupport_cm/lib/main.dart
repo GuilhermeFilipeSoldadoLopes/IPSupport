@@ -3,10 +3,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ipsupport_cm/api/firebase_api.dart';
 import 'package:ipsupport_cm/src/home_nav_bar.dart';
-import 'package:ipsupport_cm/src/screens/report_screen.dart';
 import 'package:ipsupport_cm/src/screens/signin_screen.dart';
-import 'package:shake/shake.dart';
 import 'firebase_options.dart';
+/*import 'package:ipsupport_cm/src/screens/report_screen.dart';
+import 'package:shake/shake.dart';*/
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
