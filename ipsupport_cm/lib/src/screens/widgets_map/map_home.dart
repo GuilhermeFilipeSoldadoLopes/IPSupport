@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:ipsupport_cm/models/reports_models.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:smooth_compass/utils/src/compass_ui.dart';
 
@@ -24,7 +26,12 @@ class _MapHomeState extends State<MapHome> {
     zoom: 16.1, //10
   );
 
-  final _markers = <Marker>{
+  DatabaseReference dbRef = FirebaseDatabase.instance.ref();
+  List<Report> reportsList = [];
+  bool updateReports = false;
+  Set<Marker> markers = <Marker>{};
+
+  /*final _markers = <Marker>{
     Marker(
       markerId: const MarkerId('ess'),
       position: const LatLng(38.52275567301086, -8.841010269144789),
@@ -70,7 +77,7 @@ class _MapHomeState extends State<MapHome> {
       ),
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
     ),
-  };
+  };*/
 
   final _polygons = <Polygon>{
     Polygon(
@@ -121,6 +128,47 @@ class _MapHomeState extends State<MapHome> {
     });
   }
 
+  void retrieveReportsData() {
+    dbRef.child("Reports").onChildAdded.listen((data) {
+      ReportData reportData = ReportData.fromJson(data.snapshot.value as Map);
+      Report report = Report(key: data.snapshot.key, reportData: reportData);
+      reportsList.add(report);
+      setState(() {});
+
+      dbRef.child("Reports").push().set(data).then((value) {
+        for (var i = 0; i < reportsList.length; i++) {
+          if (DateTime.now().isAfter(
+              DateTime.parse(reportsList[i].reportData!.creationDate!)
+                  .add(const Duration(hours: 36)))) {
+            reportsList[i].reportData!.isActive = false;
+          }
+
+          if (reportsList[i].reportData!.isActive == false) {
+            reportsList.removeAt(i);
+          }
+        }
+
+        for (var i = 0; i < reportsList.length; i++) {
+          Marker _marker = Marker(
+            markerId: MarkerId('ests'),
+            /*position: const LatLng(38.52199531703995, -8.838600716392541),
+            infoWindow: const InfoWindow(
+              title: 'ESTS',
+              snippet: 'Escola Superior de Tecnologia de Setúbal',
+            ),
+            icon: BitmapDescriptor.defaultMarkerWithHue(
+                BitmapDescriptor.hueYellow),*/
+                
+          );
+
+          //reportsList[i].reportData!.userName;
+
+          markers.add(_marker);
+        }
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -139,7 +187,7 @@ class _MapHomeState extends State<MapHome> {
           zoomGesturesEnabled: true,
           rotateGesturesEnabled: false,
           scrollGesturesEnabled: false,
-          markers: _markers,
+          markers: markers,
           polygons: _polygons,
           onCameraMove: _onCameraMove,
           onMapCreated: (GoogleMapController controller) {

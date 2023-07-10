@@ -1,10 +1,10 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ipsupport_cm/src/screens/home_map_screen.dart';
 import 'package:ipsupport_cm/src/screens/report_screen.dart';
 import 'package:light/light.dart';
 import 'screens/profile_screen.dart';
-import 'dart:async';
+// import 'package:light/light.dart';
 /*import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,7 +26,6 @@ class _HomeState extends State<Home> {
 
   final PageStorageBucket bucket = PageStorageBucket();
   Widget currentScreen = HomeMapScreen();
-
 
 //--------------------Luminosidade-----------------------------
   StreamSubscription<int>? _subscription;
@@ -60,7 +59,6 @@ class _HomeState extends State<Home> {
     );
   }
   //-------------Fim Luminosidade----------------------
-  
 
   /*final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();

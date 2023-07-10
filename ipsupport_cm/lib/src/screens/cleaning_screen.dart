@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'dart:math';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -8,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ipsupport_cm/models/reports_models.dart';
-import 'package:ipsupport_cm/src/screens/feedback_page.dart';
 import 'package:ipsupport_cm/src/screens/report_success.dart';
+import 'package:ipsupport_cm/src/utils/utils.dart';
 
 class Cleaning extends StatefulWidget {
   const Cleaning({Key? key}) : super(key: key);
@@ -19,7 +17,7 @@ class Cleaning extends StatefulWidget {
 }
 
 class _Cleaning extends State<Cleaning> {
-  String? selectedOption = 'objeto_partido';
+  String? selectedOption = 'Objeto partido';
   bool isUrgent = false;
 
   final TextEditingController descriptionController = TextEditingController();
@@ -27,6 +25,7 @@ class _Cleaning extends State<Cleaning> {
   DatabaseReference dbRef = FirebaseDatabase.instance.ref();
   List<Report> reportsList = [];
   bool updateReports = false;
+  int _index = -1;
   String? imageUrl;
   String? path;
 
@@ -37,24 +36,143 @@ class _Cleaning extends State<Cleaning> {
         maxHeight: 520, //specify size and quality
         imageQuality: 80); //so image_picker will resize for you
 
-    Random random = Random();
-    int randomNum = random.nextInt(path!.length);
-    String selectedImagePath = path![randomNum];
-
-    print("------------- path: " + selectedImagePath);
+    print("------------- path: " + pickedImage!.name);
 
     //upload and get download url
     Reference ref = FirebaseStorage.instance
         .ref()
-        .child(selectedImagePath); //generate a unique name
+        .child(pickedImage.name ?? "noName"); //generate a unique name
 
-    await ref.putFile(File(pickedImage!.path)); //you need to add path here
+    await ref.putFile(File(pickedImage.path)); //you need to add path here
     imageUrl = await ref.getDownloadURL();
+  }
+
+  void getReporstList() {
+    dbRef.child("Reports").onChildAdded.listen((data) {
+      ReportData reportData = ReportData.fromJson(data.snapshot.value as Map);
+      Report report = Report(key: data.snapshot.key, reportData: reportData);
+      reportsList.add(report);
+      setState(() {});
+    });
+    print("teste");
+  }
+
+  void report({String? key}) async {
+    String date = DateTime.now().toString();
+
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.low);
+
+    print(
+        "teste2 ------- reportsList.length = " + reportsList.length.toString());
+
+    for (var i = 0; i < reportsList.length; i++) {
+      print("teste");
+      if (reportsList[i].reportData!.problem == "Limpeza" &&
+          reportsList[i].reportData!.problemType == selectedOption) {
+        print("-------------------- entrou no if, distancia = " +
+            distance(
+                    reportsList[i].reportData!.latitude!,
+                    reportsList[i].reportData!.longitude!,
+                    position.latitude,
+                    position.longitude)
+                .toString());
+        if (distance(
+                reportsList[i].reportData!.latitude!,
+                reportsList[i].reportData!.longitude!,
+                position.latitude,
+                position.longitude) <=
+            0.007) {
+          setState(() {
+            updateReports = true;
+            _index = i;
+          });
+        }
+      }
+    }
+
+    Map<String, dynamic> data = {
+      "userName": FirebaseAuth.instance.currentUser?.displayName,
+      "userEmail": FirebaseAuth.instance.currentUser?.email,
+      "description": descriptionController.text,
+      "photoURL": imageUrl ?? "No photo",
+      "problem": "Limpeza",
+      "problemType": selectedOption,
+      "latitude": position.latitude,
+      "longitude": position.longitude,
+      "numReports": 1,
+      "isActive": false,
+      "isUrgent": isUrgent,
+      "creationDate": date,
+      "resolutionDate": null,
+    };
+
+    if (updateReports) {
+      if (reportsList[_index].reportData!.description!.isNotEmpty &&
+          reportsList[_index].reportData!.photoURL!.isNotEmpty) {
+        data = {
+          "userName": reportsList[_index].reportData!.userName,
+          "userEmail": reportsList[_index].reportData!.userEmail,
+          "description": reportsList[_index].reportData!.description ??
+              descriptionController.text,
+          "photoURL": reportsList[_index].reportData!.photoURL,
+          "problem": "Limpeza",
+          "problemType": selectedOption,
+          "latitude": reportsList[_index].reportData!.latitude,
+          "longitude": reportsList[_index].reportData!.longitude,
+          "numReports": reportsList[_index].reportData!.numReports! + 1,
+          "isActive": true,
+          "isUrgent": reportsList[_index].reportData!.isUrgent,
+          "creationDate": reportsList[_index].reportData!.creationDate,
+          "resolutionDate": " ",
+        };
+      } else if (reportsList[_index].reportData!.isActive == false &&
+          reportsList[_index].reportData!.numReports == 1) {
+        data = {
+          "userName": reportsList[_index].reportData!.userName,
+          "userEmail": reportsList[_index].reportData!.userEmail,
+          "description": reportsList[_index].reportData!.description ??
+              descriptionController.text,
+          "photoURL": reportsList[_index].reportData!.photoURL,
+          "problem": "Limpeza",
+          "problemType": selectedOption,
+          "latitude": reportsList[_index].reportData!.latitude,
+          "longitude": reportsList[_index].reportData!.longitude,
+          "numReports": reportsList[_index].reportData!.numReports! + 1,
+          "isActive": true,
+          "isUrgent": reportsList[_index].reportData!.isUrgent,
+          "creationDate": reportsList[_index].reportData!.creationDate,
+          "resolutionDate": " ",
+        };
+      }
+    }
+
+    if (updateReports) {
+      dbRef.child("Report").child(key!).update(data).then((value) {
+        int index = reportsList.indexWhere((element) => element.key == key);
+        reportsList.removeAt(index);
+        reportsList.insert(
+            index, Report(key: key, reportData: ReportData.fromJson(data)));
+        setState(() {});
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (BuildContext context) {
+          return ReportSuccess();
+        }));
+      });
+    } else {
+      dbRef.child("Report").push().set(data).then((value) {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (BuildContext context) {
+          return ReportSuccess();
+        }));
+      });
+    }
   }
 
   @override
   void initState() {
     super.initState();
+    getReporstList();
   }
 
   @override
@@ -144,43 +262,42 @@ class _Cleaning extends State<Cleaning> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                  Align(
-                    alignment: Alignment.center,
-                    child: InkWell(
-                      onTap: () {
-
-                        // Lógica para lidar com o toque no container
-                      },
-                      child: Container(
-                        width: 200,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 214, 242, 255),
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 0.5,
-                          ),
+                Align(
+                  alignment: Alignment.center,
+                  child: InkWell(
+                    onTap: () {
+                      // Lógica para lidar com o toque no container
+                    },
+                    child: Container(
+                      width: 200,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 214, 242, 255),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 0.5,
                         ),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              IconButton(
-                                onPressed: () {
-
-                                  // Lógica para adicionar foto
-                                },
-                                icon: const Icon(Icons.camera_alt),
-                              ),
-                              const Text('Inserir fotografia'),
-                            ],
-                          ),
+                      ),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              onPressed: () async {
+                                // Lógica para adicionar foto
+                                _editImageDialog(context);
+                              },
+                              icon: const Icon(Icons.camera_alt),
+                            ),
+                            const Text('Inserir fotografia'),
+                          ],
                         ),
                       ),
                     ),
                   ),
+                ),
                 const SizedBox(height: 16),
                 Align(
                   alignment: Alignment.center,
@@ -206,56 +323,7 @@ class _Cleaning extends State<Cleaning> {
                   child: ElevatedButton(
                     onPressed: () async {
                       // Lógica para reportar
-                      String date = DateTime.now().toString();
-
-                      Position position = await Geolocator.getCurrentPosition(
-                          desiredAccuracy: LocationAccuracy.low);
-
-                      Map<String, dynamic> data = {
-                        "userName":
-                            FirebaseAuth.instance.currentUser?.displayName,
-                        "userEmail": FirebaseAuth.instance.currentUser?.email,
-                        "description": descriptionController.text,
-                        "photoURL": imageUrl ?? "No photo",
-                        "problem": "Limpeza",
-                        "problemType": selectedOption,
-                        "latitude": position.latitude,
-                        "longitude": position.longitude,
-                        "numReports": 1,
-                        "isActive": true,
-                        "isUrgent": isUrgent,
-                        "creationDate": date,
-                        "resolutionDate": null,
-                      };
-
-                      if (updateReports) {
-                        dbRef
-                            .child("Report")
-                            .child(key!)
-                            .update(data)
-                            .then((value) {
-                          int index = reportsList
-                              .indexWhere((element) => element.key == key);
-                          reportsList.removeAt(index);
-                          reportsList.insert(
-                              index,
-                              Report(
-                                  key: key,
-                                  reportData: ReportData.fromJson(data)));
-                          setState(() {});
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ReportSuccess()));
-                        });
-                      } else {
-                        dbRef.child("Report").push().set(data).then((value) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ReportSuccess()));
-                        });
-                      }
+                      report(key: key);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,

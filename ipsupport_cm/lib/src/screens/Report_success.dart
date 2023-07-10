@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ipsupport_cm/main.dart';
 import 'package:ipsupport_cm/src/screens/report_screen.dart';
 
 class ReportSuccess extends StatelessWidget {
@@ -17,23 +18,23 @@ class ReportSuccess extends StatelessWidget {
               width: 200,
               height: 200,
             ),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               'Reporte realizado com sucesso',
               style: TextStyle(
                 fontSize: 24,
                 color: Colors.blue,
               ),
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Report()));
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (BuildContext context) {
+                  return const MainApp();
+                }));
               },
-              child: Text('Voltar'),
+              child: const Text('Concluir'),
             ),
           ],
         ),

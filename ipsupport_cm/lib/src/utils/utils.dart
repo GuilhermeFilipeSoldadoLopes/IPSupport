@@ -20,11 +20,14 @@ pickImage(ImageSource source) async {
   print("No image selected");
 }
 
-void getLocation() async {
+Future<Position> getLocation() async {
   Position position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.low);
+
   print(position.latitude);
   print(position.longitude);
+
+  return position;
 }
 
 double distance(double lat1, double lon1, double lat2, double lon2) {
