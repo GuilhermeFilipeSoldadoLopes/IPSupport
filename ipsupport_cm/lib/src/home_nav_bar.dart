@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ipsupport_cm/src/screens/home_map_screen.dart';
 import 'package:ipsupport_cm/src/screens/report_screen.dart';
 import 'package:light/light.dart';
@@ -32,6 +33,8 @@ class _HomeState extends State<Home> {
   StreamSubscription<int>? _subscription;
   double _luxValue = 0.0;
   ShakeDetector? detector;
+  Brightness _currentBrightness = Brightness.light;
+  Brightness _defaultBrightness = Brightness.light;
 
   @override
   void initState() {
@@ -60,6 +63,7 @@ class _HomeState extends State<Home> {
       (int event) {
         setState(() {
           _luxValue = event.toDouble();
+          _adjustBrightness();
         });
       },
       onError: (e) {
@@ -76,6 +80,24 @@ class _HomeState extends State<Home> {
       cancelOnError: true,
     );
   }
+  void _adjustBrightness() {
+    if (_luxValue < 50) {
+      if (_currentBrightness != Brightness.dark) {
+        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+        setState(() {
+          _currentBrightness = Brightness.dark;
+        });
+      }
+    } else {
+      if (_currentBrightness != _defaultBrightness) {
+        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+        setState(() {
+          _currentBrightness = _defaultBrightness;
+        });
+      }
+    }
+  }
+  //-------------Fim Luminosidade----------------------
 
   /*final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
