@@ -4,8 +4,7 @@ class Multibanco extends StatefulWidget {
   const Multibanco({Key? key}) : super(key: key);
 
   @override
-  _Multibanco createState() =>
-      _Multibanco();
+  _Multibanco createState() => _Multibanco();
 }
 
 class _Multibanco extends State<Multibanco> {
@@ -36,7 +35,7 @@ class _Multibanco extends State<Multibanco> {
                           ListTile(
                             title: const Text('Sem dinheiro'),
                             leading: Radio(
-                              value: 'sem_dinheiro',
+                              value: 'Sem dinheiro',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -48,7 +47,7 @@ class _Multibanco extends State<Multibanco> {
                           ListTile(
                             title: const Text('Sem papel'),
                             leading: Radio(
-                              value: 'sem_papel',
+                              value: 'Sem papel',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -60,7 +59,10 @@ class _Multibanco extends State<Multibanco> {
                         ],
                       ),
                     ),
-                    const SizedBox(width: 25, height: 50,),
+                    const SizedBox(
+                      width: 25,
+                      height: 50,
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(right: 25.0),
                       child: Container(
@@ -117,12 +119,10 @@ class _Multibanco extends State<Multibanco> {
                   ),
                 ),
               ],
-
-            
+            ),
           ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }

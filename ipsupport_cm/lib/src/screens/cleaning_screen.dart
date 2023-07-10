@@ -5,10 +5,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ipsupport_cm/models/reports_models.dart';
 import 'package:ipsupport_cm/src/screens/feedback_page.dart';
-import 'package:ipsupport_cm/src/utils/utils.dart';
 
 class Cleaning extends StatefulWidget {
   const Cleaning({Key? key}) : super(key: key);
@@ -80,7 +80,7 @@ class _Cleaning extends State<Cleaning> {
                           ListTile(
                             title: const Text('Objeto Partido'),
                             leading: Radio(
-                              value: 'objeto_partido',
+                              value: 'Objeto partido',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -92,7 +92,7 @@ class _Cleaning extends State<Cleaning> {
                           ListTile(
                             title: const Text('Inundado'),
                             leading: Radio(
-                              value: 'inundado',
+                              value: 'Inundado',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -104,7 +104,7 @@ class _Cleaning extends State<Cleaning> {
                           ListTile(
                             title: const Text('Sujo'),
                             leading: Radio(
-                              value: 'sujo',
+                              value: 'Sujo',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -165,22 +165,27 @@ class _Cleaning extends State<Cleaning> {
                 Align(
                   alignment: Alignment.center,
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       // Lógica para reportar
+                      String date = DateTime.now().toString();
+
+                      Position position = await Geolocator.getCurrentPosition(
+                          desiredAccuracy: LocationAccuracy.low);
+
                       Map<String, dynamic> data = {
                         "userName":
                             FirebaseAuth.instance.currentUser?.displayName,
                         "userEmail": FirebaseAuth.instance.currentUser?.email,
                         "description": descriptionController.text,
-                        "photoURL": imageUrl,
+                        "photoURL": imageUrl ?? "No photo",
                         "problem": "Limpeza",
                         "problemType": selectedOption,
-                        "latitude": getLocationLat(),
-                        "longitude": getLocationLong(),
+                        "latitude": position.latitude,
+                        "longitude": position.longitude,
                         "numReports": 1,
                         "isActive": true,
                         "isUrgent": isUrgent,
-                        "creationDate": DateTime.now(),
+                        "creationDate": date,
                         "resolutionDate": null,
                       };
 

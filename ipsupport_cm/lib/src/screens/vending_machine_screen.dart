@@ -4,8 +4,7 @@ class VendingMachine extends StatefulWidget {
   const VendingMachine({Key? key}) : super(key: key);
 
   @override
-  _VendingMachine createState() =>
-      _VendingMachine();
+  _VendingMachine createState() => _VendingMachine();
 }
 
 class _VendingMachine extends State<VendingMachine> {
@@ -36,7 +35,7 @@ class _VendingMachine extends State<VendingMachine> {
                           ListTile(
                             title: const Text('Sem café'),
                             leading: Radio(
-                              value: 'sem_cafe',
+                              value: 'Sem cafe',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -48,7 +47,7 @@ class _VendingMachine extends State<VendingMachine> {
                           ListTile(
                             title: const Text('Sem produtos'),
                             leading: Radio(
-                              value: 'sem_produtos',
+                              value: 'Sem produtos',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -58,9 +57,10 @@ class _VendingMachine extends State<VendingMachine> {
                             ),
                           ),
                           ListTile(
-                            title: const Text('Pagamento eletrónico indisponível'),
+                            title:
+                                const Text('Pagamento eletrónico indisponível'),
                             leading: Radio(
-                              value: 'cartao_indisponivel',
+                              value: 'Cartão indisponivel',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -130,12 +130,10 @@ class _VendingMachine extends State<VendingMachine> {
                   ),
                 ),
               ],
-
-            
+            ),
           ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }

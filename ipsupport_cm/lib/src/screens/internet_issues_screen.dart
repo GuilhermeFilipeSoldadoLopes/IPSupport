@@ -4,8 +4,7 @@ class InternetIssues extends StatefulWidget {
   const InternetIssues({Key? key}) : super(key: key);
 
   @override
-  _InternetIssues createState() =>
-      _InternetIssues();
+  _InternetIssues createState() => _InternetIssues();
 }
 
 class _InternetIssues extends State<InternetIssues> {
@@ -36,7 +35,7 @@ class _InternetIssues extends State<InternetIssues> {
                           ListTile(
                             title: const Text('Falhas'),
                             leading: Radio(
-                              value: 'falhas',
+                              value: 'Falhas',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -48,7 +47,7 @@ class _InternetIssues extends State<InternetIssues> {
                           ListTile(
                             title: const Text('Baixa Velocidade'),
                             leading: Radio(
-                              value: 'baixa_velocidade',
+                              value: 'Baixa velocidade',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -60,7 +59,7 @@ class _InternetIssues extends State<InternetIssues> {
                           ListTile(
                             title: const Text('Sem ligação'),
                             leading: Radio(
-                              value: 'sem_ligacao',
+                              value: 'Sem ligação',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -130,12 +129,10 @@ class _InternetIssues extends State<InternetIssues> {
                   ),
                 ),
               ],
-
-            
+            ),
           ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }

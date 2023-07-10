@@ -4,8 +4,7 @@ class DamagedEquipment extends StatefulWidget {
   const DamagedEquipment({Key? key}) : super(key: key);
 
   @override
-  _DamagedEquipment createState() =>
-      _DamagedEquipment();
+  _DamagedEquipment createState() => _DamagedEquipment();
 }
 
 class _DamagedEquipment extends State<DamagedEquipment> {
@@ -36,7 +35,7 @@ class _DamagedEquipment extends State<DamagedEquipment> {
                           ListTile(
                             title: const Text('Partido'),
                             leading: Radio(
-                              value: 'partido',
+                              value: 'Partido',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -48,7 +47,7 @@ class _DamagedEquipment extends State<DamagedEquipment> {
                           ListTile(
                             title: const Text('Problemas Técnicos'),
                             leading: Radio(
-                              value: 'problemas_tecnicos',
+                              value: 'Problemas técnicos',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -60,7 +59,7 @@ class _DamagedEquipment extends State<DamagedEquipment> {
                           ListTile(
                             title: const Text('Não Funcional'),
                             leading: Radio(
-                              value: 'nao_funcional',
+                              value: 'Não funcional',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -130,12 +129,10 @@ class _DamagedEquipment extends State<DamagedEquipment> {
                   ),
                 ),
               ],
-
-            
+            ),
           ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }
