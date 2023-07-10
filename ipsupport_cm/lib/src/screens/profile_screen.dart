@@ -17,6 +17,8 @@ class _ProfileState extends State<Profile> {
   String displayName = '';
   String imageUrl = '';
   bool isImageNew = false;
+  NetworkImage networkImage = NetworkImage(
+      'https://firebasestorage.googleapis.com/v0/b/ipsupport-28bbe.appspot.com/o/default%2Fdefault_profile.jpg?alt=media&token=83373b6a-6399-4bd4-ac8c-d7f8c203f48a');
 
   GlobalKey<FormState> key = GlobalKey();
 
@@ -30,6 +32,10 @@ class _ProfileState extends State<Profile> {
     super.initState();
     fetchCurrentUser();
     imageUrl = '';
+    networkImage = NetworkImage(
+      FirebaseAuth.instance.currentUser?.photoURL ??
+          'https://firebasestorage.googleapis.com/v0/b/ipsupport-28bbe.appspot.com/o/default%2Fdefault_profile.jpg?alt=media&token=83373b6a-6399-4bd4-ac8c-d7f8c203f48a',
+    );
   }
 
   Future<void> fetchCurrentUser() async {
@@ -93,7 +99,7 @@ class _ProfileState extends State<Profile> {
         imageQuality: 80); //so image_picker will resize for you
 
     //upload and get download url
-    Reference ref = FirebaseStorage.instance.ref().child(
+    Reference ref = FirebaseStorage.instance.ref().child("FotoPerfil").child(
         FirebaseAuth.instance.currentUser?.email ??
             "Error"); //generate a unique name
 
@@ -155,10 +161,7 @@ class _ProfileState extends State<Profile> {
                       )
                     : CircleAvatar(
                         radius: 65,
-                        backgroundImage: NetworkImage(
-                          FirebaseAuth.instance.currentUser?.photoURL ??
-                              'https://firebasestorage.googleapis.com/v0/b/ipsupport-28bbe.appspot.com/o/default%2Fdefault_profile.jpg?alt=media&token=83373b6a-6399-4bd4-ac8c-d7f8c203f48a',
-                        ),
+                        backgroundImage: networkImage,
                       ),
                 Positioned(
                   top: 0,

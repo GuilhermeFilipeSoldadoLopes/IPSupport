@@ -40,6 +40,7 @@ class _InternetIssues extends State<InternetIssues> {
     //upload and get download url
     Reference ref = FirebaseStorage.instance
         .ref()
+        .child("FotoReport")
         .child(pickedImage!.name); //generate a unique name
 
     await ref.putFile(File(pickedImage.path)); //you need to add path here

@@ -45,10 +45,12 @@ class _HomeState extends State<Home> {
   }
 
   void initShaker() {
-    detector = ShakeDetector.autoStart(onPhoneShake: () {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const Report()));
-    });
+    detector = ShakeDetector.autoStart(
+        minimumShakeCount: 2,
+        onPhoneShake: () {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => const Home()));
+        });
   }
 
   @override
@@ -80,6 +82,7 @@ class _HomeState extends State<Home> {
       cancelOnError: true,
     );
   }
+
   void _adjustBrightness() {
     if (_luxValue < 50) {
       if (_currentBrightness != Brightness.dark) {
