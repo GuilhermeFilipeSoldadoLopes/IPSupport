@@ -6,7 +6,7 @@ class ReportSuccess extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Report Page'),
+        title: Text('Sucesso'),
       ),
       body: Center(
         child: Column(
