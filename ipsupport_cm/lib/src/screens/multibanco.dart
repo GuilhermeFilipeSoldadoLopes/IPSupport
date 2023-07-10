@@ -83,44 +83,45 @@ class _Multibanco extends State<Multibanco> {
                     fillColor: Color.fromARGB(255, 214, 242, 255),
                     filled: true,
                   ),
-                ),const SizedBox(height: 16),
-              Align(
-                alignment: Alignment.center,
-                child: InkWell(
-                  onTap: () {
+                ),
+                const SizedBox(height: 16),
+                  Align(
+                    alignment: Alignment.center,
+                    child: InkWell(
+                      onTap: () {
 
-                    // Lógica para lidar com o toque no container
-                  },
-                  child: Container(
-                    width: 200,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 214, 242, 255),
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: Colors.black,
-                        width: 0.5,
-                      ),
-                    ),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-
-                              // Lógica para adicionar foto
-                            },
-                            icon: const Icon(Icons.camera_alt),
+                        // Lógica para lidar com o toque no container
+                      },
+                      child: Container(
+                        width: 200,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 214, 242, 255),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: Colors.black,
+                            width: 0.5,
                           ),
-                          const Text('Inserir fotografia'),
-                        ],
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+
+                                  // Lógica para adicionar foto
+                                },
+                                icon: const Icon(Icons.camera_alt),
+                              ),
+                              const Text('Inserir fotografia'),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
                 const SizedBox(height: 16),
                 Align(
                   alignment: Alignment.center,
