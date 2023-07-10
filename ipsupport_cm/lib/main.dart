@@ -37,7 +37,7 @@ class MainApp extends StatelessWidget {
     if (FirebaseAuth.instance.currentUser == null) {
       return const MaterialApp(home: SingInScreen());
     }
-    
+    /*
     ShakeDetector detector = ShakeDetector.autoStart(
       onPhoneShake: () {
         Navigator.push(
@@ -45,7 +45,7 @@ class MainApp extends StatelessWidget {
                       MaterialPageRoute( builder: (context) => const Report()));
       }
     );
-    
+    */
     return const MaterialApp(home: Home());
   }
 
