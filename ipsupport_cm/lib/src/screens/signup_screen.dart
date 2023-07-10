@@ -1,11 +1,7 @@
-// ignore_for_file: unnecessary_null_comparison
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import '../../main.dart';
-import '../home_nav_bar.dart';
-import '../utils/reusable_widgets/reusable_widgets.dart';
+import 'package:ipsupport_cm/src/home_nav_bar.dart';
+import 'package:ipsupport_cm/src/utils/reusable_widgets/reusable_widgets.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -71,8 +67,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 firebaseUIButton(context, "Registar", () {
                   bool isValid = false;
 
-                  if (_emailTextController.text == null ||
-                      _emailTextController.text.isEmpty) {
+                  if (_emailTextController.text.isEmpty) {
                     errorEmailMessage = 'Email necessário.';
                     isValid = false;
                   } else {
@@ -90,8 +85,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     isValid = true;
                   }
 
-                  if (_passwordTextController.text == null ||
-                      _passwordTextController.text.isEmpty) {
+                  if (_passwordTextController.text.isEmpty) {
                     errorPasswordMessage = 'Password necessária.';
                     isValid = false;
                   } else {
@@ -112,13 +106,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   }
 
                   if (isValid) {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        });
-
                     FirebaseAuth.instance
                         .createUserWithEmailAndPassword(
                             email: _emailTextController.text,
@@ -133,10 +120,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => const Home()));
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (BuildContext context) {
-                        return const MainApp();
-                      }));
                     }).onError((error, stackTrace) {
                       if (error
                           .toString()
@@ -145,7 +128,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       }
                       print(error);
                       print("Error ${error.toString()}");
-                      Navigator.of(context).pop();
                       setState(() {});
                     });
                   } else {

@@ -1,13 +1,9 @@
-// ignore_for_file: unnecessary_null_comparison
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:ipsupport_cm/src/home_nav_bar.dart';
 import 'package:ipsupport_cm/src/screens/reset_password.dart';
 import 'package:ipsupport_cm/src/screens/signup_screen.dart';
-import '../../main.dart';
-import '../home_nav_bar.dart';
-import '../utils/reusable_widgets/reusable_widgets.dart';
+import 'package:ipsupport_cm/src/utils/reusable_widgets/reusable_widgets.dart';
 
 class SingInScreen extends StatefulWidget {
   const SingInScreen({Key? key}) : super(key: key);
@@ -70,8 +66,7 @@ class _SingInScreenState extends State<SingInScreen> {
                   firebaseUIButton(context, "Entrar", () {
                     bool isValid = false;
 
-                    if (_emailTextController.text == null ||
-                        _emailTextController.text.isEmpty) {
+                    if (_emailTextController.text.isEmpty) {
                       errorEmailMessage = 'Email necessário.';
                       isValid = false;
                     } else {
@@ -89,8 +84,7 @@ class _SingInScreenState extends State<SingInScreen> {
                       isValid = true;
                     }
 
-                    if (_passwordTextController.text == null ||
-                        _passwordTextController.text.isEmpty) {
+                    if (_passwordTextController.text.isEmpty) {
                       errorPasswordMessage = 'Password necessária.';
                       isValid = false;
                     } else {
@@ -111,25 +105,21 @@ class _SingInScreenState extends State<SingInScreen> {
                     }
 
                     if (isValid) {
-                      showDialog(
+                      /*showDialog(
                           context: context,
                           builder: (context) {
                             return const Center(
                                 child: CircularProgressIndicator());
-                          });
+                          });*/
 
                       FirebaseAuth.instance
                           .signInWithEmailAndPassword(
                               email: _emailTextController.text,
                               password: _passwordTextController.text)
                           .then((value) {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Home()));
                         Navigator.pushReplacement(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return const MainApp();
+                          return const Home();
                         }));
                       }).onError((error, stackTrace) {
                         if (error
@@ -140,7 +130,6 @@ class _SingInScreenState extends State<SingInScreen> {
                         }
                         print(error);
                         print("Error ${error.toString()}");
-                        Navigator.of(context).pop();
                         setState(() {});
                       });
                     } else {

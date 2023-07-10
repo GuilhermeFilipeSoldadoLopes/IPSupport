@@ -5,8 +5,6 @@ import 'package:ipsupport_cm/src/api/firebase_api.dart';
 import 'package:ipsupport_cm/src/home_nav_bar.dart';
 import 'package:ipsupport_cm/src/screens/signin_screen.dart';
 import 'firebase_options.dart';
-import 'package:ipsupport_cm/src/screens/report_screen.dart';
-import 'package:shake/shake.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -37,17 +35,6 @@ class MainApp extends StatelessWidget {
     if (FirebaseAuth.instance.currentUser == null) {
       return const MaterialApp(home: SingInScreen());
     }
-    /*
-    ShakeDetector detector = ShakeDetector.autoStart(
-      onPhoneShake: () {
-        Navigator.push(
-                      context,
-                      MaterialPageRoute( builder: (context) => const Report()));
-      }
-    );
-    */
     return const MaterialApp(home: Home());
   }
-
 }
-

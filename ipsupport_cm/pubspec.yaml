@@ -26,6 +26,7 @@ dependencies:
   firebase_database: ^10.2.3
   geolocator: ^9.0.2
   light: ^3.0.0
+  loader_overlay: ^2.2.0
 
 flutter_native_splash:
   color: "#FFFFFF"

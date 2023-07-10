@@ -1,9 +1,7 @@
-// ignore_for_file: unnecessary_null_comparison
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ipsupport_cm/src/screens/feedback_page.dart';
-import '../utils/reusable_widgets/reusable_widgets.dart';
+import 'package:ipsupport_cm/src/utils/reusable_widgets/reusable_widgets.dart';
 
 class ResetPassword extends StatefulWidget {
   const ResetPassword({Key? key}) : super(key: key);
@@ -51,8 +49,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                 firebaseUIButton(context, "Recuperar Password", () {
                   bool isValid = false;
 
-                  if (_emailTextController.text == null ||
-                      _emailTextController.text.isEmpty) {
+                  if (_emailTextController.text.isEmpty) {
                     errorEmailMessage = 'Email necessário.';
                     isValid = false;
                   } else {

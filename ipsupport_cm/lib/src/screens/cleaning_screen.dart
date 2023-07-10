@@ -28,6 +28,7 @@ class _Cleaning extends State<Cleaning> {
   int _index = -1;
   String? imageUrl;
   String? path;
+  String? key;
 
   void _editImageDialog(BuildContext context) async {
     var pickedImage = await ImagePicker().pickImage(
@@ -36,47 +37,35 @@ class _Cleaning extends State<Cleaning> {
         maxHeight: 520, //specify size and quality
         imageQuality: 80); //so image_picker will resize for you
 
-    print("------------- path: " + pickedImage!.name);
-
     //upload and get download url
     Reference ref = FirebaseStorage.instance
         .ref()
-        .child(pickedImage.name ?? "noName"); //generate a unique name
+        .child(pickedImage!.name); //generate a unique name
 
     await ref.putFile(File(pickedImage.path)); //you need to add path here
     imageUrl = await ref.getDownloadURL();
   }
 
   void getReporstList() {
-    dbRef.child("Reports").onChildAdded.listen((data) {
+    dbRef.child("Report").onChildAdded.listen((data) {
       ReportData reportData = ReportData.fromJson(data.snapshot.value as Map);
       Report report = Report(key: data.snapshot.key, reportData: reportData);
       reportsList.add(report);
-      setState(() {});
+      setState(() {
+        key = data.snapshot.key;
+      });
     });
-    print("teste");
   }
 
-  void report({String? key}) async {
+  void report() async {
     String date = DateTime.now().toString();
 
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.low);
 
-    print(
-        "teste2 ------- reportsList.length = " + reportsList.length.toString());
-
     for (var i = 0; i < reportsList.length; i++) {
-      print("teste");
       if (reportsList[i].reportData!.problem == "Limpeza" &&
           reportsList[i].reportData!.problemType == selectedOption) {
-        print("-------------------- entrou no if, distancia = " +
-            distance(
-                    reportsList[i].reportData!.latitude!,
-                    reportsList[i].reportData!.longitude!,
-                    position.latitude,
-                    position.longitude)
-                .toString());
         if (distance(
                 reportsList[i].reportData!.latitude!,
                 reportsList[i].reportData!.longitude!,
@@ -104,7 +93,7 @@ class _Cleaning extends State<Cleaning> {
       "isActive": false,
       "isUrgent": isUrgent,
       "creationDate": date,
-      "resolutionDate": null,
+      "resolutionDate": "Not resolved",
     };
 
     if (updateReports) {
@@ -323,7 +312,7 @@ class _Cleaning extends State<Cleaning> {
                   child: ElevatedButton(
                     onPressed: () async {
                       // Lógica para reportar
-                      report(key: key);
+                      report();
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,

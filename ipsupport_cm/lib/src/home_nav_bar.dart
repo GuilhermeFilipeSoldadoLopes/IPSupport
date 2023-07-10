@@ -1,12 +1,10 @@
 import 'dart:async';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:ipsupport_cm/src/screens/home_map_screen.dart';
 import 'package:ipsupport_cm/src/screens/report_screen.dart';
 import 'package:light/light.dart';
 import 'package:shake/shake.dart';
 import 'screens/profile_screen.dart';
-import 'dart:developer';
 // import 'package:light/light.dart';
 /*import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -39,7 +37,22 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     _initLightSensor();
-     initShaker();
+    // para iniciar a leitura do sensor
+    initShaker();
+  }
+
+  void initShaker() {
+    detector = ShakeDetector.autoStart(onPhoneShake: () {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const Report()));
+    });
+  }
+
+  @override
+  void dispose() {
+    _subscription?.cancel();
+    detector?.stopListening();
+    super.dispose();
   }
 
   void _initLightSensor() {
@@ -63,22 +76,7 @@ class _HomeState extends State<Home> {
       cancelOnError: true,
     );
   }
-  //-------------Fim Luminosidade----------------------
-void initShaker(){
-    detector = ShakeDetector.autoStart(
-        onPhoneShake: () {
-          Navigator.push(
-                        context,
-                        MaterialPageRoute( builder: (context) => const Report()));
-        }
-      );
-  }
-@override
-  void dispose(){
-    _subscription?.cancel();
-    detector?.stopListening();
-    super.dispose();
-  }
+
   /*final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
@@ -139,7 +137,6 @@ void initShaker(){
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       body: PageStorage(
         child: currentScreen,

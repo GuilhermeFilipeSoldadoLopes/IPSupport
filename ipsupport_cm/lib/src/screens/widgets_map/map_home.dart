@@ -6,8 +6,6 @@ import 'package:ipsupport_cm/models/reports_models.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:smooth_compass/utils/src/compass_ui.dart';
 
-import '../../home_nav_bar.dart';
-
 class MapHome extends StatefulWidget {
   const MapHome({
     required this.controllerCompleter,
@@ -120,12 +118,16 @@ class _MapHomeState extends State<MapHome> {
     });
   }
 
-  void _zoom_out() {
+  void _zoom_out() async {
     //como verificar se o mapa tem zoom e/ou nao esta na posicao inicial
-    setState(() {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const Home()));
-    });
+    final GoogleMapController controller =
+        await widget.controllerCompleter.future;
+    var zoom = await controller.getZoomLevel();
+
+    if (zoom != 16.1) {
+      await controller
+          .animateCamera(CameraUpdate.newCameraPosition(_ipsCameraPosition));
+    }
   }
 
   void retrieveReportsData() {
@@ -158,7 +160,6 @@ class _MapHomeState extends State<MapHome> {
             ),
             icon: BitmapDescriptor.defaultMarkerWithHue(
                 BitmapDescriptor.hueYellow),*/
-                
           );
 
           //reportsList[i].reportData!.userName;

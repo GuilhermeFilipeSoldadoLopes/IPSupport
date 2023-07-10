@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:ipsupport_cm/main.dart';
+import 'package:ipsupport_cm/src/home_nav_bar.dart';
 import 'package:ipsupport_cm/src/screens/about_screen.dart';
 //import 'package:permission_handler/permission_handler.dart';
 import 'help_support_screen.dart';
@@ -96,10 +96,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onTap: () {
                 FirebaseAuth.instance.signOut();
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => const MainApp()));
-                Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (BuildContext context) {
-                  return const MainApp();
+                  return const Home();
                 }));
               },
             ),

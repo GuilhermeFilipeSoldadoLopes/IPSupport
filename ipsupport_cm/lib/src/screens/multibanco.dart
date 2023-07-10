@@ -1,16 +1,162 @@
+import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:ipsupport_cm/models/reports_models.dart';
+import 'package:ipsupport_cm/src/utils/utils.dart';
+import 'Report_success.dart';
 
 class Multibanco extends StatefulWidget {
   const Multibanco({Key? key}) : super(key: key);
 
   @override
-  _Multibanco createState() =>
-      _Multibanco();
+  _Multibanco createState() => _Multibanco();
 }
 
 class _Multibanco extends State<Multibanco> {
   String? selectedOption = 'sem_dinheiro';
   bool isUrgent = false;
+
+  final TextEditingController descriptionController = TextEditingController();
+
+  DatabaseReference dbRef = FirebaseDatabase.instance.ref();
+  List<Report> reportsList = [];
+  bool updateReports = false;
+  int _index = -1;
+  String? imageUrl;
+  String? path;
+  String? key;
+
+  void _editImageDialog(BuildContext context) async {
+    var pickedImage = await ImagePicker().pickImage(
+        source: ImageSource.camera,
+        maxWidth: 520,
+        maxHeight: 520, //specify size and quality
+        imageQuality: 80); //so image_picker will resize for you
+
+    //upload and get download url
+    Reference ref = FirebaseStorage.instance
+        .ref()
+        .child(pickedImage!.name); //generate a unique name
+
+    await ref.putFile(File(pickedImage.path)); //you need to add path here
+    imageUrl = await ref.getDownloadURL();
+  }
+
+  void getReporstList() {
+    dbRef.child("Report").onChildAdded.listen((data) {
+      ReportData reportData = ReportData.fromJson(data.snapshot.value as Map);
+      Report report = Report(key: data.snapshot.key, reportData: reportData);
+      reportsList.add(report);
+      setState(() {
+        key = data.snapshot.key;
+      });
+    });
+  }
+
+  void report() async {
+    String date = DateTime.now().toString();
+
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.low);
+
+    for (var i = 0; i < reportsList.length; i++) {
+      if (reportsList[i].reportData!.problem == "Limpeza" &&
+          reportsList[i].reportData!.problemType == selectedOption) {
+        if (distance(
+                reportsList[i].reportData!.latitude!,
+                reportsList[i].reportData!.longitude!,
+                position.latitude,
+                position.longitude) <=
+            0.007) {
+          setState(() {
+            updateReports = true;
+            _index = i;
+          });
+        }
+      }
+    }
+
+    Map<String, dynamic> data = {
+      "userName": FirebaseAuth.instance.currentUser?.displayName,
+      "userEmail": FirebaseAuth.instance.currentUser?.email,
+      "description": descriptionController.text,
+      "photoURL": imageUrl ?? "No photo",
+      "problem": "Limpeza",
+      "problemType": selectedOption,
+      "latitude": position.latitude,
+      "longitude": position.longitude,
+      "numReports": 1,
+      "isActive": false,
+      "isUrgent": isUrgent,
+      "creationDate": date,
+      "resolutionDate": "Not resolved",
+    };
+
+    if (updateReports) {
+      if (reportsList[_index].reportData!.description!.isNotEmpty &&
+          reportsList[_index].reportData!.photoURL!.isNotEmpty) {
+        data = {
+          "userName": reportsList[_index].reportData!.userName,
+          "userEmail": reportsList[_index].reportData!.userEmail,
+          "description": reportsList[_index].reportData!.description ??
+              descriptionController.text,
+          "photoURL": reportsList[_index].reportData!.photoURL,
+          "problem": "Limpeza",
+          "problemType": selectedOption,
+          "latitude": reportsList[_index].reportData!.latitude,
+          "longitude": reportsList[_index].reportData!.longitude,
+          "numReports": reportsList[_index].reportData!.numReports! + 1,
+          "isActive": true,
+          "isUrgent": reportsList[_index].reportData!.isUrgent,
+          "creationDate": reportsList[_index].reportData!.creationDate,
+          "resolutionDate": " ",
+        };
+      } else if (reportsList[_index].reportData!.isActive == false &&
+          reportsList[_index].reportData!.numReports == 1) {
+        data = {
+          "userName": reportsList[_index].reportData!.userName,
+          "userEmail": reportsList[_index].reportData!.userEmail,
+          "description": reportsList[_index].reportData!.description ??
+              descriptionController.text,
+          "photoURL": reportsList[_index].reportData!.photoURL,
+          "problem": "Limpeza",
+          "problemType": selectedOption,
+          "latitude": reportsList[_index].reportData!.latitude,
+          "longitude": reportsList[_index].reportData!.longitude,
+          "numReports": reportsList[_index].reportData!.numReports! + 1,
+          "isActive": true,
+          "isUrgent": reportsList[_index].reportData!.isUrgent,
+          "creationDate": reportsList[_index].reportData!.creationDate,
+          "resolutionDate": " ",
+        };
+      }
+    }
+
+    if (updateReports) {
+      dbRef.child("Report").child(key!).update(data).then((value) {
+        int index = reportsList.indexWhere((element) => element.key == key);
+        reportsList.removeAt(index);
+        reportsList.insert(
+            index, Report(key: key, reportData: ReportData.fromJson(data)));
+        setState(() {});
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (BuildContext context) {
+          return ReportSuccess();
+        }));
+      });
+    } else {
+      dbRef.child("Report").push().set(data).then((value) {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (BuildContext context) {
+          return ReportSuccess();
+        }));
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +206,10 @@ class _Multibanco extends State<Multibanco> {
                         ],
                       ),
                     ),
-                    const SizedBox(width: 25, height: 50,),
+                    const SizedBox(
+                      width: 25,
+                      height: 50,
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(right: 25.0),
                       child: Container(
@@ -85,43 +234,41 @@ class _Multibanco extends State<Multibanco> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                  Align(
-                    alignment: Alignment.center,
-                    child: InkWell(
-                      onTap: () {
-
-                        // Lógica para lidar com o toque no container
-                      },
-                      child: Container(
-                        width: 200,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 214, 242, 255),
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 0.5,
-                          ),
+                Align(
+                  alignment: Alignment.center,
+                  child: InkWell(
+                    onTap: () {
+                      // Lógica para lidar com o toque no container
+                    },
+                    child: Container(
+                      width: 200,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 214, 242, 255),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 0.5,
                         ),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              IconButton(
-                                onPressed: () {
-
-                                  // Lógica para adicionar foto
-                                },
-                                icon: const Icon(Icons.camera_alt),
-                              ),
-                              const Text('Inserir fotografia'),
-                            ],
-                          ),
+                      ),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                // Lógica para adicionar foto
+                              },
+                              icon: const Icon(Icons.camera_alt),
+                            ),
+                            const Text('Inserir fotografia'),
+                          ],
                         ),
                       ),
                     ),
                   ),
+                ),
                 const SizedBox(height: 16),
                 Align(
                   alignment: Alignment.center,
@@ -155,12 +302,10 @@ class _Multibanco extends State<Multibanco> {
                   ),
                 ),
               ],
-
-            
+            ),
           ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }

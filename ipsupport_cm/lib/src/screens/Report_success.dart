@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ipsupport_cm/main.dart';
-import 'package:ipsupport_cm/src/screens/report_screen.dart';
+import 'package:ipsupport_cm/src/home_nav_bar.dart';
 
 class ReportSuccess extends StatelessWidget {
   @override
@@ -8,6 +7,7 @@ class ReportSuccess extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Sucesso'),
+        automaticallyImplyLeading: false,
       ),
       body: Center(
         child: Column(
@@ -31,7 +31,7 @@ class ReportSuccess extends StatelessWidget {
               onPressed: () {
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (BuildContext context) {
-                  return const MainApp();
+                  return const Home();
                 }));
               },
               child: const Text('Concluir'),
