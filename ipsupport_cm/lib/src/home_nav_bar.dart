@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ipsupport_cm/src/screens/home_map_screen.dart';
 import 'package:ipsupport_cm/src/screens/report_screen.dart';
 import 'screens/profile_screen.dart';
+// import 'package:light/light.dart';
+import 'dart:async';
 /*import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,6 +25,41 @@ class _HomeState extends State<Home> {
 
   final PageStorageBucket bucket = PageStorageBucket();
   Widget currentScreen = HomeMapScreen();
+
+
+//--------------------Luminosidade-----------------------------
+  /*StreamSubscription<int>? _subscription;
+  double _luxValue = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _initLightSensor(); // para iniciar a leitura do sensor
+  }
+
+  void _initLightSensor() {
+    _subscription = Light().lightSensorStream.listen(
+      (int event) {
+        setState(() {
+          _luxValue = event.toDouble();
+        });
+      },
+      onError: (e) {
+        print(e.toString());
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            const SnackBar(
+              content: Text('Falhou a obter dados do sensor de luz!'),
+              backgroundColor: Colors.red,
+            ),
+          );
+      },
+      cancelOnError: true,
+    );
+  }*/
+  //-------------Fim Luminosidade----------------------
+
 
   /*final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();

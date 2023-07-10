@@ -9,6 +9,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ipsupport_cm/models/reports_models.dart';
 import 'package:ipsupport_cm/src/screens/feedback_page.dart';
+import 'package:ipsupport_cm/src/screens/report_success.dart';
 
 class Cleaning extends StatefulWidget {
   const Cleaning({Key? key}) : super(key: key);
@@ -207,7 +208,7 @@ class _Cleaning extends State<Cleaning> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const FeedbackPage()));
+                                  builder: (context) => ReportSuccess()));
                         });
                       } else {
                         dbRef.child("Report").push().set(data).then((value) {

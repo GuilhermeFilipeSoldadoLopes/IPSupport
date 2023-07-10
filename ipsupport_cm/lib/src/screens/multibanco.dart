@@ -4,7 +4,8 @@ class Multibanco extends StatefulWidget {
   const Multibanco({Key? key}) : super(key: key);
 
   @override
-  _Multibanco createState() => _Multibanco();
+  _Multibanco createState() =>
+      _Multibanco();
 }
 
 class _Multibanco extends State<Multibanco> {
@@ -35,7 +36,7 @@ class _Multibanco extends State<Multibanco> {
                           ListTile(
                             title: const Text('Sem dinheiro'),
                             leading: Radio(
-                              value: 'Sem dinheiro',
+                              value: 'sem_dinheiro',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -47,7 +48,7 @@ class _Multibanco extends State<Multibanco> {
                           ListTile(
                             title: const Text('Sem papel'),
                             leading: Radio(
-                              value: 'Sem papel',
+                              value: 'sem_papel',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -59,10 +60,7 @@ class _Multibanco extends State<Multibanco> {
                         ],
                       ),
                     ),
-                    const SizedBox(
-                      width: 25,
-                      height: 50,
-                    ),
+                    const SizedBox(width: 25, height: 50,),
                     Padding(
                       padding: const EdgeInsets.only(right: 25.0),
                       child: Container(
@@ -85,7 +83,44 @@ class _Multibanco extends State<Multibanco> {
                     fillColor: Color.fromARGB(255, 214, 242, 255),
                     filled: true,
                   ),
+                ),const SizedBox(height: 16),
+              Align(
+                alignment: Alignment.center,
+                child: InkWell(
+                  onTap: () {
+
+                    // Lógica para lidar com o toque no container
+                  },
+                  child: Container(
+                    width: 200,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 214, 242, 255),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: Colors.black,
+                        width: 0.5,
+                      ),
+                    ),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+
+                              // Lógica para adicionar foto
+                            },
+                            icon: const Icon(Icons.camera_alt),
+                          ),
+                          const Text('Inserir fotografia'),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
+              ),
                 const SizedBox(height: 16),
                 Align(
                   alignment: Alignment.center,
@@ -119,10 +154,12 @@ class _Multibanco extends State<Multibanco> {
                   ),
                 ),
               ],
-            ),
+
+            
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 }
