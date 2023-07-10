@@ -1,20 +1,53 @@
 class Report {
   String? key;
-  StudentData? studentData;
+  ReportData? reportData;
 
-  Student({this.key, this.studentData});
+  Report({this.key, this.reportData});
 }
 
-class StudentData {
-  String? name;
-  String? age;
-  String? subject;
+class ReportData {
+  String? userName;
+  String? userEmail;
+  String? description;
+  String? photoURL;
+  String? problem;
+  String? problemType;
+  double? latitude;
+  double? longitude;
+  int? numReports;
+  bool? isActive;
+  bool? isUrgent;
+  String? creationDate;
+  String? resolutionDate;
 
-  StudentData({this.name, this.age, this.subject});
+  ReportData(
+      {this.userName,
+      this.userEmail,
+      this.description,
+      this.photoURL,
+      this.problem,
+      this.problemType,
+      this.latitude,
+      this.longitude,
+      this.numReports,
+      this.isActive,
+      this.isUrgent,
+      this.creationDate,
+      this.resolutionDate});
 
-  StudentData.fromJson(Map<dynamic, dynamic> json) {
-    name = json["name"];
-    age = json["age"];
-    subject = json["subject"];
+  ReportData.fromJson(Map<dynamic, dynamic> json) {
+    userName = json["userName"];
+    userEmail = json["userEmail"];
+    description = json["description"];
+    photoURL = json["photoURL"];
+    problem = json["problem"];
+    problemType = json["problemType"];
+    latitude = json["latitude"];
+    longitude = json["longitude"];
+    numReports = json["numReports"];
+    isActive = json["isActive"];
+    isUrgent = json["isUrgent"];
+    creationDate = json["creationDate"];
+    resolutionDate = json["resolutionDate"];
   }
 }
