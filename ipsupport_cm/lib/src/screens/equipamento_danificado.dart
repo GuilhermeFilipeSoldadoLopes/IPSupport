@@ -7,7 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ipsupport_cm/models/reports_models.dart';
 import 'package:ipsupport_cm/src/utils/utils.dart';
-import 'Report_success.dart';
+import 'report_success.dart';
 
 class DamagedEquipment extends StatefulWidget {
   const DamagedEquipment({Key? key}) : super(key: key);

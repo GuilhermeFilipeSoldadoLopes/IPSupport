@@ -49,6 +49,9 @@ class _ProfileState extends State<Profile> {
         return AlertDialog(
           title: const Text('Editar nome'),
           content: TextField(
+            decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: FirebaseAuth.instance.currentUser!.displayName ?? ''),
             onChanged: (value) {
               newName = value; // Atualiza a variável com o novo nome escrito
             },
@@ -84,7 +87,7 @@ class _ProfileState extends State<Profile> {
 
   void _editImageDialog(BuildContext context) async {
     var pickedImage = await ImagePicker().pickImage(
-        source: ImageSource.camera, //took a picture from your device
+        source: ImageSource.gallery, //took a picture from your device
         maxWidth: 520,
         maxHeight: 520, //specify size and quality
         imageQuality: 80); //so image_picker will resize for you
@@ -183,7 +186,7 @@ class _ProfileState extends State<Profile> {
                           width: 1,
                           color: const Color.fromARGB(255, 0, 0, 0),
                         ),
-                        color: Color.fromARGB(255, 199, 236, 253),
+                        color: const Color.fromARGB(255, 199, 236, 253),
                       ),
                       child: const Icon(
                         Icons.camera_alt,
