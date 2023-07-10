@@ -215,7 +215,7 @@ class _Cleaning extends State<Cleaning> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const FeedbackPage()));
+                                  builder: (context) => ReportSuccess()));
                         });
                       }
                     },
