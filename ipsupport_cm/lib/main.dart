@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:ipsupport_cm/api/firebase_api.dart';
+import 'package:ipsupport_cm/src/api/firebase_api.dart';
 import 'package:ipsupport_cm/src/home_nav_bar.dart';
 import 'package:ipsupport_cm/src/screens/signin_screen.dart';
 import 'firebase_options.dart';
