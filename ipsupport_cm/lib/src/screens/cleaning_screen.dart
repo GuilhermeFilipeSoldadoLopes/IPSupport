@@ -1,19 +1,63 @@
+import 'dart:io';
+import 'dart:math';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:ipsupport_cm/models/reports_models.dart';
+import 'package:ipsupport_cm/src/screens/feedback_page.dart';
+import 'package:ipsupport_cm/src/utils/utils.dart';
 
 class Cleaning extends StatefulWidget {
   const Cleaning({Key? key}) : super(key: key);
 
   @override
-  _Cleaning createState() =>
-      _Cleaning();
+  _Cleaning createState() => _Cleaning();
 }
 
 class _Cleaning extends State<Cleaning> {
   String? selectedOption = 'objeto_partido';
   bool isUrgent = false;
 
+  final TextEditingController descriptionController = TextEditingController();
+
+  DatabaseReference dbRef = FirebaseDatabase.instance.ref();
+  List<Report> reportsList = [];
+  bool updateReports = false;
+  String? imageUrl;
+  String? path;
+
+  void _editImageDialog(BuildContext context) async {
+    var pickedImage = await ImagePicker().pickImage(
+        source: ImageSource.camera,
+        maxWidth: 520,
+        maxHeight: 520, //specify size and quality
+        imageQuality: 80); //so image_picker will resize for you
+
+    Random random = Random();
+    int randomNum = random.nextInt(path!.length);
+    String selectedImagePath = path![randomNum];
+
+    print("------------- path: " + selectedImagePath);
+
+    //upload and get download url
+    Reference ref = FirebaseStorage.instance
+        .ref()
+        .child(selectedImagePath); //generate a unique name
+
+    await ref.putFile(File(pickedImage!.path)); //you need to add path here
+    imageUrl = await ref.getDownloadURL();
+  }
+
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context, {String? key}) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Limpeza'),
@@ -90,6 +134,7 @@ class _Cleaning extends State<Cleaning> {
                 const Text('Descrição:'),
                 const SizedBox(height: 8),
                 TextFormField(
+                  controller: descriptionController,
                   maxLines: 4,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -122,6 +167,51 @@ class _Cleaning extends State<Cleaning> {
                   child: ElevatedButton(
                     onPressed: () {
                       // Lógica para reportar
+                      Map<String, dynamic> data = {
+                        "userName":
+                            FirebaseAuth.instance.currentUser?.displayName,
+                        "userEmail": FirebaseAuth.instance.currentUser?.email,
+                        "description": descriptionController.text,
+                        "photoURL": imageUrl,
+                        "problem": "Limpeza",
+                        "problemType": selectedOption,
+                        "latitude": getLocationLat(),
+                        "longitude": getLocationLong(),
+                        "numReports": 1,
+                        "isActive": true,
+                        "isUrgent": isUrgent,
+                        "creationDate": DateTime.now(),
+                        "resolutionDate": null,
+                      };
+
+                      if (updateReports) {
+                        dbRef
+                            .child("Report")
+                            .child(key!)
+                            .update(data)
+                            .then((value) {
+                          int index = reportsList
+                              .indexWhere((element) => element.key == key);
+                          reportsList.removeAt(index);
+                          reportsList.insert(
+                              index,
+                              Report(
+                                  key: key,
+                                  reportData: ReportData.fromJson(data)));
+                          setState(() {});
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const FeedbackPage()));
+                        });
+                      } else {
+                        dbRef.child("Report").push().set(data).then((value) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const FeedbackPage()));
+                        });
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
@@ -130,12 +220,10 @@ class _Cleaning extends State<Cleaning> {
                   ),
                 ),
               ],
-
-            
+            ),
           ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }
