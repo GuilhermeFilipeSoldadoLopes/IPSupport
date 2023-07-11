@@ -268,6 +268,7 @@ class _InternetIssues extends State<InternetIssues> {
                 TextFormField(
                   maxLines: 4,
                   decoration: const InputDecoration(
+                    hintText: "Descreva o problema aqui...",
                     border: OutlineInputBorder(),
                     fillColor: Color.fromARGB(255, 214, 242, 255),
                     filled: true,
@@ -296,14 +297,24 @@ class _InternetIssues extends State<InternetIssues> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            IconButton(
-                              onPressed: () {
-                                // Lógica para adicionar foto
-                              },
-                              icon: haveImage
-                                  ? const Icon(Icons.check)
-                                  : const Icon(Icons.camera_alt),
-                            ),
+                            haveImage
+                                ? Card(
+                                    clipBehavior: Clip.antiAlias,
+                                    child: Image.network(
+                                      imageUrl!,
+                                      fit: BoxFit.scaleDown,
+                                      width: 120,
+                                      height: 60,
+                                    ))
+                                : IconButton(
+                                    onPressed: () {
+                                      // Lógica para adicionar foto
+                                      _editImageDialog(context);
+                                    },
+                                    icon: haveImage
+                                        ? const Icon(Icons.check)
+                                        : const Icon(Icons.camera_alt),
+                                  ),
                             haveImage
                                 ? const Text('Fotografia selecionada')
                                 : const Text('Inserir fotografia'),
