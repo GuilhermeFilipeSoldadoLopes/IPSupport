@@ -27,6 +27,7 @@ dependencies:
   geolocator: ^9.0.2
   light: ^3.0.0
   overlay_loading_progress: ^1.0.0
+  bottom_sheet: ^3.1.2
 
 flutter_native_splash:
   color: "#FFFFFF"

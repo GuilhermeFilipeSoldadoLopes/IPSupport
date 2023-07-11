@@ -171,19 +171,19 @@ class _MapHomeState extends State<MapHome> {
     });
   }
 
-void addMarker(String problema, bool isUrgent)  async {
-  String nomeImagem= problema.toLowerCase();
-  if(isUrgent){
-    nomeImagem = nomeImagem+"_urgente";
-  }
-  BitmapDescriptor markerIcon = await BitmapDescriptor.fromAssetImage(ImageConfiguration(),"assets/images/pin_"+nomeImagem+".png",);
+  void addMarker(String problema, bool isUrgent)  async {
+    String nomeImagem= problema.toLowerCase();
+    if(isUrgent){
+      nomeImagem = nomeImagem+"_urgente";
+    }
+    BitmapDescriptor markerIcon = await BitmapDescriptor.fromAssetImage(ImageConfiguration(),"assets/images/pin_"+nomeImagem+".png",);
 
-  _markers.add(Marker(
-            markerId: MarkerId('MarkerTeste'),
-            //position: const LatLng(38.52199531703995, -8.838600716392541),
-            icon: markerIcon
-  ));
-}
+    _markers.add(Marker(
+              markerId: MarkerId('MarkerTeste'),
+              //position: const LatLng(38.52199531703995, -8.838600716392541),
+              icon: markerIcon
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -252,5 +252,92 @@ void addMarker(String problema, bool isUrgent)  async {
         ),
       ],
     );
+  }
+
+    void _showBottomSheet(BuildContext context) {
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    Image.asset(
+                      'assets/images/cleaning_screen',
+                      width: 50,
+                      height: 50,
+                    ),
+                    SizedBox(width: 16.0),
+                    Text(
+                      'Limpeza',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16.0),
+                Container(
+                  padding: EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Text(
+                          'Descrição',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                      SizedBox(width: 16.0),
+                      Expanded(
+                        flex: 1,
+                        child: Placeholder(), // Local para a fotografia
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 16.0),
+                Container(
+                  padding: EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: Text('Numero de Reportes:'),
+                  
+                ),
+                SizedBox(height: 16.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                      ),
+                      child: Text('Reportar'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                      ),
+                      child: Text('Resolvido'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        },
+      );
   }
 }
