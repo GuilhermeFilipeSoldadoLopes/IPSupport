@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ipsupport_cm/src/screens/biometric_page.dart';
+import 'package:ipsupport_cm/src/screens/biometric_screen.dart';
 import 'package:ipsupport_cm/src/screens/about_screen.dart';
 import 'help_support_screen.dart';
 
