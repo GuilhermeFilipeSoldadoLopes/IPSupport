@@ -1,10 +1,6 @@
-import 'dart:io';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:ipsupport_cm/main.dart';
+import 'package:ipsupport_cm/src/screens/biometric_page.dart';
 import 'package:ipsupport_cm/src/screens/about_screen.dart';
-import 'package:overlay_loading_progress/overlay_loading_progress.dart';
-//import 'package:permission_handler/permission_handler.dart';
 import 'help_support_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -95,15 +91,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   fontSize: 14,
                 ),
               ),
-              onTap: () async {
-                FirebaseAuth.instance.signOut();
-                OverlayLoadingProgress.start(context);
-                sleep(Duration(seconds: 1));
-                OverlayLoadingProgress.stop();
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (BuildContext context) {
-                  return const MainApp();
-                }));
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const BiometricSensorPage()));
               },
             ),
           ),
