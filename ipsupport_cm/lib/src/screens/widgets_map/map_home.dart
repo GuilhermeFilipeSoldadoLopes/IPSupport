@@ -28,7 +28,7 @@ class _MapHomeState extends State<MapHome> {
   List<Report> reportsList = [];
   bool updateReports = false;
   Set<Marker> markers = <Marker>{};
-
+  
   final _markers = <Marker>{
     Marker(
       markerId: const MarkerId('ess'),
@@ -75,6 +75,7 @@ class _MapHomeState extends State<MapHome> {
       ),
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
     ),
+   
   };
 
   final _polygons = <Polygon>{
@@ -98,7 +99,7 @@ class _MapHomeState extends State<MapHome> {
   void initState() {
     _requestPermission();
     _loadIpsLogoIcon();
-
+    addMarker('',true);
     super.initState();
   }
 
@@ -169,6 +170,20 @@ class _MapHomeState extends State<MapHome> {
       });
     });
   }
+
+void addMarker(String problema, bool isUrgent)  async {
+  String nomeImagem= problema.toLowerCase();
+  if(isUrgent){
+    nomeImagem = nomeImagem+"_urgente";
+  }
+  BitmapDescriptor markerIcon = await BitmapDescriptor.fromAssetImage(ImageConfiguration(),"assets/images/pin_"+nomeImagem+".png",);
+
+  _markers.add(Marker(
+            markerId: MarkerId('MarkerTeste'),
+            //position: const LatLng(38.52199531703995, -8.838600716392541),
+            icon: markerIcon
+  ));
+}
 
   @override
   Widget build(BuildContext context) {
