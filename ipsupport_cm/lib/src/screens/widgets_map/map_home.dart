@@ -20,8 +20,10 @@ class MapHome extends StatefulWidget {
 
 class _MapHomeState extends State<MapHome> {
   static const CameraPosition _ipsCameraPosition = CameraPosition(
-    target: LatLng(37.421998333333335, -122.084),
-    //target: LatLng(38.656131, -9.173389),
+    //target: LatLng(37.421998333333335, -122.084) /*, google*/,
+    //target: LatLng(38.656131, -9.173389) /*, casa*/,
+    target: LatLng(38.521095, -8.838903) /*, ips*/,
+
     zoom: 16.1, //10
   );
 
@@ -39,7 +41,7 @@ class _MapHomeState extends State<MapHome> {
         LatLng(38.519575194826196, -8.835088408159743),
         LatLng(38.523498184000566, -8.838622597840265),
       ],
-      fillColor: Colors.blue.withOpacity(0.3),
+      fillColor: Colors.blue.withOpacity(0.15),
       strokeColor: Colors.blue,
       strokeWidth: 4,
     ),

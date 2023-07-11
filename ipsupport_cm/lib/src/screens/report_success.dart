@@ -20,7 +20,7 @@ class ReportSuccess extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             const Text(
-              'Reporte realizado com sucesso',
+              'Reporte realizado com sucesso!',
               style: TextStyle(
                 fontSize: 24,
                 color: Colors.blue,

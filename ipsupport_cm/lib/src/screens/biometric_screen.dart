@@ -42,7 +42,7 @@ class _BiometricSensorPageState extends State<BiometricSensorPage> {
   void authenticated() async {
     FirebaseAuth.instance.signOut();
     OverlayLoadingProgress.start(context);
-    sleep(Duration(seconds: 1));
+    sleep(const Duration(seconds: 1));
     OverlayLoadingProgress.stop();
     Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (BuildContext context) {
