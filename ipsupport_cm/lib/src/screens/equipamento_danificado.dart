@@ -122,7 +122,7 @@ class _DamagedEquipment extends State<DamagedEquipment> {
           "isActive": true,
           "isUrgent": reportsList[_index].reportData!.isUrgent,
           "creationDate": reportsList[_index].reportData!.creationDate,
-          "resolutionDate": " ",
+          "resolutionDate": "Not resolved",
         };
       } else if (reportsList[_index].reportData!.isActive == false &&
           reportsList[_index].reportData!.numReports == 1) {
@@ -140,7 +140,7 @@ class _DamagedEquipment extends State<DamagedEquipment> {
           "isActive": true,
           "isUrgent": reportsList[_index].reportData!.isUrgent,
           "creationDate": reportsList[_index].reportData!.creationDate,
-          "resolutionDate": " ",
+          "resolutionDate": "Not resolved",
         };
       }
     }
@@ -192,7 +192,13 @@ class _DamagedEquipment extends State<DamagedEquipment> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
+    getReporstList();
+  }
+
+  @override
+  Widget build(BuildContext context, {String? key}) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Equipamento Danificado'),
@@ -225,9 +231,9 @@ class _DamagedEquipment extends State<DamagedEquipment> {
                             ),
                           ),
                           ListTile(
-                            title: const Text('Problemas Técnicos'),
+                            title: const Text('Problemas técnicos'),
                             leading: Radio(
-                              value: 'Problemas técnicos',
+                              value: 'Problemas tecnicos',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -237,9 +243,9 @@ class _DamagedEquipment extends State<DamagedEquipment> {
                             ),
                           ),
                           ListTile(
-                            title: const Text('Não Funcional'),
+                            title: const Text('Não funcional'),
                             leading: Radio(
-                              value: 'Não funcional',
+                              value: 'Nao funcional',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -269,6 +275,7 @@ class _DamagedEquipment extends State<DamagedEquipment> {
                 const Text('Descrição:'),
                 const SizedBox(height: 8),
                 TextFormField(
+                  controller: descriptionController,
                   maxLines: 4,
                   decoration: const InputDecoration(
                     hintText: "Descreva o problema aqui...",
@@ -350,7 +357,7 @@ class _DamagedEquipment extends State<DamagedEquipment> {
                 Align(
                   alignment: Alignment.center,
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       // Lógica para reportar
                       OverlayLoadingProgress.start(context);
                       report();

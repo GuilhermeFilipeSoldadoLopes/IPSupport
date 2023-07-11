@@ -122,7 +122,7 @@ class _VendingMachine extends State<VendingMachine> {
           "isActive": true,
           "isUrgent": reportsList[_index].reportData!.isUrgent,
           "creationDate": reportsList[_index].reportData!.creationDate,
-          "resolutionDate": " ",
+          "resolutionDate": "Not resolved",
         };
       } else if (reportsList[_index].reportData!.isActive == false &&
           reportsList[_index].reportData!.numReports == 1) {
@@ -140,7 +140,7 @@ class _VendingMachine extends State<VendingMachine> {
           "isActive": true,
           "isUrgent": reportsList[_index].reportData!.isUrgent,
           "creationDate": reportsList[_index].reportData!.creationDate,
-          "resolutionDate": " ",
+          "resolutionDate": "Not resolved",
         };
       }
     }
@@ -192,7 +192,13 @@ class _VendingMachine extends State<VendingMachine> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
+    getReporstList();
+  }
+
+  @override
+  Widget build(BuildContext context, {String? key}) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Máquina de venda'),
@@ -240,7 +246,7 @@ class _VendingMachine extends State<VendingMachine> {
                             title:
                                 const Text('Pagamento eletrónico indisponível'),
                             leading: Radio(
-                              value: 'Cartão indisponivel',
+                              value: 'Cartao indisponivel',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -270,6 +276,7 @@ class _VendingMachine extends State<VendingMachine> {
                 const Text('Descrição:'),
                 const SizedBox(height: 8),
                 TextFormField(
+                  controller: descriptionController,
                   maxLines: 4,
                   decoration: const InputDecoration(
                     hintText: "Descreva o problema aqui...",
@@ -351,7 +358,7 @@ class _VendingMachine extends State<VendingMachine> {
                 Align(
                   alignment: Alignment.center,
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       // Lógica para reportar
                       OverlayLoadingProgress.start(context);
                       report();

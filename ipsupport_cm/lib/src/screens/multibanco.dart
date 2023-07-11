@@ -122,7 +122,7 @@ class _Multibanco extends State<Multibanco> {
           "isActive": true,
           "isUrgent": reportsList[_index].reportData!.isUrgent,
           "creationDate": reportsList[_index].reportData!.creationDate,
-          "resolutionDate": " ",
+          "resolutionDate": "Not resolved",
         };
       } else if (reportsList[_index].reportData!.isActive == false &&
           reportsList[_index].reportData!.numReports == 1) {
@@ -140,7 +140,7 @@ class _Multibanco extends State<Multibanco> {
           "isActive": true,
           "isUrgent": reportsList[_index].reportData!.isUrgent,
           "creationDate": reportsList[_index].reportData!.creationDate,
-          "resolutionDate": " ",
+          "resolutionDate": "Not resolved",
         };
       }
     }
@@ -192,7 +192,13 @@ class _Multibanco extends State<Multibanco> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
+    getReporstList();
+  }
+
+  @override
+  Widget build(BuildContext context, {String? key}) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Multibanco'),
@@ -227,7 +233,7 @@ class _Multibanco extends State<Multibanco> {
                           ListTile(
                             title: const Text('Sem papel'),
                             leading: Radio(
-                              value: 'sem_papel',
+                              value: 'Sem papel',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -239,10 +245,7 @@ class _Multibanco extends State<Multibanco> {
                         ],
                       ),
                     ),
-                    const SizedBox(
-                      width: 25,
-                      height: 50,
-                    ),
+                    const SizedBox(width: 16),
                     Padding(
                       padding: const EdgeInsets.only(right: 25.0),
                       child: Container(
@@ -259,6 +262,7 @@ class _Multibanco extends State<Multibanco> {
                 const Text('Descrição:'),
                 const SizedBox(height: 8),
                 TextFormField(
+                  controller: descriptionController,
                   maxLines: 4,
                   decoration: const InputDecoration(
                     hintText: "Descreva o problema aqui...",
@@ -340,7 +344,7 @@ class _Multibanco extends State<Multibanco> {
                 Align(
                   alignment: Alignment.center,
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       // Lógica para reportar
                       OverlayLoadingProgress.start(context);
                       report();

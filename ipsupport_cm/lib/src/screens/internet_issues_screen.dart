@@ -122,7 +122,7 @@ class _InternetIssues extends State<InternetIssues> {
           "isActive": true,
           "isUrgent": reportsList[_index].reportData!.isUrgent,
           "creationDate": reportsList[_index].reportData!.creationDate,
-          "resolutionDate": " ",
+          "resolutionDate": "Not resolved",
         };
       } else if (reportsList[_index].reportData!.isActive == false &&
           reportsList[_index].reportData!.numReports == 1) {
@@ -140,7 +140,7 @@ class _InternetIssues extends State<InternetIssues> {
           "isActive": true,
           "isUrgent": reportsList[_index].reportData!.isUrgent,
           "creationDate": reportsList[_index].reportData!.creationDate,
-          "resolutionDate": " ",
+          "resolutionDate": "Not resolved",
         };
       }
     }
@@ -192,10 +192,16 @@ class _InternetIssues extends State<InternetIssues> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
+    getReporstList();
+  }
+
+  @override
+  Widget build(BuildContext context, {String? key}) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Problemas de internet'),
+        title: const Text('Problemas de Internet'),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -225,7 +231,7 @@ class _InternetIssues extends State<InternetIssues> {
                             ),
                           ),
                           ListTile(
-                            title: const Text('Baixa Velocidade'),
+                            title: const Text('Baixa velocidade'),
                             leading: Radio(
                               value: 'Baixa velocidade',
                               groupValue: selectedOption,
@@ -269,6 +275,7 @@ class _InternetIssues extends State<InternetIssues> {
                 const Text('Descrição:'),
                 const SizedBox(height: 8),
                 TextFormField(
+                  controller: descriptionController,
                   maxLines: 4,
                   decoration: const InputDecoration(
                     hintText: "Descreva o problema aqui...",
@@ -350,7 +357,7 @@ class _InternetIssues extends State<InternetIssues> {
                 Align(
                   alignment: Alignment.center,
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       // Lógica para reportar
                       OverlayLoadingProgress.start(context);
                       report();

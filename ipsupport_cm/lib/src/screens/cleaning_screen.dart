@@ -122,7 +122,7 @@ class _Cleaning extends State<Cleaning> {
           "isActive": true,
           "isUrgent": reportsList[_index].reportData!.isUrgent,
           "creationDate": reportsList[_index].reportData!.creationDate,
-          "resolutionDate": " ",
+          "resolutionDate": "Not resolved",
         };
       } else if (reportsList[_index].reportData!.isActive == false &&
           reportsList[_index].reportData!.numReports == 1) {
@@ -140,7 +140,7 @@ class _Cleaning extends State<Cleaning> {
           "isActive": true,
           "isUrgent": reportsList[_index].reportData!.isUrgent,
           "creationDate": reportsList[_index].reportData!.creationDate,
-          "resolutionDate": " ",
+          "resolutionDate": "Not resolved",
         };
       }
     }

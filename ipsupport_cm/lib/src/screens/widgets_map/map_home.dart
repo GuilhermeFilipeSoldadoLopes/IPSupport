@@ -20,7 +20,8 @@ class MapHome extends StatefulWidget {
 
 class _MapHomeState extends State<MapHome> {
   static const CameraPosition _ipsCameraPosition = CameraPosition(
-    target: LatLng(38.656131, -9.173389),
+    target: LatLng(37.421998333333335, -122.084),
+    //target: LatLng(38.656131, -9.173389),
     zoom: 16.1, //10
   );
 
@@ -30,7 +31,7 @@ class _MapHomeState extends State<MapHome> {
   String? key;
 
   final _polygons = <Polygon>{
-    /*Polygon(
+    Polygon(
       polygonId: const PolygonId('ips'),
       points: const [
         LatLng(38.52369782149787, -8.842641622206202),
@@ -38,10 +39,10 @@ class _MapHomeState extends State<MapHome> {
         LatLng(38.519575194826196, -8.835088408159743),
         LatLng(38.523498184000566, -8.838622597840265),
       ],
-      fillColor: Colors.green.withOpacity(0.3),
-      strokeColor: Colors.green,
+      fillColor: Colors.blue.withOpacity(0.3),
+      strokeColor: Colors.blue,
       strokeWidth: 4,
-    ),*/
+    ),
   };
 
   MapType _mapType = MapType.hybrid;
@@ -84,7 +85,7 @@ class _MapHomeState extends State<MapHome> {
     }
   }
 
-  void getReporstList() {
+  void getReporstList() async {
     dbRef.child("Report").onChildAdded.listen((data) {
       ReportData reportData = ReportData.fromJson(data.snapshot.value as Map);
       Report report = Report(key: data.snapshot.key, reportData: reportData);
@@ -95,7 +96,7 @@ class _MapHomeState extends State<MapHome> {
     });
   }
 
-  void updateReportsList() {
+  void updateReportsList() async {
     Map<String, dynamic> data;
     for (var i = 0; i < reportsList.length; i++) {
       if (DateTime.now().isAfter(
@@ -128,7 +129,7 @@ class _MapHomeState extends State<MapHome> {
     }
   }
 
-  void addMarkers() {
+  void addMarkers() async {
     for (var i = 0; i < reportsList.length; i++) {
       createMarker(reportsList[i].reportData!);
     }
@@ -154,7 +155,9 @@ class _MapHomeState extends State<MapHome> {
       markers.add(Marker(
           markerId: MarkerId(reportData.creationDate!),
           position: LatLng(latitude, longitude),
-          onTap: () {},
+          onTap: () {
+            _showBottomSheet(context);
+          },
           icon: markerIcon));
     });
   }
