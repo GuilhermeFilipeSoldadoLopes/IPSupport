@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:ipsupport_cm/models/reports_models.dart';
 import 'package:ipsupport_cm/models/userReports.dart';
 import 'package:ipsupport_cm/src/utils/utils.dart';
+import 'package:overlay_loading_progress/overlay_loading_progress.dart';
 import 'report_success.dart';
 
 class Multibanco extends StatefulWidget {
@@ -19,7 +20,7 @@ class Multibanco extends StatefulWidget {
 }
 
 class _Multibanco extends State<Multibanco> {
-  String? selectedOption = 'Sem Dinheiro';
+  String? selectedOption = 'Sem dinheiro';
   bool isUrgent = false;
 
   final TextEditingController descriptionController = TextEditingController();
@@ -69,7 +70,7 @@ class _Multibanco extends State<Multibanco> {
     String date = DateTime.now().toString();
 
     Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.low);
+        desiredAccuracy: LocationAccuracy.high);
 
     for (var i = 0; i < reportsList.length; i++) {
       if (reportsList[i].reportData!.problem == "Multibanco" &&
@@ -173,6 +174,7 @@ class _Multibanco extends State<Multibanco> {
         reportsList.insert(
             index, Report(key: key, reportData: ReportData.fromJson(data)));
         setState(() {});
+        OverlayLoadingProgress.stop();
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (BuildContext context) {
           return ReportSuccess();
@@ -180,6 +182,7 @@ class _Multibanco extends State<Multibanco> {
       });
     } else {
       dbRef.child("Report").push().set(data).then((value) {
+        OverlayLoadingProgress.stop();
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (BuildContext context) {
           return ReportSuccess();
@@ -212,7 +215,7 @@ class _Multibanco extends State<Multibanco> {
                           ListTile(
                             title: const Text('Sem dinheiro'),
                             leading: Radio(
-                              value: 'sem_dinheiro',
+                              value: 'Sem dinheiro',
                               groupValue: selectedOption,
                               onChanged: (value) {
                                 setState(() {
@@ -339,6 +342,7 @@ class _Multibanco extends State<Multibanco> {
                   child: ElevatedButton(
                     onPressed: () {
                       // Lógica para reportar
+                      OverlayLoadingProgress.start(context);
                       report();
                     },
                     style: ElevatedButton.styleFrom(

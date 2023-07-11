@@ -20,66 +20,17 @@ class MapHome extends StatefulWidget {
 
 class _MapHomeState extends State<MapHome> {
   static const CameraPosition _ipsCameraPosition = CameraPosition(
-    target: LatLng(38.521095, -8.838903),
+    target: LatLng(38.656131, -9.173389),
     zoom: 16.1, //10
   );
 
   DatabaseReference dbRef = FirebaseDatabase.instance.ref();
   List<Report> reportsList = [];
-  bool updateReports = false;
   Set<Marker> markers = <Marker>{};
-  
-  final _markers = <Marker>{
-    Marker(
-      markerId: const MarkerId('ess'),
-      position: const LatLng(38.52275567301086, -8.841010269144789),
-      infoWindow: const InfoWindow(
-        title: 'ESS',
-        snippet: 'Escola Superior de Saúde',
-      ),
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
-    ),
-    Marker(
-      markerId: const MarkerId('esce'),
-      position: const LatLng(38.52266940145118, -8.841144169323442),
-      infoWindow: const InfoWindow(
-        title: 'ESCE',
-        snippet: 'Escola Superior de Ciências Empresariais',
-      ),
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-    ),
-    Marker(
-      markerId: const MarkerId('ese'),
-      position: const LatLng(38.520075729121054, -8.838204661370296),
-      infoWindow: const InfoWindow(
-        title: 'ESE',
-        snippet: 'Escola Superior de Educação',
-      ),
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
-    ),
-    Marker(
-      markerId: const MarkerId('ests'),
-      position: const LatLng(38.52199531703995, -8.838600716392541),
-      infoWindow: const InfoWindow(
-        title: 'ESTS',
-        snippet: 'Escola Superior de Tecnologia de Setúbal',
-      ),
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueYellow),
-    ),
-    Marker(
-      markerId: const MarkerId('estb'),
-      position: const LatLng(38.65254138787937, -9.048843018238152),
-      infoWindow: const InfoWindow(
-        title: 'ESTB',
-        snippet: 'Escola Superior de Tecnologia do Barreiro',
-      ),
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
-    ),
-   
-  };
+  String? key;
 
   final _polygons = <Polygon>{
-    Polygon(
+    /*Polygon(
       polygonId: const PolygonId('ips'),
       points: const [
         LatLng(38.52369782149787, -8.842641622206202),
@@ -90,17 +41,19 @@ class _MapHomeState extends State<MapHome> {
       fillColor: Colors.green.withOpacity(0.3),
       strokeColor: Colors.green,
       strokeWidth: 4,
-    ),
+    ),*/
   };
 
   MapType _mapType = MapType.hybrid;
 
   @override
   void initState() {
+    super.initState();
     _requestPermission();
     _loadIpsLogoIcon();
-    addMarker('',true);
-    super.initState();
+    getReporstList();
+    updateReportsList();
+    addMarkers();
   }
 
   Future<void> _requestPermission() async {
@@ -119,7 +72,7 @@ class _MapHomeState extends State<MapHome> {
     });
   }
 
-  void _zoom_out() async {
+  void zoomOut() async {
     //como verificar se o mapa tem zoom e/ou nao esta na posicao inicial
     final GoogleMapController controller =
         await widget.controllerCompleter.future;
@@ -131,58 +84,79 @@ class _MapHomeState extends State<MapHome> {
     }
   }
 
-  void retrieveReportsData() {
-    dbRef.child("Reports").onChildAdded.listen((data) {
+  void getReporstList() {
+    dbRef.child("Report").onChildAdded.listen((data) {
       ReportData reportData = ReportData.fromJson(data.snapshot.value as Map);
       Report report = Report(key: data.snapshot.key, reportData: reportData);
       reportsList.add(report);
-      setState(() {});
-
-      dbRef.child("Reports").push().set(data).then((value) {
-        for (var i = 0; i < reportsList.length; i++) {
-          if (DateTime.now().isAfter(
-              DateTime.parse(reportsList[i].reportData!.creationDate!)
-                  .add(const Duration(hours: 36)))) {
-            reportsList[i].reportData!.isActive = false;
-          }
-
-          if (reportsList[i].reportData!.isActive == false) {
-            reportsList.removeAt(i);
-          }
-        }
-
-        for (var i = 0; i < reportsList.length; i++) {
-          Marker _marker = Marker(
-            markerId: MarkerId('ests'),
-            position: const LatLng(38.52199531703995, -8.838600716392541),
-            infoWindow: const InfoWindow(
-              title: 'ESTS',
-              snippet: 'Escola Superior de Tecnologia de Setúbal',
-            ),
-            icon: BitmapDescriptor.defaultMarkerWithHue(
-                BitmapDescriptor.hueYellow),
-          );
-
-          //reportsList[i].reportData!.userName;
-
-          _markers.add(_marker);
-        }
+      setState(() {
+        key = data.snapshot.key;
       });
     });
   }
 
-  void addMarker(String problema, bool isUrgent)  async {
-    String nomeImagem= problema.toLowerCase();
-    if(isUrgent){
-      nomeImagem = nomeImagem+"_urgente";
-    }
-    BitmapDescriptor markerIcon = await BitmapDescriptor.fromAssetImage(ImageConfiguration(),"assets/images/pin_"+nomeImagem+".png",);
+  void updateReportsList() {
+    Map<String, dynamic> data;
+    for (var i = 0; i < reportsList.length; i++) {
+      if (DateTime.now().isAfter(
+          DateTime.parse(reportsList[i].reportData!.creationDate!)
+              .add(const Duration(hours: 36)))) {
+        data = {
+          "userName": reportsList[i].reportData!.userName,
+          "userEmail": reportsList[i].reportData!.userEmail,
+          "description": reportsList[i].reportData!.description,
+          "photoURL": reportsList[i].reportData!.photoURL,
+          "problem": reportsList[i].reportData!.problem,
+          "problemType": reportsList[i].reportData!.problemType,
+          "latitude": reportsList[i].reportData!.latitude,
+          "longitude": reportsList[i].reportData!.longitude,
+          "numReports": reportsList[i].reportData!.numReports,
+          "isActive": false,
+          "isUrgent": reportsList[i].reportData!.isUrgent,
+          "creationDate": reportsList[i].reportData!.creationDate,
+          "resolutionDate": DateTime.now().toString(),
+        };
+        reportsList.removeAt(i);
+        reportsList.insert(
+            i, Report(key: key, reportData: ReportData.fromJson(data)));
+        setState(() {});
+      }
 
-    _markers.add(Marker(
-              markerId: MarkerId('MarkerTeste'),
-              //position: const LatLng(38.52199531703995, -8.838600716392541),
-              icon: markerIcon
-    ));
+      if (reportsList[i].reportData!.isActive == false) {
+        reportsList.removeAt(i);
+      }
+    }
+  }
+
+  void addMarkers() {
+    for (var i = 0; i < reportsList.length; i++) {
+      createMarker(reportsList[i].reportData!);
+    }
+  }
+
+  void createMarker(ReportData reportData) async {
+    String? problema = reportData.problem;
+    bool isUrgent = reportData.isUrgent ?? false;
+
+    String nomeImagem = problema!.toLowerCase();
+    if (isUrgent) {
+      nomeImagem = nomeImagem + "_urgente";
+    }
+    BitmapDescriptor markerIcon = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(),
+      "assets/images/pin_" + nomeImagem + ".png",
+    );
+
+    double latitude = reportData.latitude ?? 0;
+    double longitude = reportData.longitude ?? 0;
+
+    setState(() {
+      markers.add(Marker(
+          markerId: MarkerId(reportData.creationDate!),
+          position: LatLng(latitude, longitude),
+          onTap: () {},
+          icon: markerIcon));
+    });
   }
 
   @override
@@ -194,7 +168,7 @@ class _MapHomeState extends State<MapHome> {
           mapType: _mapType,
           trafficEnabled: false,
           myLocationEnabled: true,
-          compassEnabled: true,
+          compassEnabled: false,
           minMaxZoomPreference: const MinMaxZoomPreference(16.1, 20),
           layoutDirection: TextDirection.ltr,
           indoorViewEnabled: false,
@@ -231,7 +205,7 @@ class _MapHomeState extends State<MapHome> {
                 elevation: 5,
                 backgroundColor: Colors.blue,
                 onPressed: () {
-                  _zoom_out();
+                  zoomOut();
                 },
                 child: const Icon(Icons.zoom_out)),
           ]),
@@ -254,90 +228,89 @@ class _MapHomeState extends State<MapHome> {
     );
   }
 
-    void _showBottomSheet(BuildContext context) {
-      showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return Container(
-            padding: EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
+  void _showBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Image.asset(
+                    'assets/images/cleaning_screen',
+                    width: 50,
+                    height: 50,
+                  ),
+                  SizedBox(width: 16.0),
+                  Text(
+                    'Limpeza',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 16.0),
+              Container(
+                padding: EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Row(
                   children: [
-                    Image.asset(
-                      'assets/images/cleaning_screen',
-                      width: 50,
-                      height: 50,
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        'Descrição',
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ),
                     SizedBox(width: 16.0),
-                    Text(
-                      'Limpeza',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Expanded(
+                      flex: 1,
+                      child: Placeholder(), // Local para a fotografia
                     ),
                   ],
                 ),
-                SizedBox(height: 16.0),
-                Container(
-                  padding: EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Text(
-                          'Descrição',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
-                      SizedBox(width: 16.0),
-                      Expanded(
-                        flex: 1,
-                        child: Placeholder(), // Local para a fotografia
-                      ),
-                    ],
-                  ),
+              ),
+              SizedBox(height: 16.0),
+              Container(
+                padding: EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(8.0),
                 ),
-                SizedBox(height: 16.0),
-                Container(
-                  padding: EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: Text('Numero de Reportes:'),
-                  
-                ),
-                SizedBox(height: 16.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
-                      ),
-                      child: Text('Reportar'),
+                child: Text('Numero de Reportes:'),
+              ),
+              SizedBox(height: 16.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
                     ),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
-                      ),
-                      child: Text('Resolvido'),
+                    child: Text('Reportar'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
                     ),
-                  ],
-                ),
-              ],
-            ),
-          );
-        },
-      );
+                    child: Text('Resolvido'),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

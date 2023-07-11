@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:ipsupport_cm/models/reports_models.dart';
 import 'package:ipsupport_cm/models/userReports.dart';
 import 'package:ipsupport_cm/src/utils/utils.dart';
+import 'package:overlay_loading_progress/overlay_loading_progress.dart';
 import 'report_success.dart';
 
 class DamagedEquipment extends StatefulWidget {
@@ -69,7 +70,7 @@ class _DamagedEquipment extends State<DamagedEquipment> {
     String date = DateTime.now().toString();
 
     Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.low);
+        desiredAccuracy: LocationAccuracy.high);
 
     for (var i = 0; i < reportsList.length; i++) {
       if (reportsList[i].reportData!.problem == "Equipamento" &&
@@ -173,6 +174,7 @@ class _DamagedEquipment extends State<DamagedEquipment> {
         reportsList.insert(
             index, Report(key: key, reportData: ReportData.fromJson(data)));
         setState(() {});
+        OverlayLoadingProgress.stop();
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (BuildContext context) {
           return ReportSuccess();
@@ -180,6 +182,7 @@ class _DamagedEquipment extends State<DamagedEquipment> {
       });
     } else {
       dbRef.child("Report").push().set(data).then((value) {
+        OverlayLoadingProgress.stop();
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (BuildContext context) {
           return ReportSuccess();
@@ -349,6 +352,7 @@ class _DamagedEquipment extends State<DamagedEquipment> {
                   child: ElevatedButton(
                     onPressed: () {
                       // Lógica para reportar
+                      OverlayLoadingProgress.start(context);
                       report();
                     },
                     style: ElevatedButton.styleFrom(
