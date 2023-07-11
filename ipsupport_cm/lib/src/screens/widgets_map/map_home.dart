@@ -154,13 +154,13 @@ class _MapHomeState extends State<MapHome> {
         for (var i = 0; i < reportsList.length; i++) {
           Marker _marker = Marker(
             markerId: MarkerId('ests'),
-            /*position: const LatLng(38.52199531703995, -8.838600716392541),
+            position: const LatLng(38.52199531703995, -8.838600716392541),
             infoWindow: const InfoWindow(
               title: 'ESTS',
               snippet: 'Escola Superior de Tecnologia de Setúbal',
             ),
             icon: BitmapDescriptor.defaultMarkerWithHue(
-                BitmapDescriptor.hueYellow),*/
+                BitmapDescriptor.hueYellow),
           );
 
           //reportsList[i].reportData!.userName;
@@ -201,7 +201,7 @@ void addMarker(String problema, bool isUrgent)  async {
           myLocationButtonEnabled: false,
           zoomControlsEnabled: false,
           zoomGesturesEnabled: true,
-          rotateGesturesEnabled: false,
+          rotateGesturesEnabled: true,
           scrollGesturesEnabled: false,
           markers: markers,
           polygons: _polygons,
