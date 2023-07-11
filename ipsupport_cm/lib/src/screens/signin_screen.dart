@@ -4,6 +4,7 @@ import 'package:ipsupport_cm/src/home_nav_bar.dart';
 import 'package:ipsupport_cm/src/screens/reset_password.dart';
 import 'package:ipsupport_cm/src/screens/signup_screen.dart';
 import 'package:ipsupport_cm/src/utils/reusable_widgets/reusable_widgets.dart';
+import 'package:overlay_loading_progress/overlay_loading_progress.dart';
 
 class SingInScreen extends StatefulWidget {
   const SingInScreen({Key? key}) : super(key: key);
@@ -64,6 +65,7 @@ class _SingInScreenState extends State<SingInScreen> {
                   ),
                   forgetPassword(context),
                   firebaseUIButton(context, "Entrar", () {
+                    OverlayLoadingProgress.start(context);
                     bool isValid = false;
 
                     if (_emailTextController.text.isEmpty) {
@@ -105,18 +107,12 @@ class _SingInScreenState extends State<SingInScreen> {
                     }
 
                     if (isValid) {
-                      /*showDialog(
-                          context: context,
-                          builder: (context) {
-                            return const Center(
-                                child: CircularProgressIndicator());
-                          });*/
-
                       FirebaseAuth.instance
                           .signInWithEmailAndPassword(
                               email: _emailTextController.text,
                               password: _passwordTextController.text)
                           .then((value) {
+                        OverlayLoadingProgress.stop();
                         Navigator.pushReplacement(context,
                             MaterialPageRoute(builder: (BuildContext context) {
                           return const Home();
@@ -126,11 +122,13 @@ class _SingInScreenState extends State<SingInScreen> {
                           errorEmailMessage =
                               'Não existe conta com o Email inserido.';
                         }
+                        OverlayLoadingProgress.stop();
                         print(error);
                         print("Error ${error.toString()}");
                         setState(() {});
                       });
                     } else {
+                      OverlayLoadingProgress.stop();
                       setState(() {});
                     }
                   }),

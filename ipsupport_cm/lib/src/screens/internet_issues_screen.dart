@@ -72,7 +72,7 @@ class _InternetIssues extends State<InternetIssues> {
         desiredAccuracy: LocationAccuracy.low);
 
     for (var i = 0; i < reportsList.length; i++) {
-      if (reportsList[i].reportData!.problem == "Limpeza" &&
+      if (reportsList[i].reportData!.problem == "Internet" &&
           reportsList[i].reportData!.problemType == selectedOption) {
         if (distance(
                 reportsList[i].reportData!.latitude!,
@@ -93,7 +93,7 @@ class _InternetIssues extends State<InternetIssues> {
       "userEmail": FirebaseAuth.instance.currentUser?.email,
       "description": descriptionController.text,
       "photoURL": imageUrl ?? "No photo",
-      "problem": "Limpeza",
+      "problem": "Internet",
       "problemType": selectedOption,
       "latitude": position.latitude,
       "longitude": position.longitude,
@@ -113,7 +113,7 @@ class _InternetIssues extends State<InternetIssues> {
           "description": reportsList[_index].reportData!.description ??
               descriptionController.text,
           "photoURL": reportsList[_index].reportData!.photoURL,
-          "problem": "Limpeza",
+          "problem": "Internet",
           "problemType": selectedOption,
           "latitude": reportsList[_index].reportData!.latitude,
           "longitude": reportsList[_index].reportData!.longitude,
@@ -131,7 +131,7 @@ class _InternetIssues extends State<InternetIssues> {
           "description": reportsList[_index].reportData!.description ??
               descriptionController.text,
           "photoURL": reportsList[_index].reportData!.photoURL,
-          "problem": "Limpeza",
+          "problem": "Internet",
           "problemType": selectedOption,
           "latitude": reportsList[_index].reportData!.latitude,
           "longitude": reportsList[_index].reportData!.longitude,

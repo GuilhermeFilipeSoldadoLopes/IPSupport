@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ipsupport_cm/src/home_nav_bar.dart';
 import 'package:ipsupport_cm/src/utils/reusable_widgets/reusable_widgets.dart';
+import 'package:overlay_loading_progress/overlay_loading_progress.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -66,6 +67,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: 8,
                 ),
                 firebaseUIButton(context, "Registar", () {
+                  OverlayLoadingProgress.start(context);
                   bool isValid = false;
 
                   if (_emailTextController.text.isEmpty) {
@@ -121,21 +123,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         "email": FirebaseAuth.instance.currentUser!.email,
                         "numReports": 0
                       });
+                      OverlayLoadingProgress.stop();
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const Home()));
                     }).onError((error, stackTrace) {
-                      if (error
-                          .toString()
-                          .contains('(auth/email-already-in-use)')) {
+                      if (error.toString().contains('email-already-in-use')) {
                         errorEmailMessage = 'Email já se encontra em uso.';
                       }
+                      OverlayLoadingProgress.stop();
                       print(error);
                       print("Error ${error.toString()}");
                       setState(() {});
                     });
                   } else {
+                    OverlayLoadingProgress.stop();
                     setState(() {});
                   }
                 })
