@@ -122,9 +122,7 @@ class _SingInScreenState extends State<SingInScreen> {
                           return const Home();
                         }));
                       }).onError((error, stackTrace) {
-                        if (error
-                            .toString()
-                            .contains('(auth/user-not-found)')) {
+                        if (error.toString().contains('user-not-found')) {
                           errorEmailMessage =
                               'Não existe conta com o Email inserido.';
                         }

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ipsupport_cm/src/home_nav_bar.dart';
@@ -116,6 +117,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ?.updateDisplayName(_userNameTextController.text);
                       FirebaseAuth.instance.currentUser?.updatePhotoURL(
                           "https://firebasestorage.googleapis.com/v0/b/ipsupport-28bbe.appspot.com/o/default%2Fdefault_profile.jpg?alt=media&token=83373b6a-6399-4bd4-ac8c-d7f8c203f48a");
+                      FirebaseFirestore.instance.collection("Users").add({
+                        "email": FirebaseAuth.instance.currentUser!.email,
+                        "numReports": 0
+                      });
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(

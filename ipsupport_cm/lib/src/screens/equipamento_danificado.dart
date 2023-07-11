@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ipsupport_cm/models/reports_models.dart';
+import 'package:ipsupport_cm/models/userReports.dart';
 import 'package:ipsupport_cm/src/utils/utils.dart';
 import 'report_success.dart';
 
@@ -17,7 +19,7 @@ class DamagedEquipment extends StatefulWidget {
 }
 
 class _DamagedEquipment extends State<DamagedEquipment> {
-  String? selectedOption = 'partido';
+  String? selectedOption = 'Partido';
   bool isUrgent = false;
 
   final TextEditingController descriptionController = TextEditingController();
@@ -29,6 +31,7 @@ class _DamagedEquipment extends State<DamagedEquipment> {
   String? imageUrl;
   String? path;
   String? key;
+  bool haveImage = false;
 
   void _editImageDialog(BuildContext context) async {
     var pickedImage = await ImagePicker().pickImage(
@@ -45,6 +48,10 @@ class _DamagedEquipment extends State<DamagedEquipment> {
 
     await ref.putFile(File(pickedImage.path)); //you need to add path here
     imageUrl = await ref.getDownloadURL();
+
+    setState(() {
+      haveImage = true;
+    });
   }
 
   void getReporstList() {
@@ -136,6 +143,28 @@ class _DamagedEquipment extends State<DamagedEquipment> {
         };
       }
     }
+
+    int numReports = 0;
+    String? _doc;
+
+    var toMessages = (await db
+        .collection("Users")
+        .withConverter(
+          fromFirestore: UserReports.fromFirestore,
+          toFirestore: (UserReports userReports, options) =>
+              userReports.toFirestore(),
+        )
+        .where("email", isEqualTo: FirebaseAuth.instance.currentUser?.email)
+        .get());
+
+    toMessages.docs.forEach((doc) {
+      _doc = doc.id;
+      numReports = int.parse(doc.data().toString());
+    });
+
+    FirebaseFirestore.instance.collection("Users").doc(_doc).update({
+      "numReports": numReports + 1,
+    });
 
     if (updateReports) {
       dbRef.child("Report").child(key!).update(data).then((value) {
@@ -271,9 +300,13 @@ class _DamagedEquipment extends State<DamagedEquipment> {
                               onPressed: () {
                                 // Lógica para adicionar foto
                               },
-                              icon: const Icon(Icons.camera_alt),
+                              icon: haveImage
+                                  ? const Icon(Icons.check)
+                                  : const Icon(Icons.camera_alt),
                             ),
-                            const Text('Inserir fotografia'),
+                            haveImage
+                                ? const Text('Fotografia selecionada')
+                                : const Text('Inserir fotografia'),
                           ],
                         ),
                       ),
@@ -305,6 +338,7 @@ class _DamagedEquipment extends State<DamagedEquipment> {
                   child: ElevatedButton(
                     onPressed: () {
                       // Lógica para reportar
+                      report();
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,

@@ -2,9 +2,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:ipsupport_cm/models/userReports.dart';
 import 'package:ipsupport_cm/src/screens/settings_screen.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ipsupport_cm/src/utils/utils.dart';
 
 class Profile extends StatefulWidget {
   Profile({Key? key}) : super(key: key);
@@ -14,10 +16,11 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  int numReports = 0;
   String displayName = '';
   String imageUrl = '';
   bool isImageNew = false;
-  NetworkImage networkImage = NetworkImage(
+  NetworkImage networkImage = const NetworkImage(
       'https://firebasestorage.googleapis.com/v0/b/ipsupport-28bbe.appspot.com/o/default%2Fdefault_profile.jpg?alt=media&token=83373b6a-6399-4bd4-ac8c-d7f8c203f48a');
 
   GlobalKey<FormState> key = GlobalKey();
@@ -36,6 +39,29 @@ class _ProfileState extends State<Profile> {
       FirebaseAuth.instance.currentUser?.photoURL ??
           'https://firebasestorage.googleapis.com/v0/b/ipsupport-28bbe.appspot.com/o/default%2Fdefault_profile.jpg?alt=media&token=83373b6a-6399-4bd4-ac8c-d7f8c203f48a',
     );
+    getNumReports();
+  }
+
+  void getNumReports() async {
+    var toMessages = (await db
+        .collection("Users")
+        .withConverter(
+          fromFirestore: UserReports.fromFirestore,
+          toFirestore: (UserReports userReports, options) =>
+              userReports.toFirestore(),
+        )
+        .where("email", isEqualTo: FirebaseAuth.instance.currentUser?.email)
+        .get());
+
+    for (var doc in toMessages.docs) {
+      setNumReports(int.parse(doc.data().toString()));
+    }
+  }
+
+  void setNumReports(int value) {
+    setState(() {
+      numReports = value;
+    });
   }
 
   Future<void> fetchCurrentUser() async {
@@ -158,10 +184,12 @@ class _ProfileState extends State<Profile> {
                     ? CircleAvatar(
                         radius: 65,
                         backgroundImage: NetworkImage(imageUrl),
+                        backgroundColor: Colors.blue,
                       )
                     : CircleAvatar(
                         radius: 65,
                         backgroundImage: networkImage,
+                        backgroundColor: Colors.blue,
                       ),
                 Positioned(
                   top: 0,
@@ -216,6 +244,14 @@ class _ProfileState extends State<Profile> {
               subtitle: FirebaseAuth.instance.currentUser?.email ?? 'Error...',
               iconData: Icons.email,
               isEditable: false,
+            ),
+            const SizedBox(height: 20),
+            Text(
+              'Reportes realizados: $numReports',
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ],
         ),

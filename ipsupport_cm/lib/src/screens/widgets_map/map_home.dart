@@ -29,7 +29,7 @@ class _MapHomeState extends State<MapHome> {
   bool updateReports = false;
   Set<Marker> markers = <Marker>{};
 
-  /*final _markers = <Marker>{
+  final _markers = <Marker>{
     Marker(
       markerId: const MarkerId('ess'),
       position: const LatLng(38.52275567301086, -8.841010269144789),
@@ -75,7 +75,7 @@ class _MapHomeState extends State<MapHome> {
       ),
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
     ),
-  };*/
+  };
 
   final _polygons = <Polygon>{
     Polygon(
@@ -164,7 +164,7 @@ class _MapHomeState extends State<MapHome> {
 
           //reportsList[i].reportData!.userName;
 
-          markers.add(_marker);
+          _markers.add(_marker);
         }
       });
     });

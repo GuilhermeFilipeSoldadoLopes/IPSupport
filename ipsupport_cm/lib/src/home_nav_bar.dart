@@ -47,6 +47,7 @@ class _HomeState extends State<Home> {
   void initShaker() {
     detector = ShakeDetector.autoStart(
         minimumShakeCount: 2,
+        shakeCountResetTime: 1000,
         onPhoneShake: () {
           Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => const Home()));
@@ -168,6 +169,7 @@ class _HomeState extends State<Home> {
         bucket: bucket,
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: "btn1",
         child: const Icon(Icons.assistant_navigation),
         onPressed: () {
           if (currentTab == 1) {
