@@ -149,7 +149,6 @@ class _MapHomeState extends State<MapHome> {
       ImageConfiguration(),
       "assets/images/pin_" + nomeImagem + ".png",
     );
-
     double latitude = reportData.latitude ?? 0;
     double longitude = reportData.longitude ?? 0;
 
