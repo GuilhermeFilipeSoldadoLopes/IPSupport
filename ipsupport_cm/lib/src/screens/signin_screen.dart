@@ -27,6 +27,7 @@ class _SingInScreenState extends State<SingInScreen> {
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           elevation: 0,
+          automaticallyImplyLeading: false,
           title: const Text(
             "Entrar",
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),

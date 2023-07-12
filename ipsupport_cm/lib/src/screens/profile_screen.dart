@@ -155,6 +155,7 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        automaticallyImplyLeading: false,
         title: const Text(
           "Perfil",
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
