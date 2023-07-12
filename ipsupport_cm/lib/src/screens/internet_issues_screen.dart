@@ -73,18 +73,22 @@ class _InternetIssues extends State<InternetIssues> {
         desiredAccuracy: LocationAccuracy.high);
 
     for (var i = 0; i < reportsList.length; i++) {
-      if (reportsList[i].reportData!.problem == "Internet" &&
-          reportsList[i].reportData!.problemType == selectedOption) {
-        if (distance(
-                reportsList[i].reportData!.latitude!,
-                reportsList[i].reportData!.longitude!,
-                position.latitude,
-                position.longitude) <=
-            0.007) {
-          setState(() {
-            updateReports = true;
-            _index = i;
-          });
+      if (reportsList[i].reportData!.resolutionDate == "Not resolved") {
+        if (reportsList[i].reportData!.problem == "Internet" &&
+            reportsList[i].reportData!.problemType == selectedOption) {
+          if (distance(
+                  reportsList[i].reportData!.latitude!,
+                  reportsList[i].reportData!.longitude!,
+                  position.latitude,
+                  position.longitude) <=
+              0.007) {
+            if (reportsList[i].reportData!.isUrgent == isUrgent) {
+              setState(() {
+                updateReports = true;
+                _index = i;
+              });
+            }
+          }
         }
       }
     }
@@ -106,14 +110,29 @@ class _InternetIssues extends State<InternetIssues> {
     };
 
     if (updateReports) {
-      if (reportsList[_index].reportData!.description!.isNotEmpty &&
-          reportsList[_index].reportData!.photoURL!.isNotEmpty) {
+      if (reportsList[_index].reportData!.description!.isEmpty) {
         data = {
           "userName": reportsList[_index].reportData!.userName,
           "userEmail": reportsList[_index].reportData!.userEmail,
           "description": reportsList[_index].reportData!.description ??
               descriptionController.text,
           "photoURL": reportsList[_index].reportData!.photoURL,
+          "problem": "Internet",
+          "problemType": selectedOption,
+          "latitude": reportsList[_index].reportData!.latitude,
+          "longitude": reportsList[_index].reportData!.longitude,
+          "numReports": reportsList[_index].reportData!.numReports! + 1,
+          "isActive": true,
+          "isUrgent": reportsList[_index].reportData!.isUrgent,
+          "creationDate": reportsList[_index].reportData!.creationDate,
+          "resolutionDate": "Not resolved",
+        };
+      } else if (reportsList[_index].reportData!.photoURL!.isEmpty) {
+        data = {
+          "userName": reportsList[_index].reportData!.userName,
+          "userEmail": reportsList[_index].reportData!.userEmail,
+          "description": reportsList[_index].reportData!.description,
+          "photoURL": imageUrl ?? "No photo",
           "problem": "Internet",
           "problemType": selectedOption,
           "latitude": reportsList[_index].reportData!.latitude,
@@ -131,7 +150,7 @@ class _InternetIssues extends State<InternetIssues> {
           "userEmail": reportsList[_index].reportData!.userEmail,
           "description": reportsList[_index].reportData!.description ??
               descriptionController.text,
-          "photoURL": reportsList[_index].reportData!.photoURL,
+          "photoURL": imageUrl ?? reportsList[_index].reportData!.photoURL,
           "problem": "Internet",
           "problemType": selectedOption,
           "latitude": reportsList[_index].reportData!.latitude,

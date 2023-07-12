@@ -1,8 +1,12 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ipsupport_cm/models/reports_models.dart';
+import 'package:ipsupport_cm/models/userReports.dart';
+import 'package:ipsupport_cm/src/utils/utils.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:smooth_compass/utils/src/compass_ui.dart';
 
@@ -142,21 +146,24 @@ class _MapHomeState extends State<MapHome> {
 
   void createMarkers() async {
     for (var i = 0; i < reportsList.length; i++) {
-      String? problema = reportsList[i].reportData!.problem;
-      bool isUrgent = reportsList[i].reportData!.isUrgent ?? false;
+      if (reportsList[i].reportData!.isActive == true &&
+          reportsList[i].reportData!.resolutionDate == "Not resolved") {
+        String? problema = reportsList[i].reportData!.problem;
+        bool isUrgent = reportsList[i].reportData!.isUrgent ?? false;
 
-      String nomeImagem = problema!.toLowerCase();
-      if (isUrgent) {
-        nomeImagem = nomeImagem + "_urgente";
+        String nomeImagem = problema!.toLowerCase();
+        if (isUrgent) {
+          nomeImagem = nomeImagem + "_urgente";
+        }
+        BitmapDescriptor markerIcon = await BitmapDescriptor.fromAssetImage(
+          const ImageConfiguration(),
+          "assets/images/pin_" + nomeImagem + ".png",
+        );
+
+        double latitude = reportsList[i].reportData!.latitude ?? 0;
+        double longitude = reportsList[i].reportData!.longitude ?? 0;
+        addMarker(reportsList[i].reportData!, markerIcon, latitude, longitude);
       }
-      BitmapDescriptor markerIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(),
-        "assets/images/pin_" + nomeImagem + ".png",
-      );
-
-      double latitude = reportsList[i].reportData!.latitude ?? 0;
-      double longitude = reportsList[i].reportData!.longitude ?? 0;
-      addMarker(reportsList[i].reportData!, markerIcon, latitude, longitude);
     }
   }
 
@@ -168,9 +175,87 @@ class _MapHomeState extends State<MapHome> {
           markerId: MarkerId(reportData.creationDate!),
           position: LatLng(latitude, longitude),
           onTap: () {
-            showBottomSheet(context);
+            showBottomSheet(context, reportData);
           },
           icon: markerIcon));
+    });
+  }
+
+  void reportButton(ReportData reportData) async {
+    int numReports = 0;
+    String? _doc;
+
+    var toMessages = (await db
+        .collection("Users")
+        .withConverter(
+          fromFirestore: UserReports.fromFirestore,
+          toFirestore: (UserReports userReports, options) =>
+              userReports.toFirestore(),
+        )
+        .where("email", isEqualTo: FirebaseAuth.instance.currentUser?.email)
+        .get());
+
+    toMessages.docs.forEach((doc) {
+      _doc = doc.id;
+      numReports = int.parse(doc.data().toString());
+    });
+    FirebaseFirestore.instance.collection("Users").doc(_doc).update({
+      "numReports": numReports + 1,
+    });
+
+    Map<String, dynamic> data = {
+      "userName": reportData.userName,
+      "userEmail": reportData.userEmail,
+      "description": reportData.description,
+      "photoURL": reportData.photoURL,
+      "problem": reportData.problem,
+      "problemType": reportData.problemType,
+      "latitude": reportData.latitude,
+      "longitude": reportData.longitude,
+      "numReports": reportData.numReports! + 1,
+      "isActive": reportData.isActive,
+      "isUrgent": reportData.isUrgent,
+      "creationDate": reportData.creationDate,
+      "resolutionDate": reportData.resolutionDate,
+    };
+
+    dbRef.child("Report").child(key!).update(data).then((value) {
+      int index = reportsList.indexWhere((element) => element.key == key);
+      reportsList.removeAt(index);
+      reportsList.insert(
+          index, Report(key: key, reportData: ReportData.fromJson(data)));
+      setState(() {});
+    });
+  }
+
+  void resolvedButton(ReportData reportData) async {
+    Map<String, dynamic> data = {
+      "userName": reportData.userName,
+      "userEmail": reportData.userEmail,
+      "description": reportData.description,
+      "photoURL": reportData.photoURL,
+      "problem": reportData.problem,
+      "problemType": reportData.problemType,
+      "latitude": reportData.latitude,
+      "longitude": reportData.longitude,
+      "numReports": reportData.numReports,
+      "isActive": false,
+      "isUrgent": reportData.isUrgent,
+      "creationDate": reportData.creationDate,
+      "resolutionDate": DateTime.now().toString(),
+    };
+
+    dbRef.child("Report").child(key!).update(data).then((value) {
+      int index = reportsList.indexWhere((element) => element.key == key);
+      reportsList.removeAt(index);
+      reportsList.insert(
+          index, Report(key: key, reportData: ReportData.fromJson(data)));
+      setState(() {});
+    });
+
+    setState(() {
+      markers.removeWhere(
+          (element) => element.markerId == MarkerId(reportData.creationDate!));
     });
   }
 
@@ -254,12 +339,42 @@ class _MapHomeState extends State<MapHome> {
     );
   }
 
-  void showBottomSheet(BuildContext context) {
+  void showBottomSheet(BuildContext context, ReportData reportData) {
+    bool isUrgent = reportData.isUrgent ?? false;
+    String nomeImagem = reportData.problem!.toLowerCase();
+    if (isUrgent) {
+      nomeImagem = nomeImagem + "_urgente";
+    }
+
+    Duration difference =
+        DateTime.now().difference(DateTime.parse(reportData.creationDate!));
+
+    String? problema;
+    switch (reportData.problem!) {
+      case "Multibanco":
+        problema = "Multibanco";
+        break;
+      case "Vending":
+        problema = "Máquina de venda";
+        break;
+      case "Limpeza":
+        problema = "Limpeza";
+        break;
+      case "Equipamento":
+        problema = "Equipamento danificado";
+        break;
+      case "Internet":
+        problema = "Problemas de internet";
+        break;
+      default:
+        problema = "Erro ...";
+    }
+
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
         return Container(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -268,35 +383,43 @@ class _MapHomeState extends State<MapHome> {
                   Column(
                     children: [
                       Image.asset(
-                        'assets/images/circle_limpeza_urgente.png',
+                        "assets/images/circle_" + nomeImagem + ".png",
                         width: 100,
                         height: 100,
                       ),
                       const SizedBox(height: 4.0),
-                      const Text(
-                        'Problema Urgente',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.red,
-                        ),
-                      ),
+                      isUrgent
+                          ? const Text(
+                              'Problema Urgente',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.red,
+                              ),
+                            )
+                          : const Text(
+                              'Problema Normal',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.blue,
+                              ),
+                            ),
                     ],
                   ),
-                  SizedBox(width: 16.0),
-                  const Column(
+                  const SizedBox(width: 16.0),
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Limpeza',
-                        style: TextStyle(
+                        problema!,
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 8.0),
+                      const SizedBox(height: 8.0),
                       Text(
-                        'Descrição do Bug',
-                        style: TextStyle(
+                        reportData.problemType!,
+                        style: const TextStyle(
                           fontSize: 16,
                           color: Colors.grey,
                         ),
@@ -311,14 +434,14 @@ class _MapHomeState extends State<MapHome> {
                   Expanded(
                     flex: 1,
                     child: Container(
-                      padding: EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(16.0),
                       decoration: BoxDecoration(
                         color: Colors.grey[200],
                         borderRadius: BorderRadius.circular(8.0),
                       ),
-                      child: const Text(
-                        'Texto do Utilizador',
-                        style: TextStyle(fontSize: 16),
+                      child: Text(
+                        reportData.description!,
+                        style: const TextStyle(fontSize: 16),
                       ),
                     ),
                   ),
@@ -326,37 +449,42 @@ class _MapHomeState extends State<MapHome> {
                   Container(
                     width: 50,
                     height: 50,
-                    child: const Placeholder(),
+                    child: const Placeholder(), //imagem
                   ),
                 ],
               ),
               const SizedBox(height: 16.0),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 width: MediaQuery.of(context).size.width * 0.6,
                 decoration: BoxDecoration(
                   color: Colors.grey[200],
                   borderRadius: BorderRadius.circular(8.0),
                 ),
-                child: const Row(
+                child: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.info,
                       color: Colors.grey,
                       size: 35,
                     ),
-                    SizedBox(width: 8.0),
+                    const SizedBox(width: 8.0),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Número de Reportes:',
-                          style: TextStyle(fontSize: 16),
+                          'Número de Reportes: ' +
+                              reportData.numReports!.toString(),
+                          style: const TextStyle(fontSize: 16),
                         ),
-                        SizedBox(height: 4.0),
+                        const SizedBox(height: 4.0),
                         Text(
-                          'Ativo desde:',
-                          style: TextStyle(
+                          'Ativo desde: ' +
+                              difference.inHours.toString() +
+                              "h:" +
+                              difference.inMinutes.toString() +
+                              "m",
+                          style: const TextStyle(
                             fontSize: 16,
                           ),
                         ),
@@ -370,18 +498,22 @@ class _MapHomeState extends State<MapHome> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      reportButton(reportData);
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
                     ),
-                    child: Text('Reportar'),
+                    child: const Text('Reportar'),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      resolvedButton(reportData);
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
                     ),
-                    child: Text('Resolvido'),
+                    child: const Text('Resolvido'),
                   ),
                 ],
               ),

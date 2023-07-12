@@ -18,6 +18,7 @@ class _ReportState extends State<Report> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         elevation: 0,
         title: const Text(
           "Reporta o problema",
@@ -46,8 +47,7 @@ class _ReportState extends State<Report> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            const Multibanco()));
+                        builder: (context) => const Multibanco()));
               },
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -85,8 +85,7 @@ class _ReportState extends State<Report> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            const VendingMachine()));
+                        builder: (context) => const VendingMachine()));
               },
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -121,11 +120,8 @@ class _ReportState extends State<Report> {
           Expanded(
             child: InkWell(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            const Cleaning()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Cleaning()));
               },
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -163,8 +159,7 @@ class _ReportState extends State<Report> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            const DamagedEquipment()));
+                        builder: (context) => const DamagedEquipment()));
               },
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -202,8 +197,7 @@ class _ReportState extends State<Report> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            const InternetIssues()));
+                        builder: (context) => const InternetIssues()));
               },
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
