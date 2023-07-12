@@ -336,7 +336,7 @@ class _MapHomeState extends State<MapHome> {
                         ),
                         SizedBox(height: 4.0),
                         Text(
-                          'Ativo há:',
+                          'Ativo desde:',
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -347,7 +347,6 @@ class _MapHomeState extends State<MapHome> {
                 ),
               ),
 
-            
             SizedBox(height: 16.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -375,5 +374,4 @@ class _MapHomeState extends State<MapHome> {
     },
   );
 }
-
 }
