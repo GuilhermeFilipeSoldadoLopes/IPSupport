@@ -20,9 +20,9 @@ class MapHome extends StatefulWidget {
 
 class _MapHomeState extends State<MapHome> {
   static const CameraPosition _ipsCameraPosition = CameraPosition(
-    //target: LatLng(37.421998333333335, -122.084) /*, google*/,
+    target: LatLng(37.421998333333335, -122.084) /*, google*/,
     //target: LatLng(38.656131, -9.173389) /*, casa*/,
-    target: LatLng(38.521095, -8.838903) /*, ips*/,
+    //target: LatLng(38.521095, -8.838903) /*, ips*/,
 
     zoom: 16.1, //10
   );
@@ -69,7 +69,7 @@ class _MapHomeState extends State<MapHome> {
     //_lastMapPosition = position.target;
   }
 
-  void _changeMapType() {
+  void changeMapType() {
     setState(() {
       _mapType = _mapType == MapType.hybrid ? MapType.normal : MapType.hybrid;
     });
@@ -158,7 +158,7 @@ class _MapHomeState extends State<MapHome> {
           markerId: MarkerId(reportData.creationDate!),
           position: LatLng(latitude, longitude),
           onTap: () {
-            _showBottomSheet(context);
+            showBottomSheet(context);
           },
           icon: markerIcon));
     });
@@ -197,7 +197,8 @@ class _MapHomeState extends State<MapHome> {
                 elevation: 5,
                 backgroundColor: Colors.blue,
                 onPressed: () {
-                  _changeMapType();
+                  //changeMapType();
+                  showBottomSheet(context);
                 },
                 child: const Icon(Icons.layers)),
           ]),
@@ -233,7 +234,7 @@ class _MapHomeState extends State<MapHome> {
     );
   }
 
-  void _showBottomSheet(BuildContext context) {
+  void showBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
