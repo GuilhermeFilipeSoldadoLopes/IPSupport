@@ -235,88 +235,121 @@ class _MapHomeState extends State<MapHome> {
   }
 
   void showBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                children: [
-                  Image.asset(
-                    'assets/images/cleaning_screen',
-                    width: 50,
-                    height: 50,
-                  ),
-                  SizedBox(width: 16.0),
-                  Text(
-                    'Limpeza',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 16.0),
-              Container(
-                padding: EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Row(
+  showModalBottomSheet(
+    context: context,
+    builder: (BuildContext context) {
+      return Container(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                Column(
                   children: [
-                    Expanded(
-                      flex: 1,
-                      child: Text(
-                        'Descrição',
-                        style: TextStyle(fontSize: 16),
-                      ),
+                    Image.asset(
+                      'assets/images/limpeza.png',
+                      width: 90,
+                      height: 90,
                     ),
-                    SizedBox(width: 16.0),
-                    Expanded(
-                      flex: 1,
-                      child: Placeholder(), // Local para a fotografia
+                    SizedBox(height: 4.0),
+                    Text(
+                      'Problema Urgente',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.red,
+                      ),
                     ),
                   ],
                 ),
-              ),
-              SizedBox(height: 16.0),
-              Container(
-                padding: EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(8.0),
+                SizedBox(width: 16.0),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Limpeza',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 8.0),
+                    Text(
+                      'Descrição do Bug',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
                 ),
-                child: Text('Numero de Reportes:'),
-              ),
-              SizedBox(height: 16.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
+              ],
+            ),
+            SizedBox(height: 16.0),
+            Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    padding: EdgeInsets.all(16.0),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
-                    child: Text('Reportar'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
+                    child: Text(
+                      'Texto do Utilizador',
+                      style: TextStyle(fontSize: 16),
                     ),
-                    child: Text('Resolvido'),
                   ),
-                ],
+                ),
+                SizedBox(width: 16.0),
+                Container(
+                  width: 50,
+                  height: 50,
+                  child: Placeholder(
+
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 16.0),
+            Container(
+              padding: EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(8.0),
               ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+              child: Text('Número de Reportes:'),
+            ),
+            SizedBox(height: 16.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                  ),
+                  child: Text('Reportar'),
+                ),
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                  ),
+                  child: Text('Resolvido'),
+                ),
+              ],
+            ),
+            
+          ],
+        ),
+      );
+    },
+  );
+}
+
+
+
+
 }
