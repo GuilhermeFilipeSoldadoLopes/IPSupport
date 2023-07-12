@@ -313,14 +313,41 @@ class _MapHomeState extends State<MapHome> {
               ],
             ),
             SizedBox(height: 16.0),
-            Container(
-              padding: EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(8.0),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                width: MediaQuery.of(context).size.width * 0.6,
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.info,
+                      color: Colors.grey,
+                    ),
+                    SizedBox(width: 8.0),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Número de Reportes:',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        SizedBox(height: 4.0),
+                        Text(
+                          'Ativo há:',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              child: Text('Número de Reportes:'),
-            ),
+
+            
             SizedBox(height: 16.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
