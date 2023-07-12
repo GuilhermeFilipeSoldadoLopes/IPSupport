@@ -29,7 +29,7 @@ class _HomeState extends State<Home> {
   final PageStorageBucket bucket = PageStorageBucket();
   Widget currentScreen = HomeMapScreen();
 
-//--------------------Luminosidade-----------------------------
+
   StreamSubscription<int>? _subscription;
   double _luxValue = 0.0;
   ShakeDetector? detector;
@@ -60,7 +60,7 @@ class _HomeState extends State<Home> {
     detector?.stopListening();
     super.dispose();
   }
-
+//--------------------Luminosidade-----------------------------
   void _initLightSensor() {
     _subscription = Light().lightSensorStream.listen(
       (int event) {
