@@ -252,8 +252,8 @@ class _MapHomeState extends State<MapHome> {
                       width: 100,
                       height: 100,
                     ),
-                    SizedBox(height: 4.0),
-                    Text(
+                    const SizedBox(height: 4.0),
+                    const Text(
                       'Problema Urgente',
                       style: TextStyle(
                         fontSize: 12,
@@ -263,7 +263,7 @@ class _MapHomeState extends State<MapHome> {
                   ],
                 ),
                 SizedBox(width: 16.0),
-                Column(
+                const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -285,7 +285,7 @@ class _MapHomeState extends State<MapHome> {
                 ),
               ],
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Row(
               children: [
                 Expanded(
@@ -296,23 +296,22 @@ class _MapHomeState extends State<MapHome> {
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Texto do Utilizador',
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
                 ),
-                SizedBox(width: 16.0),
+                const SizedBox(width: 16.0),
                 Container(
                   width: 50,
                   height: 50,
-                  child: Placeholder(
-
+                  child: const Placeholder(
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
                 width: MediaQuery.of(context).size.width * 0.6,
@@ -320,7 +319,7 @@ class _MapHomeState extends State<MapHome> {
                   color: Colors.grey[200],
                   borderRadius: BorderRadius.circular(8.0),
                 ),
-                child: Row(
+                child: const Row(
                   children: [
                     Icon(
                       Icons.info,
@@ -348,7 +347,7 @@ class _MapHomeState extends State<MapHome> {
                 ),
               ),
 
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
