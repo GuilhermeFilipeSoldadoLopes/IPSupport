@@ -248,9 +248,9 @@ class _MapHomeState extends State<MapHome> {
                 Column(
                   children: [
                     Image.asset(
-                      'assets/images/limpeza.png',
-                      width: 90,
-                      height: 90,
+                      'assets/images/circle_limpeza_urgente.png',
+                      width: 100,
+                      height: 100,
                     ),
                     SizedBox(height: 4.0),
                     Text(
@@ -348,8 +348,5 @@ class _MapHomeState extends State<MapHome> {
     },
   );
 }
-
-
-
 
 }
