@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ipsupport_cm/models/reports_models.dart';
 import 'package:ipsupport_cm/models/userReports.dart';
+import 'package:ipsupport_cm/src/home_nav_bar.dart';
+import 'package:ipsupport_cm/src/screens/report_success.dart';
 import 'package:ipsupport_cm/src/utils/utils.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:smooth_compass/utils/src/compass_ui.dart';
@@ -106,15 +108,9 @@ class _MapHomeState extends State<MapHome> {
   void updateReportsList() {
     Map<String, dynamic> data;
     for (var i = 0; i < reportsList.length; i++) {
-      print("data de criacao > " +
-          reportsList[i].reportData!.creationDate! +
-          ", --- data de agora > " +
-          DateTime.now().toString());
       if (DateTime.now().isAfter(
           DateTime.parse(reportsList[i].reportData!.creationDate!)
               .add(const Duration(hours: 36)))) {
-        print(
-            "entrou no if -------------------------------------------------------------------------------------------------------------------");
         data = {
           "userName": reportsList[i].reportData!.userName,
           "userEmail": reportsList[i].reportData!.userEmail,
@@ -169,7 +165,6 @@ class _MapHomeState extends State<MapHome> {
 
   void addMarker(ReportData reportData, BitmapDescriptor markerIcon,
       double latitude, double longitude) {
-    print("novo marker > " + reportData.creationDate!);
     setState(() {
       markers.add(Marker(
           markerId: MarkerId(reportData.creationDate!),
@@ -440,16 +435,20 @@ class _MapHomeState extends State<MapHome> {
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: Text(
-                        reportData.description!,
+                        reportData.description!.isEmpty
+                            ? "Sem descrição"
+                            : reportData.description!,
                         style: const TextStyle(fontSize: 16),
                       ),
                     ),
                   ),
                   const SizedBox(width: 16.0),
                   Container(
-                    width: 50,
+                    width: 70,
                     height: 50,
-                    child: const Placeholder(), //imagem
+                    child: reportData.photoURL! == "No photo"
+                        ? const Text("Sem imagem", textAlign: TextAlign.center)
+                        : Image.network(reportData.photoURL!), //imagem
                   ),
                 ],
               ),
@@ -500,6 +499,10 @@ class _MapHomeState extends State<MapHome> {
                   ElevatedButton(
                     onPressed: () {
                       reportButton(reportData);
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (BuildContext context) {
+                        return ReportSuccess();
+                      }));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
@@ -509,6 +512,10 @@ class _MapHomeState extends State<MapHome> {
                   ElevatedButton(
                     onPressed: () {
                       resolvedButton(reportData);
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (BuildContext context) {
+                        return const Home();
+                      }));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,

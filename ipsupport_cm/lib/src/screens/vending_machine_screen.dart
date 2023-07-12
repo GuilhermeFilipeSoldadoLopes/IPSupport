@@ -110,12 +110,32 @@ class _VendingMachine extends State<VendingMachine> {
     };
 
     if (updateReports) {
-      if (reportsList[_index].reportData!.description!.isEmpty) {
+      if (reportsList[_index].reportData!.description!.isEmpty &&
+          reportsList[_index].reportData!.photoURL! == "No photo") {
         data = {
           "userName": reportsList[_index].reportData!.userName,
           "userEmail": reportsList[_index].reportData!.userEmail,
-          "description": reportsList[_index].reportData!.description ??
-              descriptionController.text,
+          "description": descriptionController.text.isEmpty
+              ? reportsList[_index].reportData!.description
+              : descriptionController.text,
+          "photoURL": imageUrl ?? "No photo",
+          "problem": "Vending",
+          "problemType": selectedOption,
+          "latitude": reportsList[_index].reportData!.latitude,
+          "longitude": reportsList[_index].reportData!.longitude,
+          "numReports": reportsList[_index].reportData!.numReports! + 1,
+          "isActive": true,
+          "isUrgent": reportsList[_index].reportData!.isUrgent,
+          "creationDate": reportsList[_index].reportData!.creationDate,
+          "resolutionDate": "Not resolved",
+        };
+      } else if (reportsList[_index].reportData!.description!.isEmpty) {
+        data = {
+          "userName": reportsList[_index].reportData!.userName,
+          "userEmail": reportsList[_index].reportData!.userEmail,
+          "description": descriptionController.text.isEmpty
+              ? reportsList[_index].reportData!.description
+              : descriptionController.text,
           "photoURL": reportsList[_index].reportData!.photoURL,
           "problem": "Vending",
           "problemType": selectedOption,
@@ -127,7 +147,7 @@ class _VendingMachine extends State<VendingMachine> {
           "creationDate": reportsList[_index].reportData!.creationDate,
           "resolutionDate": "Not resolved",
         };
-      } else if (reportsList[_index].reportData!.photoURL!.isEmpty) {
+      } else if (reportsList[_index].reportData!.photoURL! == "No photo") {
         data = {
           "userName": reportsList[_index].reportData!.userName,
           "userEmail": reportsList[_index].reportData!.userEmail,
