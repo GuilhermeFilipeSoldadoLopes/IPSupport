@@ -217,8 +217,7 @@ class _MapHomeState extends State<MapHome> {
                 elevation: 5,
                 backgroundColor: Colors.blue,
                 onPressed: () {
-                  //changeMapType();
-                  showBottomSheet(context);
+                  changeMapType();
                 },
                 child: const Icon(Icons.layers)),
           ]),
