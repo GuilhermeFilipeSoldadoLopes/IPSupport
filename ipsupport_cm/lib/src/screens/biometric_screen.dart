@@ -1,11 +1,9 @@
 import 'dart:developer';
-import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ipsupport_cm/main.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:flutter/services.dart';
-import 'package:overlay_loading_progress/overlay_loading_progress.dart';
 
 class BiometricSensorPage extends StatefulWidget {
   const BiometricSensorPage({super.key});
@@ -18,12 +16,19 @@ class _BiometricSensorPageState extends State<BiometricSensorPage> {
   final LocalAuthentication _localAuth = LocalAuthentication();
 
   bool? _isAuthenticated;
+  bool? leave;
 
   Future<void> _localAuthenticate() async {
     try {
       _isAuthenticated = await _localAuth.authenticate(
         localizedReason: 'Necessário verificação biométrica para sair da conta',
       );
+      await FirebaseAuth.instance.signOut();
+      if (_isAuthenticated == true) {
+        setState(() {
+          leave = true;
+        });
+      }
       setState(() {});
     } on PlatformException catch (e) {
       log(e.toString());
@@ -39,15 +44,8 @@ class _BiometricSensorPageState extends State<BiometricSensorPage> {
     }
   }
 
-  void authenticated() async {
-    FirebaseAuth.instance.signOut();
-    OverlayLoadingProgress.start(context);
-    sleep(const Duration(seconds: 1));
-    OverlayLoadingProgress.stop();
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (BuildContext context) {
-      return const MainApp();
-    }));
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
   }
 
   Widget _buildStatusTile() {
@@ -58,10 +56,9 @@ class _BiometricSensorPageState extends State<BiometricSensorPage> {
 
     if (_isAuthenticated == true) {
       title = "Ótimo";
-      message = "Verificação biométrica funcionou!";
+      message = "Verificação biométrica validada!";
       icon = Icons.beenhere;
       colorIcon = Colors.green;
-      authenticated();
     } else if (_isAuthenticated == false) {
       title = "Ops";
       message = "Tente novamente!";
@@ -87,7 +84,15 @@ class _BiometricSensorPageState extends State<BiometricSensorPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (leave == true) {
+      return const MainApp();
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text("Verificação biométrica"),

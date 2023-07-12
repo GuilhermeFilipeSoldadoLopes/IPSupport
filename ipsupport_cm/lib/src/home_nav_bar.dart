@@ -101,65 +101,6 @@ class _HomeState extends State<Home> {
       }
     }
   }
-  //-------------Fim Luminosidade----------------------
-
-  /*final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-
-  bool isLoading = false;
-
-  storeNotificationToken() async {
-    String? token = await FirebaseMessaging.instance.getToken();
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .set({'token': token}, SetOptions(merge: true));
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    FirebaseMessaging.instance.getInitialMessage();
-    FirebaseMessaging.onMessage.listen((event) {
-      LocalNotificationService.display(event);
-    });
-    storeNotificationToken();
-  }
-
-  sendNotification(String title, String token) async {
-    final data = {
-      'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-      'id': '1',
-      'status': 'done',
-      'message': title,
-    };
-
-    try {
-      http.Response response =
-          await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
-              headers: <String, String>{
-                'Content-Type': 'application/json',
-                'Authorization':
-                    'key=AAAAN4wcvJc:APA91bHRIXmGWT71dfLGrT5ehMagfv9t0otf6unXgdTeiiW3f79bmaFJxSNfv-IbRitLQ74dHyADrywVYp1jeC4h__eCfnwFPtA0RA-vAZn_Xb6tvgKk6HUqlEF9uJrnsxGX70066bWx'
-              },
-              body: jsonEncode(<String, dynamic>{
-                'notification': <String, dynamic>{
-                  'title': title,
-                  'body': 'You are followed by someone'
-                },
-                'priority': 'high',
-                'data': data,
-                'to': '$token'
-              }));
-
-      if (response.statusCode == 200) {
-        print("Yeh notificatin is sended");
-      } else {
-        print("Error");
-      }
-    } catch (e) {}
-  }*/
 
   @override
   Widget build(BuildContext context) {

@@ -59,9 +59,11 @@ class _ProfileState extends State<Profile> {
   }
 
   void setNumReports(int value) {
-    setState(() {
-      numReports = value;
-    });
+    if (this.mounted) {
+      setState(() {
+        numReports = value;
+      });
+    }
   }
 
   Future<void> fetchCurrentUser() async {

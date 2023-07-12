@@ -20,8 +20,8 @@ class MapHome extends StatefulWidget {
 
 class _MapHomeState extends State<MapHome> {
   static const CameraPosition _ipsCameraPosition = CameraPosition(
-    target: LatLng(37.421998333333335, -122.084) /*, google*/,
-    //target: LatLng(38.656131, -9.173389) /*, casa*/,
+    //target: LatLng(37.421998333333335, -122.084) /*, google*/,
+    target: LatLng(38.656131, -9.173389) /*, casa*/,
     //target: LatLng(38.521095, -8.838903) /*, ips*/,
 
     zoom: 16.1, //10
@@ -31,6 +31,7 @@ class _MapHomeState extends State<MapHome> {
   List<Report> reportsList = [];
   Set<Marker> markers = <Marker>{};
   String? key;
+  bool refresh = false;
 
   final _polygons = <Polygon>{
     Polygon(
@@ -51,22 +52,22 @@ class _MapHomeState extends State<MapHome> {
 
   @override
   void initState() {
-    super.initState();
     _requestPermission();
-    _loadIpsLogoIcon();
     getReporstList();
     updateReportsList();
-    addMarkers();
+    super.initState();
   }
 
   Future<void> _requestPermission() async {
     await Permission.location.request();
   }
 
-  void _loadIpsLogoIcon() async {}
-
   void _onCameraMove(CameraPosition position) {
     //_lastMapPosition = position.target;
+    /*print("latitude > " +
+        position.target.latitude.toString() +
+        ", longitude > " +
+        position.target.longitude.toString());*/
   }
 
   void changeMapType() {
@@ -87,7 +88,7 @@ class _MapHomeState extends State<MapHome> {
     }
   }
 
-  void getReporstList() async {
+  void getReporstList() {
     dbRef.child("Report").onChildAdded.listen((data) {
       ReportData reportData = ReportData.fromJson(data.snapshot.value as Map);
       Report report = Report(key: data.snapshot.key, reportData: reportData);
@@ -98,12 +99,18 @@ class _MapHomeState extends State<MapHome> {
     });
   }
 
-  void updateReportsList() async {
+  void updateReportsList() {
     Map<String, dynamic> data;
     for (var i = 0; i < reportsList.length; i++) {
+      print("data de criacao > " +
+          reportsList[i].reportData!.creationDate! +
+          ", --- data de agora > " +
+          DateTime.now().toString());
       if (DateTime.now().isAfter(
           DateTime.parse(reportsList[i].reportData!.creationDate!)
               .add(const Duration(hours: 36)))) {
+        print(
+            "entrou no if -------------------------------------------------------------------------------------------------------------------");
         data = {
           "userName": reportsList[i].reportData!.userName,
           "userEmail": reportsList[i].reportData!.userEmail,
@@ -127,32 +134,35 @@ class _MapHomeState extends State<MapHome> {
 
       if (reportsList[i].reportData!.isActive == false) {
         reportsList.removeAt(i);
+        setState(() {});
       }
     }
+    createMarkers();
   }
 
-  void addMarkers() async {
+  void createMarkers() async {
     for (var i = 0; i < reportsList.length; i++) {
-      createMarker(reportsList[i].reportData!);
+      String? problema = reportsList[i].reportData!.problem;
+      bool isUrgent = reportsList[i].reportData!.isUrgent ?? false;
+
+      String nomeImagem = problema!.toLowerCase();
+      if (isUrgent) {
+        nomeImagem = nomeImagem + "_urgente";
+      }
+      BitmapDescriptor markerIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(),
+        "assets/images/pin_" + nomeImagem + ".png",
+      );
+
+      double latitude = reportsList[i].reportData!.latitude ?? 0;
+      double longitude = reportsList[i].reportData!.longitude ?? 0;
+      addMarker(reportsList[i].reportData!, markerIcon, latitude, longitude);
     }
   }
 
-  void createMarker(ReportData reportData) async {
-    String? problema = reportData.problem;
-    bool isUrgent = reportData.isUrgent ?? false;
-
-    String nomeImagem = problema!.toLowerCase();
-    if (isUrgent) {
-      nomeImagem = nomeImagem + "_urgente";
-    }
-    BitmapDescriptor markerIcon = await BitmapDescriptor.fromAssetImage(
-      ImageConfiguration(),
-      "assets/images/pin_" + nomeImagem + ".png",
-    );
-
-    double latitude = reportData.latitude ?? 0;
-    double longitude = reportData.longitude ?? 0;
-
+  void addMarker(ReportData reportData, BitmapDescriptor markerIcon,
+      double latitude, double longitude) {
+    print("novo marker > " + reportData.creationDate!);
     setState(() {
       markers.add(Marker(
           markerId: MarkerId(reportData.creationDate!),
@@ -166,6 +176,15 @@ class _MapHomeState extends State<MapHome> {
 
   @override
   Widget build(BuildContext context) {
+    if (!refresh) {
+      updateReportsList();
+    }
+    if (markers.isNotEmpty && !refresh) {
+      setState(() {
+        refresh = true;
+      });
+    }
+
     return Stack(
       children: [
         GoogleMap(
@@ -194,6 +213,7 @@ class _MapHomeState extends State<MapHome> {
           alignment: Alignment.topRight,
           child: Column(children: <Widget>[
             FloatingActionButton(
+                heroTag: "btn2",
                 elevation: 5,
                 backgroundColor: Colors.blue,
                 onPressed: () {
@@ -208,6 +228,7 @@ class _MapHomeState extends State<MapHome> {
           alignment: Alignment.topRight,
           child: Column(children: <Widget>[
             FloatingActionButton(
+                heroTag: "btn3",
                 elevation: 5,
                 backgroundColor: Colors.blue,
                 onPressed: () {
@@ -235,118 +256,139 @@ class _MapHomeState extends State<MapHome> {
   }
 
   void showBottomSheet(BuildContext context) {
-  showModalBottomSheet(
-    context: context,
-    builder: (BuildContext context) {
-      return Container(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              children: [
-                Column(
-                  children: [
-                    Image.asset(
-                      'assets/images/circle_limpeza_urgente.png',
-                      width: 100,
-                      height: 100,
-                    ),
-                    SizedBox(height: 4.0),
-                    Text(
-                      'Problema Urgente',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.red,
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Column(
+                    children: [
+                      Image.asset(
+                        'assets/images/circle_limpeza_urgente.png',
+                        width: 100,
+                        height: 100,
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(width: 16.0),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Limpeza',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                      SizedBox(height: 4.0),
+                      Text(
+                        'Problema Urgente',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.red,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 8.0),
-                    Text(
-                      'Descrição do Bug',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(height: 16.0),
-            Row(
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    padding: EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: Text(
-                      'Texto do Utilizador',
-                      style: TextStyle(fontSize: 16),
-                    ),
+                    ],
                   ),
-                ),
-                SizedBox(width: 16.0),
-                Container(
-                  width: 50,
-                  height: 50,
-                  child: Placeholder(
-
+                  SizedBox(width: 16.0),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Limpeza',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 8.0),
+                      Text(
+                        'Descrição do Bug',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 16.0),
-            Container(
-              padding: EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(8.0),
+                ],
               ),
-              child: Text('Número de Reportes:'),
-            ),
-            SizedBox(height: 16.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
+              SizedBox(height: 16.0),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      padding: EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: Text(
+                        'Texto do Utilizador',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
                   ),
-                  child: Text('Reportar'),
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
+                  SizedBox(width: 16.0),
+                  Container(
+                    width: 50,
+                    height: 50,
+                    child: Placeholder(),
                   ),
-                  child: Text('Resolvido'),
+                ],
+              ),
+              SizedBox(height: 16.0),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                width: MediaQuery.of(context).size.width * 0.6,
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(8.0),
                 ),
-              ],
-            ),
-            
-          ],
-        ),
-      );
-    },
-  );
-}
-
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.info,
+                      color: Colors.grey,
+                    ),
+                    SizedBox(width: 8.0),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Número de Reportes:',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        SizedBox(height: 4.0),
+                        Text(
+                          'Ativo há:',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 16.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                    ),
+                    child: Text('Reportar'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                    ),
+                    child: Text('Resolvido'),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 }
