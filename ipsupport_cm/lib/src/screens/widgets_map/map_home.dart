@@ -325,6 +325,7 @@ class _MapHomeState extends State<MapHome> {
                     Icon(
                       Icons.info,
                       color: Colors.grey,
+                      size: 35,
                     ),
                     SizedBox(width: 8.0),
                     Column(
