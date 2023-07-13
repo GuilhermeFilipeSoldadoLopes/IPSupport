@@ -12,7 +12,6 @@ class HomeMapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //drawer: MapDrawer(controllerCompleter: _controllerCompleter),
       body: MapHome(controllerCompleter: _controllerCompleter),
     );
   }

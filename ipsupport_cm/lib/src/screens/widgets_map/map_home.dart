@@ -27,8 +27,8 @@ class MapHome extends StatefulWidget {
 class _MapHomeState extends State<MapHome> {
   static const CameraPosition _ipsCameraPosition = CameraPosition(
     //target: LatLng(37.421998333333335, -122.084) /*, google*/,
-    target: LatLng(38.656131, -9.173389) /*, casa*/,
-    //target: LatLng(38.521095, -8.838903) /*, ips*/,
+    //target: LatLng(38.656131, -9.173389) /*, casa*/,
+    target: LatLng(38.521095, -8.838903) /*, ips*/,
 
     zoom: 16.1, //10
   );
@@ -482,7 +482,8 @@ class _MapHomeState extends State<MapHome> {
                           'Ativo desde: ' +
                               difference.inHours.toString() +
                               "h:" +
-                              difference.inMinutes.toString() +
+                              (difference.inMinutes - difference.inHours * 60)
+                                  .toString() +
                               "m",
                           style: const TextStyle(
                             fontSize: 16,

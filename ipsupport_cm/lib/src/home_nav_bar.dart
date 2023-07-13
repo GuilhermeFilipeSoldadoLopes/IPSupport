@@ -1,19 +1,8 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:ipsupport_cm/src/screens/home_map_screen.dart';
 import 'package:ipsupport_cm/src/screens/report_screen.dart';
-import 'package:light/light.dart';
 import 'package:shake/shake.dart';
 import 'screens/profile_screen.dart';
-// import 'package:light/light.dart';
-/*import 'dart:convert';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:ipsupport_cm/src/local_push_notification.dart';*/
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -29,18 +18,11 @@ class _HomeState extends State<Home> {
   final PageStorageBucket bucket = PageStorageBucket();
   Widget currentScreen = HomeMapScreen();
 
-
-  StreamSubscription<int>? _subscription;
-  double _luxValue = 0.0;
   ShakeDetector? detector;
-  Brightness _currentBrightness = Brightness.light;
-  Brightness _defaultBrightness = Brightness.light;
 
   @override
   void initState() {
     super.initState();
-    _initLightSensor();
-    // para iniciar a leitura do sensor
     initShaker();
   }
 
@@ -56,50 +38,8 @@ class _HomeState extends State<Home> {
 
   @override
   void dispose() {
-    _subscription?.cancel();
     detector?.stopListening();
     super.dispose();
-  }
-//--------------------Luminosidade-----------------------------
-  void _initLightSensor() {
-    _subscription = Light().lightSensorStream.listen(
-      (int event) {
-        setState(() {
-          _luxValue = event.toDouble();
-          _adjustBrightness();
-        });
-      },
-      onError: (e) {
-        print(e.toString());
-        ScaffoldMessenger.of(context)
-          ..hideCurrentSnackBar()
-          ..showSnackBar(
-            const SnackBar(
-              content: Text('Falhou a obter dados do sensor de luz!'),
-              backgroundColor: Colors.red,
-            ),
-          );
-      },
-      cancelOnError: true,
-    );
-  }
-
-  void _adjustBrightness() {
-    if (_luxValue < 50) {
-      if (_currentBrightness != Brightness.dark) {
-        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-        setState(() {
-          _currentBrightness = Brightness.dark;
-        });
-      }
-    } else {
-      if (_currentBrightness != _defaultBrightness) {
-        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
-        setState(() {
-          _currentBrightness = _defaultBrightness;
-        });
-      }
-    }
   }
 
   @override
@@ -147,7 +87,7 @@ class _HomeState extends State<Home> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                               right: 60.0), // Padding para o ícone
                           child: Icon(
                             Icons.report_problem_rounded,
@@ -155,7 +95,7 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                               right: 60.0), // Padding para o texto
                           child: Text(
                             'Reporte',

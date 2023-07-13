@@ -29,6 +29,7 @@ dependencies:
   overlay_loading_progress: ^1.0.0
   bottom_sheet: ^3.1.2
   local_auth: ^2.1.6
+  flutter_screen_wake: ^1.0.2
 
 flutter_native_splash:
   color: "#FFFFFF"
