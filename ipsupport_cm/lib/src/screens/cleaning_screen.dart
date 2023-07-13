@@ -109,6 +109,25 @@ class _Cleaning extends State<Cleaning> {
       "resolutionDate": "Not resolved",
     };
 
+    if (reportsList[_index].reportData!.description!.isNotEmpty ||
+        reportsList[_index].reportData!.photoURL! != "No photo") {
+      data = {
+        "userName": FirebaseAuth.instance.currentUser?.displayName,
+        "userEmail": FirebaseAuth.instance.currentUser?.email,
+        "description": descriptionController.text,
+        "photoURL": imageUrl ?? "No photo",
+        "problem": "Limpeza",
+        "problemType": selectedOption,
+        "latitude": position.latitude,
+        "longitude": position.longitude,
+        "numReports": 1,
+        "isActive": true,
+        "isUrgent": isUrgent,
+        "creationDate": date,
+        "resolutionDate": "Not resolved",
+      };
+    }
+
     if (updateReports) {
       if (reportsList[_index].reportData!.description!.isEmpty &&
           reportsList[_index].reportData!.photoURL! == "No photo") {

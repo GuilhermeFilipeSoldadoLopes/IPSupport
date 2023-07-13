@@ -223,7 +223,7 @@ class _MapHomeState extends State<MapHome> {
     });
   }
 
-  void resolvedButton(ReportData reportData) async {
+  void resolvedButton(ReportData reportData) {
     Map<String, dynamic> data = {
       "userName": reportData.userName,
       "userEmail": reportData.userEmail,
