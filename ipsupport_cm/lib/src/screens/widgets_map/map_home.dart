@@ -499,39 +499,51 @@ class _MapHomeState extends State<MapHome> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 16.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      reportButton(reportData);
-                      Navigator.pushReplacement(context,
+                  Container(
+                    width: 130,
+                    height: 40,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        reportButton(reportData);
+                        Navigator.pushReplacement(
+                          context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return ReportSuccess();
-                      }));
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
+                            return ReportSuccess();
+                          }),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                      ),
+                      child: const Text('Reportar'),
                     ),
-                    child: const Text('Reportar'),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      resolvedButton(reportData);
-                      Navigator.pushReplacement(context,
+                  Container(
+                    width: 130,
+                    height: 40,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        resolvedButton(reportData);
+                        Navigator.pushReplacement(
+                          context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return const Home();
-                      }));
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
+                            return const Home();
+                          }),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                      ),
+                      child: const Text('Resolvido'),
                     ),
-                    child: const Text('Resolvido'),
                   ),
                 ],
               ),
+
             ],
           ),
         );
