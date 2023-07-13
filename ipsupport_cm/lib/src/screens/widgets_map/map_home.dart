@@ -383,7 +383,7 @@ class _MapHomeState extends State<MapHome> {
                         width: 100,
                         height: 100,
                       ),
-                      const SizedBox(height: 4.0),
+                      const SizedBox(height: 1.0),
                       isUrgent
                           ? const Text(
                               'Problema Urgente',
@@ -408,7 +408,7 @@ class _MapHomeState extends State<MapHome> {
                       Text(
                         problema!,
                         style: const TextStyle(
-                          fontSize: 20,
+                          fontSize: 23,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -416,8 +416,8 @@ class _MapHomeState extends State<MapHome> {
                       Text(
                         reportData.problemType!,
                         style: const TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey,
+                          fontSize: 18,
+                          color: Color.fromARGB(255, 0, 0, 0),
                         ),
                       ),
                     ],
@@ -428,72 +428,78 @@ class _MapHomeState extends State<MapHome> {
               Row(
                 children: [
                   Expanded(
-                    flex: 1,
+                    flex: 6, // 60% da row
                     child: Container(
                       padding: const EdgeInsets.all(16.0),
                       decoration: BoxDecoration(
                         color: Colors.grey[200],
                         borderRadius: BorderRadius.circular(8.0),
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 0.5,
+                        ),
                       ),
                       child: Text(
-                        reportData.description!.isEmpty
-                            ? "Sem descrição"
-                            : reportData.description!,
+                        reportData.description!.isEmpty ? "Sem descrição" : reportData.description!,
                         style: const TextStyle(fontSize: 16),
                       ),
                     ),
                   ),
                   const SizedBox(width: 16.0),
-                  Container(
-                    width: 70,
-                    height: 50,
-                    child: reportData.photoURL! == "No photo"
-                        ? const Text("Sem imagem", textAlign: TextAlign.center)
-                        : Image.network(reportData.photoURL!), //imagem
+                  Expanded(
+                    flex: 4, // 40% da row
+                    child: Container(
+                      width: 90,
+                      height: 80,
+                      child: reportData.photoURL! == "No photo"
+                          ? const Text("Sem imagem", textAlign: TextAlign.center)
+                          : Image.network(reportData.photoURL!),
+                    ),
                   ),
                 ],
               ),
               const SizedBox(height: 16.0),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                width: MediaQuery.of(context).size.width * 0.6,
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.info,
-                      color: Colors.grey,
-                      size: 35,
-                    ),
-                    const SizedBox(width: 8.0),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Número de Reportes: ' +
-                              reportData.numReports!.toString(),
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                        const SizedBox(height: 4.0),
-                        Text(
-                          'Ativo desde: ' +
-                              difference.inHours.toString() +
-                              "h:" +
-                              (difference.inMinutes - difference.inHours * 60)
-                                  .toString() +
-                              "m",
-                          style: const TextStyle(
-                            fontSize: 16,
+              Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.info,
+                        size: 28,
+                      ),
+                      const SizedBox(width: 8.0),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Número de Reportes: ' +
+                                reportData.numReports!.toString(),
+                            style: const TextStyle(fontSize: 16),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                          const SizedBox(height: 4.0),
+                          Text(
+                            'Ativo desde: ' +
+                                difference.inHours.toString() +
+                                "h:" +
+                                (difference.inMinutes - difference.inHours * 60).toString() +
+                                "m",
+                            style: const TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
+
               const SizedBox(height: 16.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
