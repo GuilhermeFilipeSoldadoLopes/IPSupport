@@ -440,7 +440,9 @@ class _MapHomeState extends State<MapHome> {
                         ),
                       ),
                       child: Text(
-                        reportData.description!.isEmpty ? "Sem descrição" : reportData.description!,
+                        reportData.description!.isEmpty
+                            ? "Sem descrição"
+                            : reportData.description!,
                         style: const TextStyle(fontSize: 16),
                       ),
                     ),
@@ -452,7 +454,8 @@ class _MapHomeState extends State<MapHome> {
                       width: 90,
                       height: 80,
                       child: reportData.photoURL! == "No photo"
-                          ? const Text("Sem imagem", textAlign: TextAlign.center)
+                          ? const Text("Sem imagem",
+                              textAlign: TextAlign.center)
                           : Image.network(reportData.photoURL!),
                     ),
                   ),
@@ -487,7 +490,8 @@ class _MapHomeState extends State<MapHome> {
                             'Ativo desde: ' +
                                 difference.inHours.toString() +
                                 "h:" +
-                                (difference.inMinutes - difference.inHours * 60).toString() +
+                                (difference.inMinutes - difference.inHours * 60)
+                                    .toString() +
                                 "m",
                             style: const TextStyle(
                               fontSize: 16,
@@ -543,7 +547,6 @@ class _MapHomeState extends State<MapHome> {
                   ),
                 ],
               ),
-
             ],
           ),
         );
