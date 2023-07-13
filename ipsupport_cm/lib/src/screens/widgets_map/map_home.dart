@@ -369,6 +369,7 @@ class _MapHomeState extends State<MapHome> {
       context: context,
       builder: (BuildContext context) {
         return Container(
+          color: Color.fromARGB(255, 213, 234, 252),
           padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
