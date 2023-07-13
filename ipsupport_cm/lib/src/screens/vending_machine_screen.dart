@@ -109,8 +109,7 @@ class _VendingMachine extends State<VendingMachine> {
       "resolutionDate": "Not resolved",
     };
 
-    /*if (reportsList[_index].reportData!.description!.isNotEmpty ||
-        reportsList[_index].reportData!.photoURL! != "No photo") {
+    if (descriptionController.text.isNotEmpty && imageUrl != null) {
       data = {
         "userName": FirebaseAuth.instance.currentUser?.displayName,
         "userEmail": FirebaseAuth.instance.currentUser?.email,
@@ -126,7 +125,7 @@ class _VendingMachine extends State<VendingMachine> {
         "creationDate": date,
         "resolutionDate": "Not resolved",
       };
-    }*/
+    }
 
     if (updateReports) {
       if (reportsList[_index].reportData!.description!.isEmpty &&
