@@ -109,7 +109,7 @@ class _DamagedEquipment extends State<DamagedEquipment> {
       "resolutionDate": "Not resolved",
     };
 
-    if (reportsList[_index].reportData!.description!.isNotEmpty ||
+    /*if (reportsList[_index].reportData!.description!.isNotEmpty ||
         reportsList[_index].reportData!.photoURL! != "No photo") {
       data = {
         "userName": FirebaseAuth.instance.currentUser?.displayName,
@@ -126,7 +126,7 @@ class _DamagedEquipment extends State<DamagedEquipment> {
         "creationDate": date,
         "resolutionDate": "Not resolved",
       };
-    }
+    }*/
 
     if (updateReports) {
       if (reportsList[_index].reportData!.description!.isEmpty &&
