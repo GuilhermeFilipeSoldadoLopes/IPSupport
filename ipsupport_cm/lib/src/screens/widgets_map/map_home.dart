@@ -5,7 +5,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ipsupport_cm/models/reports_models.dart';
-import 'package:ipsupport_cm/models/userReports.dart';
+import 'package:ipsupport_cm/models/user_reports.dart';
 import 'package:ipsupport_cm/src/home_nav_bar.dart';
 import 'package:ipsupport_cm/src/screens/report_success.dart';
 import 'package:ipsupport_cm/src/utils/utils.dart';

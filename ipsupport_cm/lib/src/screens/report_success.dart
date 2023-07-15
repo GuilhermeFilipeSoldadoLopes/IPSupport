@@ -4,11 +4,13 @@ import 'package:ipsupport_cm/src/home_nav_bar.dart';
 /// The `ReportSuccess` class is a Flutter widget that displays a success message and an image after a
 /// report is successfully submitted, and provides a button to navigate back to the home screen.
 class ReportSuccess extends StatelessWidget {
+  const ReportSuccess({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sucesso'),
+        title: const Text('Sucesso'),
         automaticallyImplyLeading: false,
       ),
       body: Center(

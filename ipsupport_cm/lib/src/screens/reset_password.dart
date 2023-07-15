@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ipsupport_cm/src/screens/feedback_page.dart';
 import 'package:ipsupport_cm/src/utils/reusable_widgets/reusable_widgets.dart';
+import 'package:overlay_loading_progress/overlay_loading_progress.dart';
 
 /// The `ResetPassword` class is a Flutter widget that allows users to reset their password by entering
 /// their email and sending a password reset email.
@@ -70,17 +71,13 @@ class _ResetPasswordState extends State<ResetPassword> {
                   }
 
                   if (isValid) {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        });
+                    OverlayLoadingProgress.start(context);
 
                     FirebaseAuth.instance
                         .sendPasswordResetEmail(
                             email: _emailTextController.text)
                         .then((value) {
+                      OverlayLoadingProgress.stop();
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ipsupport_cm/models/reports_models.dart';
-import 'package:ipsupport_cm/models/userReports.dart';
+import 'package:ipsupport_cm/models/user_reports.dart';
 import 'package:ipsupport_cm/src/utils/utils.dart';
 import 'package:overlay_loading_progress/overlay_loading_progress.dart';
 import 'report_success.dart';
@@ -250,7 +250,7 @@ class _VendingMachine extends State<VendingMachine> {
         OverlayLoadingProgress.stop();
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (BuildContext context) {
-          return ReportSuccess();
+          return const ReportSuccess();
         }));
       });
     } else {
@@ -258,7 +258,7 @@ class _VendingMachine extends State<VendingMachine> {
         OverlayLoadingProgress.stop();
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (BuildContext context) {
-          return ReportSuccess();
+          return const ReportSuccess();
         }));
       });
     }
@@ -367,7 +367,7 @@ class _VendingMachine extends State<VendingMachine> {
                       width: 200,
                       height: 100,
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 214, 242, 255),
+                        color: const Color.fromARGB(255, 214, 242, 255),
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
                           color: Colors.black,

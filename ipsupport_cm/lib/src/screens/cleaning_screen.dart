@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ipsupport_cm/models/reports_models.dart';
-import 'package:ipsupport_cm/models/userReports.dart';
+import 'package:ipsupport_cm/models/user_reports.dart';
 import 'package:ipsupport_cm/src/screens/report_success.dart';
 import 'package:ipsupport_cm/src/utils/utils.dart';
 import 'package:overlay_loading_progress/overlay_loading_progress.dart';

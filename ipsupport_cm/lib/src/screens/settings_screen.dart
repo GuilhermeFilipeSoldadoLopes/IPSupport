@@ -15,7 +15,6 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool notificationsEnabled = false;
   bool preciseLocationEnabled = false;
 
   double brigtness = 0.0;
