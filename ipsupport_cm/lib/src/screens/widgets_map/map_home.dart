@@ -77,7 +77,7 @@ class _MapHomeState extends State<MapHome> {
         position.target.longitude.toString());*/
   }
 
-  /// The function changes the map type between hybrid and normal in Dart.
+  /// The function changes the map type between hybrid and normal.
   void changeMapType() {
     setState(() {
       _mapType = _mapType == MapType.hybrid ? MapType.normal : MapType.hybrid;
@@ -87,7 +87,6 @@ class _MapHomeState extends State<MapHome> {
   /// The function `zoomOut` checks if the Google Map has a zoom level other than 16.1 and animates the
   /// camera to the initial position if necessary.
   void zoomOut() async {
-    //como verificar se o mapa tem zoom e/ou nao esta na posicao inicial
     final GoogleMapController controller =
         await widget.controllerCompleter.future;
     var zoom = await controller.getZoomLevel();

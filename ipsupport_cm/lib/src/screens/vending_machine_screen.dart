@@ -390,7 +390,6 @@ class _VendingMachine extends State<VendingMachine> {
                                     ))
                                 : IconButton(
                                     onPressed: () {
-                                      // Lógica para adicionar foto
                                       _editImageDialog(context);
                                     },
                                     icon: haveImage
@@ -430,7 +429,6 @@ class _VendingMachine extends State<VendingMachine> {
                   alignment: Alignment.center,
                   child: ElevatedButton(
                     onPressed: () async {
-                      // Lógica para reportar
                       OverlayLoadingProgress.start(context);
                       report();
                     },

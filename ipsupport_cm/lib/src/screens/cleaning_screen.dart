@@ -390,7 +390,6 @@ class _Cleaning extends State<Cleaning> {
                                     ))
                                 : IconButton(
                                     onPressed: () {
-                                      // Lógica para adicionar foto
                                       _editImageDialog(context);
                                     },
                                     icon: haveImage
@@ -430,7 +429,6 @@ class _Cleaning extends State<Cleaning> {
                   alignment: Alignment.center,
                   child: ElevatedButton(
                     onPressed: () async {
-                      // Lógica para reportar
                       OverlayLoadingProgress.start(context);
                       report();
                     },

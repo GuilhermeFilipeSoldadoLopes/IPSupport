@@ -14,7 +14,7 @@ import 'report_success.dart';
 
 /// The `Multibanco` class is a StatefulWidget in Dart that allows users to report issues related to
 /// Multibanco, including options for "Sem dinheiro" and "Sem papel", along with a description and
-/// optional photo.
+/// a photo.
 class Multibanco extends StatefulWidget {
   const Multibanco({Key? key}) : super(key: key);
 
@@ -377,7 +377,7 @@ class _Multibanco extends State<Multibanco> {
                                     ))
                                 : IconButton(
                                     onPressed: () {
-                                      // Lógica para adicionar foto
+                                      
                                       _editImageDialog(context);
                                     },
                                     icon: haveImage

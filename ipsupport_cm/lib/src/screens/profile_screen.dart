@@ -107,14 +107,14 @@ class _ProfileState extends State<Profile> {
                 border: InputBorder.none,
                 hintText: FirebaseAuth.instance.currentUser!.displayName ?? ''),
             onChanged: (value) {
-              newName = value; // Atualiza a variável com o novo nome escrito
+              newName = value; 
             },
           ),
           actions: [
             TextButton(
               child: const Text('Cancelar'),
               onPressed: () {
-                Navigator.of(context).pop(); // Fecha o diálogo
+                Navigator.of(context).pop(); 
               },
             ),
             TextButton(
@@ -124,7 +124,7 @@ class _ProfileState extends State<Profile> {
                     ?.updateDisplayName(newName);
                 Navigator.of(context).pop();
                 _updateProfileName(
-                    newName); // Chama a função de callback para atualizar o nome na página
+                    newName); 
               },
             ),
           ],
@@ -140,7 +140,7 @@ class _ProfileState extends State<Profile> {
   /// updated in the profile.
   void _updateProfileName(String newName) {
     setState(() {
-      displayName = newName; // Atualiza o nome na página
+      displayName = newName; 
     });
   }
 

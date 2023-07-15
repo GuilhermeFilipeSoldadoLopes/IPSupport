@@ -129,7 +129,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const HelpAndSupport()));
-                // Lógica para lidar com o clique em "Ajuda"
               },
             ),
           ),
@@ -143,7 +142,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
               onTap: () {
-                // Lógica para lidar com o clique em "Sobre"
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const About()));
               },

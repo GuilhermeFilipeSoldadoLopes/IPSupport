@@ -19,7 +19,7 @@ class About extends StatelessWidget {
             children: [
               const Text(
                 'Somos uma Equipa de Estudantes de Engenharia Informática do IPS, que desenvolveu a aplicação de Reporte de problemas denominada IPSupport. A aplicação tem como objetivo unir a comunidade IPS e facilitar a resolução de problemas diários que ocorrem no Campus.',
-                textAlign: TextAlign.left,
+                textAlign: TextAlign.justify,
                 style: TextStyle(fontSize: 20),
               ),
               const SizedBox(height: 20),
