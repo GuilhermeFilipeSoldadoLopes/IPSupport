@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/// The `About` class is a Flutter widget that displays information about the IPSupport application and
+/// the team of students who developed it.
 class About extends StatelessWidget {
   const About({super.key});
 
@@ -14,7 +16,6 @@ class About extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(top: 20, left: 10),
           child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
                 'Somos uma Equipa de Estudantes de Engenharia Informática do IPS, que desenvolveu a aplicação de Reporte de problemas denominada IPSupport. A aplicação tem como objetivo unir a comunidade IPS e facilitar a resolução de problemas diários que ocorrem no Campus.',

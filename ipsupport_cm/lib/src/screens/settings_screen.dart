@@ -5,6 +5,8 @@ import 'package:ipsupport_cm/src/screens/biometric_screen.dart';
 import 'package:ipsupport_cm/src/screens/about_screen.dart';
 import 'help_support_screen.dart';
 
+/// The `SettingsScreen` class is a Flutter widget that displays various settings options, such as
+/// adjusting screen brightness and navigating to help, about, and logout screens.
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
@@ -19,6 +21,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
   double brigtness = 0.0;
   bool toggle = false;
 
+  /// The function initializes the platform brightness by retrieving the brightness value from the
+  /// FlutterScreenWake plugin and updating the state with the retrieved value.
+  ///
+  /// Returns:
+  ///   a `Future<void>`.
   Future<void> initPlatformBrightness() async {
     double bright;
     try {

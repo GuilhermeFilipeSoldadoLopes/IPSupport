@@ -7,9 +7,14 @@ import 'firebase_options.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
+/// The above code is a Dart code snippet that initializes Firebase, sets up the main app, and
+/// determines whether to show the sign-in screen or the home screen based on the current user's
+/// authentication status.
 void main() async {
+  /// `WidgetsFlutterBinding.ensureInitialized();` ensures that the Flutter framework is properly
+  /// initialized before running any code. It is typically used in the `main()` function to ensure that
+  /// all necessary bindings are set up before the app starts.
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -32,7 +37,8 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     if (FirebaseAuth.instance.currentUser == null) {
       return const MaterialApp(home: SingInScreen());
+    } else {
+      return const MaterialApp(home: Home());
     }
-    return const MaterialApp(home: Home());
   }
 }

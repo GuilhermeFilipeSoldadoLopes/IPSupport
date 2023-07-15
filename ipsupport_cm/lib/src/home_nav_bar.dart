@@ -4,6 +4,8 @@ import 'package:ipsupport_cm/src/screens/report_screen.dart';
 import 'package:shake/shake.dart';
 import 'screens/profile_screen.dart';
 
+/// The `Home` class is a StatefulWidget that represents the main screen of the application, with a
+/// bottom navigation bar and a floating action button.
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -26,6 +28,8 @@ class _HomeState extends State<Home> {
     initShaker();
   }
 
+  /// The function initializes a shake detector that listens for a specified number of shakes and
+  /// navigates to the Home screen when the phone is shaken.
   void initShaker() {
     detector = ShakeDetector.autoStart(
         minimumShakeCount: 2,

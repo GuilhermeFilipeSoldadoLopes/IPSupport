@@ -6,6 +6,8 @@ import 'package:ipsupport_cm/src/screens/signup_screen.dart';
 import 'package:ipsupport_cm/src/utils/reusable_widgets/reusable_widgets.dart';
 import 'package:overlay_loading_progress/overlay_loading_progress.dart';
 
+/// The `SingInScreen` class is a Flutter widget that displays a sign-in screen with email and password
+/// fields, and allows users to sign in using Firebase authentication.
 class SingInScreen extends StatefulWidget {
   const SingInScreen({Key? key}) : super(key: key);
 
@@ -141,6 +143,11 @@ class _SingInScreenState extends State<SingInScreen> {
         ));
   }
 
+  /// The `signUpOption` function returns a `Row` widget with a text and a gesture detector for
+  /// navigating to the sign-up screen.
+  ///
+  /// Returns:
+  ///   A Row widget is being returned.
   Row signUpOption() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -161,6 +168,16 @@ class _SingInScreenState extends State<SingInScreen> {
     );
   }
 
+  /// The `forgetPassword` function returns a container with a text button that navigates to the
+  /// `ResetPassword` page when pressed.
+  ///
+  /// Args:
+  ///   context (BuildContext): The context parameter is a reference to the current build context of the
+  /// widget. It is typically used to access the theme, media query, and other properties of the current
+  /// widget tree.
+  ///
+  /// Returns:
+  ///   a Container widget.
   Widget forgetPassword(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,

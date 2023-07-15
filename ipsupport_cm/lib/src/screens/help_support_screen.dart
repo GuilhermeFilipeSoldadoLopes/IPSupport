@@ -3,6 +3,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+/// The above code is a Dart code that implements a Help and Support screen in a Flutter application,
+/// allowing users to select a support option, enter a description, and send an email using the EmailJS
+/// API.
+///
+/// Args:
+///   name (String): The name of the person sending the email.
+///   email (String): The `email` parameter is the email address of the recipient to whom the email will
+/// be sent.
+///   subject (String): The `subject` parameter is a string that represents the subject of the email
+/// that will be sent. It is a required parameter and should be a descriptive title or topic for the
+/// email. In the code provided, the `selectedOption` variable is used as the value for the `subject`
+/// parameter.
+///   message (String): The `message` parameter is a string that represents the content of the email
+/// message. It can contain any text or HTML content that you want to include in the email.
 class HelpAndSupport extends StatefulWidget {
   const HelpAndSupport({super.key});
 
@@ -123,6 +137,17 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
   }
 }
 
+/// The function `sendEmail` sends an email using the EmailJS API with the provided name, email,
+/// subject, and message.
+///
+/// Args:
+///   name (String): The name of the person sending the email.
+///   email (String): The `email` parameter is the email address of the recipient to whom the email will
+/// be sent.
+///   subject (String): The subject parameter is the subject of the email that will be sent. It is a
+/// required parameter and should be a string.
+///   message (String): The `message` parameter is a required string that represents the content of the
+/// email message. It can contain any text or HTML content that you want to include in the email.
 Future sendEmail({
   required String name,
   required String email,

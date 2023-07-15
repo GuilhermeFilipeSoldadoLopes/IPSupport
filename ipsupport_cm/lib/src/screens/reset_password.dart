@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:ipsupport_cm/src/screens/feedback_page.dart';
 import 'package:ipsupport_cm/src/utils/reusable_widgets/reusable_widgets.dart';
 
+/// The `ResetPassword` class is a Flutter widget that allows users to reset their password by entering
+/// their email and sending a password reset email.
 class ResetPassword extends StatefulWidget {
   const ResetPassword({Key? key}) : super(key: key);
 

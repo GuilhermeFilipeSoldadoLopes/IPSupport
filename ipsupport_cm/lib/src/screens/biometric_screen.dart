@@ -5,6 +5,8 @@ import 'package:ipsupport_cm/main.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:flutter/services.dart';
 
+/// The `BiometricSensorPage` class is a Flutter widget that provides a user interface for local
+/// biometric authentication and signing out of a Firebase account.
 class BiometricSensorPage extends StatefulWidget {
   const BiometricSensorPage({super.key});
 
@@ -18,6 +20,8 @@ class _BiometricSensorPageState extends State<BiometricSensorPage> {
   bool? _isAuthenticated;
   bool? leave;
 
+  /// The `_localAuthenticate` function is used to perform local biometric authentication and sign out
+  /// the user from Firebase if the authentication is successful.
   Future<void> _localAuthenticate() async {
     try {
       _isAuthenticated = await _localAuth.authenticate(
@@ -44,10 +48,16 @@ class _BiometricSensorPageState extends State<BiometricSensorPage> {
     }
   }
 
+  /// The function `signOut` signs the user out of the Firebase authentication system.
   Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
   }
 
+  /// The `_buildStatusTile` function returns a ListTile widget with a title, subtitle, and leading icon
+  /// based on the value of the `_isAuthenticated` variable.
+  ///
+  /// Returns:
+  ///   a ListTile widget.
   Widget _buildStatusTile() {
     var title = "Clique";
     var message = "Toque no botão para iniciar a verificação biométrica";

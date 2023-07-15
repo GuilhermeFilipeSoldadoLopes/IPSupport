@@ -8,6 +8,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ipsupport_cm/src/utils/utils.dart';
 
+/// The `Profile` class is a StatefulWidget that displays the user's profile information, including
+/// their name, email, profile picture, and the number of reports they have made.
 class Profile extends StatefulWidget {
   Profile({Key? key}) : super(key: key);
 
@@ -42,6 +44,8 @@ class _ProfileState extends State<Profile> {
     getNumReports();
   }
 
+  /// The function retrieves the number of reports for the current user from a Firestore database and
+  /// sets it using the setNumReports function.
   void getNumReports() async {
     var toMessages = (await db
         .collection("Users")
@@ -58,6 +62,11 @@ class _ProfileState extends State<Profile> {
     }
   }
 
+  /// The function sets the value of the variable "numReports" if the widget is currently mounted.
+  ///
+  /// Args:
+  ///   value (int): The value parameter is the new value that will be assigned to the numReports
+  /// variable.
   void setNumReports(int value) {
     if (this.mounted) {
       setState(() {
@@ -66,6 +75,8 @@ class _ProfileState extends State<Profile> {
     }
   }
 
+  /// The function fetches the current user's display name using the FirebaseAuth instance and updates
+  /// the state with the retrieved display name.
   Future<void> fetchCurrentUser() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
@@ -75,6 +86,15 @@ class _ProfileState extends State<Profile> {
     }
   }
 
+  /// The `_editNameDialog` function displays an AlertDialog with a text field for the user to edit
+  /// their name, and saves the new name when the user clicks the "Salvar" button.
+  ///
+  /// Args:
+  ///   context (BuildContext): The `context` parameter is the current build context of the widget tree.
+  /// It is used to show the dialog and navigate back to the previous screen when the dialog is closed.
+  ///
+  /// Returns:
+  ///   The `_editNameDialog` function returns nothing (void).
   void _editNameDialog(BuildContext context) {
     String newName = "";
     showDialog(
@@ -113,12 +133,27 @@ class _ProfileState extends State<Profile> {
     );
   }
 
+  /// The function updates the display name on the page with a new name.
+  ///
+  /// Args:
+  ///   newName (String): The parameter "newName" is a String that represents the new name that will be
+  /// updated in the profile.
   void _updateProfileName(String newName) {
     setState(() {
       displayName = newName; // Atualiza o nome na página
     });
   }
 
+  /// The `_editImageDialog` function allows the user to select an image from their device's gallery,
+  /// upload it to Firebase Storage, and update the user's profile photo URL.
+  ///
+  /// Args:
+  ///   context (BuildContext): The `BuildContext` is a required parameter in Flutter that represents
+  /// the location in the widget tree where the current widget is being built. It is typically used to
+  /// access the `ScaffoldMessenger` for showing snackbars or dialogs.
+  ///
+  /// Returns:
+  ///   The function does not explicitly return anything.
   void _editImageDialog(BuildContext context) async {
     var pickedImage = await ImagePicker().pickImage(
         source: ImageSource.gallery, //took a picture from your device
@@ -146,6 +181,7 @@ class _ProfileState extends State<Profile> {
     }
   }
 
+  /// The function sets the variable "isImageNew" to false.
   void setFalse() {
     isImageNew = false;
   }
@@ -263,6 +299,8 @@ class _ProfileState extends State<Profile> {
   }
 }
 
+/// The `ProfileItem` class is a stateless widget that represents an item in a profile with a title,
+/// subtitle, icon, and optional edit button.
 class ProfileItem extends StatelessWidget {
   final String title;
   final String subtitle;

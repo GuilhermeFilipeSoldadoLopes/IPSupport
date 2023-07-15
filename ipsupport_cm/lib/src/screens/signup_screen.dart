@@ -5,6 +5,9 @@ import 'package:ipsupport_cm/src/home_nav_bar.dart';
 import 'package:ipsupport_cm/src/utils/reusable_widgets/reusable_widgets.dart';
 import 'package:overlay_loading_progress/overlay_loading_progress.dart';
 
+/// The above class is a Flutter screen for user registration, which includes form fields for username,
+/// email, and password, as well as validation logic and Firebase authentication and Firestore database
+/// integration.
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 
@@ -114,7 +117,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             email: _emailTextController.text,
                             password: _passwordTextController.text)
                         .then((value) {
-                      print("Created New Account");
                       FirebaseAuth.instance.currentUser
                           ?.updateDisplayName(_userNameTextController.text);
                       FirebaseAuth.instance.currentUser?.updatePhotoURL(

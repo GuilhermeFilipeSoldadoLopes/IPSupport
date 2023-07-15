@@ -6,6 +6,8 @@ import 'package:ipsupport_cm/src/screens/multibanco.dart';
 import 'package:ipsupport_cm/src/screens/settings_screen.dart';
 import 'package:ipsupport_cm/src/screens/vending_machine_screen.dart';
 
+/// The `Report` class is a StatefulWidget that displays a screen for reporting different types of
+/// problems.
 class Report extends StatefulWidget {
   const Report({super.key});
 

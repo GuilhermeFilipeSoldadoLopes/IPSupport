@@ -12,6 +12,8 @@ import 'package:ipsupport_cm/src/utils/utils.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:smooth_compass/utils/src/compass_ui.dart';
 
+/// The `MapHome` class is a stateful widget that represents a home screen with a map, and it provides a
+/// completer for obtaining the GoogleMapController.
 class MapHome extends StatefulWidget {
   const MapHome({
     required this.controllerCompleter,
@@ -26,9 +28,7 @@ class MapHome extends StatefulWidget {
 
 class _MapHomeState extends State<MapHome> {
   static const CameraPosition _ipsCameraPosition = CameraPosition(
-    //target: LatLng(37.421998333333335, -122.084) /*, google*/,
-    //target: LatLng(38.656131, -9.173389) /*, casa*/,
-    target: LatLng(38.521095, -8.838903) /*, ips*/,
+    target: LatLng(38.521095, -8.838903),
 
     zoom: 16.1, //10
   );
@@ -64,6 +64,7 @@ class _MapHomeState extends State<MapHome> {
     super.initState();
   }
 
+  /// The function requests permission for accessing the device's location.
   Future<void> _requestPermission() async {
     await Permission.location.request();
   }
@@ -76,12 +77,15 @@ class _MapHomeState extends State<MapHome> {
         position.target.longitude.toString());*/
   }
 
+  /// The function changes the map type between hybrid and normal in Dart.
   void changeMapType() {
     setState(() {
       _mapType = _mapType == MapType.hybrid ? MapType.normal : MapType.hybrid;
     });
   }
 
+  /// The function `zoomOut` checks if the Google Map has a zoom level other than 16.1 and animates the
+  /// camera to the initial position if necessary.
   void zoomOut() async {
     //como verificar se o mapa tem zoom e/ou nao esta na posicao inicial
     final GoogleMapController controller =
@@ -94,6 +98,7 @@ class _MapHomeState extends State<MapHome> {
     }
   }
 
+  /// The function retrieves a list of reports from a database and adds them to a reportsList.
   void getReporstList() {
     dbRef.child("Report").onChildAdded.listen((data) {
       ReportData reportData = ReportData.fromJson(data.snapshot.value as Map);
@@ -105,6 +110,8 @@ class _MapHomeState extends State<MapHome> {
     });
   }
 
+  /// The function `updateReportsList()` updates the reports list by removing inactive reports and
+  /// updating the resolution date for expired reports.
   void updateReportsList() {
     Map<String, dynamic> data;
     for (var i = 0; i < reportsList.length; i++) {
@@ -140,6 +147,8 @@ class _MapHomeState extends State<MapHome> {
     createMarkers();
   }
 
+  /// The function `createMarkers` creates markers on a map for active reports that are not resolved,
+  /// using different marker icons based on the urgency and problem type.
   void createMarkers() async {
     for (var i = 0; i < reportsList.length; i++) {
       if (reportsList[i].reportData!.isActive == true &&
@@ -163,6 +172,20 @@ class _MapHomeState extends State<MapHome> {
     }
   }
 
+  /// The function `addMarker` adds a marker to a map with the specified icon, latitude, and longitude,
+  /// and sets an onTap event to show a bottom sheet with the given report data.
+  ///
+  /// Args:
+  ///   reportData (ReportData): The `reportData` parameter is an object of type `ReportData` that
+  /// contains information about a report. It is used to create a unique `MarkerId` for the marker and
+  /// to pass the report data to the `showBottomSheet` function when the marker is tapped.
+  ///   markerIcon (BitmapDescriptor): The `markerIcon` parameter is a `BitmapDescriptor` object that
+  /// represents the icon to be used for the marker on the map. It can be created using the
+  /// `BitmapDescriptor.fromAsset` or `BitmapDescriptor.fromBytes` methods, depending on the source of
+  /// the icon image.
+  ///   latitude (double): The latitude of the marker's position.
+  ///   longitude (double): The longitude parameter is a double value representing the longitude
+  /// coordinate of the marker's position on the map.
   void addMarker(ReportData reportData, BitmapDescriptor markerIcon,
       double latitude, double longitude) {
     setState(() {
@@ -176,6 +199,13 @@ class _MapHomeState extends State<MapHome> {
     });
   }
 
+  /// The `reportButton` function updates the number of reports for a user, creates a new report in the
+  /// database, and updates the local list of reports.
+  ///
+  /// Args:
+  ///   reportData (ReportData): The `reportData` parameter is an object of type `ReportData`. It
+  /// contains various properties such as `userName`, `userEmail`, `description`, `photoURL`, `problem`,
+  /// `problemType`, `latitude`, `longitude`, `numReports`, `isActive`, `isUrgent
   void reportButton(ReportData reportData) async {
     int numReports = 0;
     String? _doc;
@@ -223,6 +253,11 @@ class _MapHomeState extends State<MapHome> {
     });
   }
 
+  /// The `resolvedButton` function updates the database with resolved report data and removes the
+  /// corresponding marker from the map.
+  ///
+  /// Args:
+  ///   reportData (ReportData): An object of type ReportData that contains information about a report.
   void resolvedButton(ReportData reportData) {
     Map<String, dynamic> data = {
       "userName": reportData.userName,
@@ -334,6 +369,19 @@ class _MapHomeState extends State<MapHome> {
     );
   }
 
+  /// The function `showBottomSheet` displays a modal bottom sheet with information about a report,
+  /// including an image, description, number of reports, and options to report or mark as resolved.
+  ///
+  /// Args:
+  ///   context (BuildContext): The `BuildContext` object represents the location in the widget tree
+  /// where the bottom sheet will be shown. It is typically obtained from the `BuildContext` parameter
+  /// of a widget's build method.
+  ///   reportData (ReportData): The `reportData` parameter is an object of type `ReportData` that
+  /// contains information about a specific report. It includes properties such as `isUrgent`,
+  /// `problem`, `creationDate`, `problemType`, `description`, `photoURL`, and `numReports`.
+  ///
+  /// Returns:
+  ///   The function `showBottomSheet` does not return any value. It is a void function.
   void showBottomSheet(BuildContext context, ReportData reportData) {
     bool isUrgent = reportData.isUrgent ?? false;
     String nomeImagem = reportData.problem!.toLowerCase();

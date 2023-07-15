@@ -1,3 +1,5 @@
+/// The `UserReports` class represents a user's report data, including their email and the number of
+/// reports they have made.
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserReports {

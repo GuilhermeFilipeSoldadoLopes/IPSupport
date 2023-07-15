@@ -12,6 +12,8 @@ import 'package:ipsupport_cm/src/utils/utils.dart';
 import 'package:overlay_loading_progress/overlay_loading_progress.dart';
 import 'report_success.dart';
 
+/// The `VendingMachine` class is a Flutter widget that allows users to report issues with vending
+/// machines, including selecting the type of issue, providing a description, and uploading a photo.
 class VendingMachine extends StatefulWidget {
   const VendingMachine({Key? key}) : super(key: key);
 
@@ -34,6 +36,13 @@ class _VendingMachine extends State<VendingMachine> {
   String? key;
   bool haveImage = false;
 
+  /// The `_editImageDialog` function allows the user to pick an image from the camera, upload it to
+  /// Firebase Storage, and retrieve the download URL.
+  ///
+  /// Args:
+  ///   context (BuildContext): The `BuildContext` is a required parameter in Flutter that represents
+  /// the location in the widget tree where the current widget is being built. It is typically used to
+  /// access the theme, localization, and other resources of the app.
   void _editImageDialog(BuildContext context) async {
     var pickedImage = await ImagePicker().pickImage(
         source: ImageSource.camera,
@@ -55,6 +64,7 @@ class _VendingMachine extends State<VendingMachine> {
     });
   }
 
+  /// The function retrieves a list of reports from a database and adds them to a reportsList.
   void getReporstList() {
     dbRef.child("Report").onChildAdded.listen((data) {
       ReportData reportData = ReportData.fromJson(data.snapshot.value as Map);
@@ -66,6 +76,12 @@ class _VendingMachine extends State<VendingMachine> {
     });
   }
 
+  /// The `report()` function is responsible for creating and updating reports in a database based on
+  /// user input and current location.
+  ///
+  /// Returns:
+  ///   The code does not explicitly return any value. It is a void function, meaning it does not return
+  /// any data.
   void report() async {
     String date = DateTime.now().toString();
 
@@ -346,9 +362,7 @@ class _VendingMachine extends State<VendingMachine> {
                 Align(
                   alignment: Alignment.center,
                   child: InkWell(
-                    onTap: () {
-                      // Lógica para lidar com o toque no container
-                    },
+                    onTap: () {},
                     child: Container(
                       width: 200,
                       height: 100,

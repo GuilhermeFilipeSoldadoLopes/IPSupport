@@ -12,6 +12,9 @@ import 'package:ipsupport_cm/src/screens/report_success.dart';
 import 'package:ipsupport_cm/src/utils/utils.dart';
 import 'package:overlay_loading_progress/overlay_loading_progress.dart';
 
+/// The `Cleaning` class is a StatefulWidget that allows users to report cleaning issues, including
+/// selecting a problem type, providing a description, uploading a photo, and marking the issue as
+/// urgent.
 class Cleaning extends StatefulWidget {
   const Cleaning({Key? key}) : super(key: key);
 
@@ -34,6 +37,13 @@ class _Cleaning extends State<Cleaning> {
   String? key;
   bool haveImage = false;
 
+  /// The `_editImageDialog` function allows the user to pick an image from the camera, upload it to
+  /// Firebase Storage, and retrieve the download URL.
+  ///
+  /// Args:
+  ///   context (BuildContext): The `BuildContext` is a required parameter in Flutter that represents
+  /// the location in the widget tree where the current widget is being built. It is typically used to
+  /// access the theme, localization, and other resources of the app.
   void _editImageDialog(BuildContext context) async {
     var pickedImage = await ImagePicker().pickImage(
         source: ImageSource.camera,
@@ -55,6 +65,7 @@ class _Cleaning extends State<Cleaning> {
     });
   }
 
+  /// The function retrieves a list of reports from a database and adds them to a reportsList.
   void getReporstList() {
     dbRef.child("Report").onChildAdded.listen((data) {
       ReportData reportData = ReportData.fromJson(data.snapshot.value as Map);
@@ -66,6 +77,12 @@ class _Cleaning extends State<Cleaning> {
     });
   }
 
+  /// The `report()` function is responsible for creating a new report and updating existing reports in
+  /// a database.
+  ///
+  /// Returns:
+  ///   The function `report()` does not have a return type specified, so it does not explicitly return
+  /// anything.
   void report() async {
     String date = DateTime.now().toString();
 
@@ -345,14 +362,12 @@ class _Cleaning extends State<Cleaning> {
                 Align(
                   alignment: Alignment.center,
                   child: InkWell(
-                    onTap: () {
-                      // Lógica para lidar com o toque no container
-                    },
+                    onTap: () {},
                     child: Container(
                       width: 200,
                       height: 100,
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 214, 242, 255),
+                        color: const Color.fromARGB(255, 214, 242, 255),
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
                           color: Colors.black,

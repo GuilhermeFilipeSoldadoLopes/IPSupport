@@ -12,6 +12,8 @@ import 'package:ipsupport_cm/src/utils/utils.dart';
 import 'package:overlay_loading_progress/overlay_loading_progress.dart';
 import 'report_success.dart';
 
+/// The `InternetIssues` class is a StatefulWidget that allows users to report internet issues,
+/// including selecting the type of issue, providing a description, and uploading a photo.
 class InternetIssues extends StatefulWidget {
   const InternetIssues({Key? key}) : super(key: key);
 
@@ -34,6 +36,13 @@ class _InternetIssues extends State<InternetIssues> {
   String? key;
   bool haveImage = false;
 
+  /// The `_editImageDialog` function allows the user to pick an image from the camera, upload it to
+  /// Firebase Storage, and retrieve the download URL.
+  ///
+  /// Args:
+  ///   context (BuildContext): The `BuildContext` is a required parameter in Flutter that represents
+  /// the location in the widget tree where the current widget is being built. It is typically used to
+  /// access the theme, localization, and other resources of the app.
   void _editImageDialog(BuildContext context) async {
     var pickedImage = await ImagePicker().pickImage(
         source: ImageSource.camera,
@@ -55,6 +64,7 @@ class _InternetIssues extends State<InternetIssues> {
     });
   }
 
+  /// The function retrieves a list of reports from a database and adds them to a reportsList.
   void getReporstList() {
     dbRef.child("Report").onChildAdded.listen((data) {
       ReportData reportData = ReportData.fromJson(data.snapshot.value as Map);
@@ -66,6 +76,12 @@ class _InternetIssues extends State<InternetIssues> {
     });
   }
 
+  /// The `report()` function is responsible for creating and updating reports in a database based on
+  /// user input and current location.
+  ///
+  /// Returns:
+  ///   The function `report()` does not have a return type specified, so it does not explicitly return
+  /// anything.
   void report() async {
     String date = DateTime.now().toString();
 
@@ -345,14 +361,12 @@ class _InternetIssues extends State<InternetIssues> {
                 Align(
                   alignment: Alignment.center,
                   child: InkWell(
-                    onTap: () {
-                      // Lógica para lidar com o toque no container
-                    },
+                    onTap: () {},
                     child: Container(
                       width: 200,
                       height: 100,
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 214, 242, 255),
+                        color: const Color.fromARGB(255, 214, 242, 255),
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
                           color: Colors.black,

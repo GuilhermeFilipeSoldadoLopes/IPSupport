@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ipsupport_cm/src/screens/signin_screen.dart';
 
+/// The FeedbackPage class is a Flutter widget that displays a message and an image, and provides a
+/// button to navigate back to the SignInScreen.
 class FeedbackPage extends StatelessWidget {
   const FeedbackPage({super.key});
 
@@ -15,7 +17,6 @@ class FeedbackPage extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(top: 20, left: 10),
           child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
                 'Foi enviado um email para a sua caixa de correio. Através dele, irá conseguir recuperar a sua palavra passe.',

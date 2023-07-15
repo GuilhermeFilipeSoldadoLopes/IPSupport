@@ -1,3 +1,4 @@
+/// The above code defines two classes, Report and ReportData, in Dart for handling report data.
 class Report {
   String? key;
   ReportData? reportData;
