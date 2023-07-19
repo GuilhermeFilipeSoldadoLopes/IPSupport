@@ -132,7 +132,7 @@ class _Multibanco extends State<Multibanco> {
         "userEmail": FirebaseAuth.instance.currentUser?.email,
         "description": descriptionController.text,
         "photoURL": imageUrl ?? "No photo",
-        "problem": "Limpeza",
+        "problem": "Multibanco",
         "problemType": selectedOption,
         "latitude": position.latitude,
         "longitude": position.longitude,
@@ -377,7 +377,6 @@ class _Multibanco extends State<Multibanco> {
                                     ))
                                 : IconButton(
                                     onPressed: () {
-                                      
                                       _editImageDialog(context);
                                     },
                                     icon: haveImage

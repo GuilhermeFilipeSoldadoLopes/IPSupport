@@ -131,7 +131,7 @@ class _VendingMachine extends State<VendingMachine> {
         "userEmail": FirebaseAuth.instance.currentUser?.email,
         "description": descriptionController.text,
         "photoURL": imageUrl ?? "No photo",
-        "problem": "Limpeza",
+        "problem": "Vending",
         "problemType": selectedOption,
         "latitude": position.latitude,
         "longitude": position.longitude,

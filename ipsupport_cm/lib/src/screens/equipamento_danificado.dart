@@ -132,7 +132,7 @@ class _DamagedEquipment extends State<DamagedEquipment> {
         "userEmail": FirebaseAuth.instance.currentUser?.email,
         "description": descriptionController.text,
         "photoURL": imageUrl ?? "No photo",
-        "problem": "Limpeza",
+        "problem": "Equipamento",
         "problemType": selectedOption,
         "latitude": position.latitude,
         "longitude": position.longitude,

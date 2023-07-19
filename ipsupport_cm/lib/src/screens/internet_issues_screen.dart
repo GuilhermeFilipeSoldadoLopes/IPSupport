@@ -131,7 +131,7 @@ class _InternetIssues extends State<InternetIssues> {
         "userEmail": FirebaseAuth.instance.currentUser?.email,
         "description": descriptionController.text,
         "photoURL": imageUrl ?? "No photo",
-        "problem": "Limpeza",
+        "problem": "Internet",
         "problemType": selectedOption,
         "latitude": position.latitude,
         "longitude": position.longitude,
